@@ -137,6 +137,12 @@ html.my .btn{letter-spacing:0;font-size:15px;line-height:1.6;padding-left:20px;p
 #langBtn::after{content:attr(data-label);position:absolute;left:50%;top:calc(100% + 3px);transform:translateX(-25%);white-space:nowrap;font-family:'Noto Sans Myanmar','Noto Serif TC',sans-serif!important;font-size:11px;color:#B89A97;opacity:.75}
 #menuBtn{position:fixed;top:12px;right:max(12px,calc(50vw - 260px + 12px));z-index:20;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(255,250,248,.92);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 10px rgba(169,72,78,.12)}
 #menuBtn svg{width:22px;height:22px;stroke:var(--accent);stroke-width:1.8;fill:none;stroke-linecap:round}
+#intro{position:fixed;inset:0;z-index:100;background:#FDF2F0;transition:transform .75s cubic-bezier(.6,0,.25,1),opacity .75s}
+#intro.out{transform:translateY(-100%);opacity:.6}
+#intro iframe{width:100%;height:100%;border:0;display:block}
+#introSkip{position:absolute;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:2;padding:8px 16px;border-radius:999px;border:0;cursor:pointer;background:rgba(255,255,255,.88);color:#A9484E;font-family:'Noto Serif TC',serif;font-size:14px;letter-spacing:.12em;box-shadow:0 2px 10px rgba(169,72,78,.18)}
+html.introOn,html.introOn body{overflow:hidden}
+#drawer a.more{border-bottom:0;margin-top:10px;color:var(--accent)}
 #drawerBg{position:fixed;inset:0;z-index:21;background:rgba(90,53,48,.25)}
 #drawer{position:fixed;top:0;right:0;bottom:0;z-index:22;width:min(78vw,300px);background:#FFFBFA;box-shadow:-8px 0 30px rgba(90,53,48,.15);padding:80px 28px 28px;display:flex;flex-direction:column;gap:6px}
 #drawer a{display:flex;flex-direction:column;padding:12px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);font-family:'LXGW WenKai TC','Noto Serif TC',serif;font-weight:700;font-size:19px;letter-spacing:.06em}
@@ -158,6 +164,7 @@ a:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offse
 </style>
 </head>
 <body>
+<div id="intro" hidden><iframe id="introF" title="開場動畫"></iframe><button type="button" id="introSkip">略過 ›</button></div>
 <button id="menuBtn" type="button" aria-label="開啟選單" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
 <div id="drawerBg" hidden></div>
 <div id="drawer" role="navigation" aria-label="選單" hidden><button type="button" id="drawerClose" aria-label="關閉選單">✕</button>
@@ -166,6 +173,7 @@ a:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offse
 <a href="#details">交通與停車<small>Getting Here</small></a>
 <a href="#album">婚紗照<small>Our Moments</small></a>
 <a href="#rsvp">回覆出席<small>12/31 前</small></a>
+<a href="#" class="more" id="moreIntro">♡ 看其他開場</a>
 </div>
 <div class="wrap">
 <img class="hero" src="hero.jpg" alt="Chun-Hao &amp; Liang-Jou 婚禮邀請：2027 年 3 月 13 日星期六">
@@ -392,6 +400,8 @@ var MY = {
 "至": " ဖြင့် ",
 "一樓精品區設有指引牌，商場其他電梯無法到達 8F": "ပထမထပ် ဇိမ်ခံဆိုင်များဧရိယာတွင် ညွှန်ပြဆိုင်းဘုတ် ရှိပါသည်၊ ဈေးဝယ်စင်တာရှိ အခြား ဓာတ်လှေကားများ 8F သို့ မရောက်ပါ",
 "停車優惠": "ကားရပ်ခ လျှော့စျေး",
+"♡ 看其他開場": "♡ အခြား အဖွင့်ကို ကြည့်ရန်",
+"略過 ›": "ကျော်ရန် ›",
 "搭捷運、計程車或開車都看這張": "MRT၊ တက္ကစီ သို့မဟုတ် ကိုယ်ပိုင်ကား – အားလုံး ဤမြေပုံကို ကြည့်ပါ",
 "計程車／開車": "တက္ကစီ / ကိုယ်ပိုင်ကား",
 "出站後沿慶城街步行約 10 分鐘，從": "ဘူတာမှ ထွက်ပြီး Qingcheng Street အတိုင်း ၁၀ မိနစ်ခန့် လမ်းလျှောက်ကာ ",
@@ -669,6 +679,33 @@ var PHOTOS = ["photo01b.jpg","photo02.jpg","photo03.jpg","photo04b.jpg","photo05
     Array.prototype.forEach.call(dots.children, function(d, j){ d.className = j === k ? "on" : ""; });
   }, {passive: true});
 })();
+// 開場動畫：第一次固定「紅布條拋接」，之後輪流、同一支手機不重複
+(function(){
+  var ALL=['swap','rope','door'], MEM=null, box=document.getElementById('intro'), fr=document.getElementById('introF');
+  function load(){ try{ var v=localStorage.getItem('wIntro'); if(v) return JSON.parse(v); }catch(e){} return MEM; }
+  function save(st){ MEM=st; try{ localStorage.setItem('wIntro',JSON.stringify(st)); }catch(e){} }
+  function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+  function next(){
+    var st=load()||{seen:false,q:[],last:null}, n;
+    if(!st.seen){ n='swap'; st.seen=true; st.q=shuffle(['rope','door']); }
+    else{ if(!st.q||!st.q.length){ st.q=shuffle(ALL.slice()); if(st.q[0]===st.last) st.q.push(st.q.shift()); } n=st.q.shift(); }
+    st.last=n; save(st); return n;
+  }
+  function show(){ fr.src='intro/'+next()+'/index.html'; box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn'); }
+  function close(to){
+    if(box.hidden) return;
+    document.documentElement.classList.remove('introOn');
+    if(to==='rsvp'){ var r=document.getElementById('rsvp'); if(r) r.scrollIntoView(); } else window.scrollTo(0,0);
+    box.classList.add('out');
+    setTimeout(function(){ box.hidden=true; fr.src='about:blank'; },780);
+  }
+  window.addEventListener('message',function(e){ if(e.data&&e.data.intro) close(e.data.intro); });
+  document.getElementById('introSkip').addEventListener('click',function(){ close('top'); });
+  document.getElementById('moreIntro').addEventListener('click',function(e){ e.preventDefault(); show(); });
+  var h=location.hash.replace('#','');
+  if(!h || h==='my') show();
+})();
+
 // 側邊選單
 (function(){
   var btn = document.getElementById("menuBtn"), dr = document.getElementById("drawer"), bg = document.getElementById("drawerBg");

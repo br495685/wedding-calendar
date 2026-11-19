@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>開場</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@500;600&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--accent:#A9484E;--ink:#5A3530;--soft:#8C6A5E;--gold:#C08A4A}
+*{box-sizing:border-box;font-variant-numeric:lining-nums}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:28px 14px;font-family:'Noto Serif TC',serif;color:var(--ink);
+ background:radial-gradient(ellipse at 15% 10%,#FBE3E6,transparent 55%),radial-gradient(ellipse at 90% 90%,#F6CFD6,transparent 55%),linear-gradient(160deg,#F9E1E4,#F2CBD2);overflow-x:hidden}
+.deco{position:fixed;pointer-events:none;width:300px;opacity:.9;z-index:0}
+.d1{left:-60px;bottom:-50px;-webkit-mask-image:radial-gradient(ellipse at 30% 70%,#000 40%,transparent 75%)}
+.d2{right:-60px;top:-70px;transform:scaleY(-1);-webkit-mask-image:radial-gradient(ellipse at 70% 30%,#000 40%,transparent 75%)}
+.top{position:relative;z-index:1;text-align:center}
+.small{font-family:'Cormorant Garamond',serif;font-size:12px;letter-spacing:.34em;color:var(--soft)}
+.names{font-family:'Great Vibes',cursive;color:var(--accent);font-size:36px;line-height:1.1;margin-top:4px;white-space:nowrap}
+.frame{position:relative;z-index:1;width:min(92vw,420px);padding:10px;border-radius:22px;background:#fff;box-shadow:0 18px 44px rgba(150,60,80,.22),inset 0 0 0 1px rgba(192,138,74,.4)}
+.stage{position:relative;width:100%;aspect-ratio:3/2;border-radius:14px;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:pointer;background:#fff}
+.reveal{position:absolute;inset:0;background:url(reveal.jpg) center/cover;transform:scale(1.08);filter:brightness(.98);transition:transform 1.2s ease}
+.open .reveal{transform:scale(1)}
+.door{position:absolute;top:0;bottom:0;background-image:url(cover.jpg);will-change:transform;box-shadow:0 0 18px rgba(0,0,0,.08)}
+.door{left:0;width:100%;background-size:100% 100%}
+.dl{clip-path:polygon(0 0,44.44% 0,44.44% 35.42%,42.78% 35.42%,42.78% 100%,0 100%)}
+.dr{clip-path:polygon(44.44% 0,100% 0,100% 100%,42.78% 100%,42.78% 35.42%,44.44% 35.42%)}
+
+.seal{position:absolute;left:42.78%;top:62%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;z-index:3;display:flex;align-items:center;justify-content:center;
+ background:radial-gradient(circle at 35% 30%,#D2747C,#9C3E45);box-shadow:0 6px 16px rgba(120,30,40,.35),inset 0 0 0 3px rgba(246,217,184,.65);color:#fff;font-family:'Great Vibes',cursive;font-size:26px;transition:opacity .3s,transform .3s}
+.seal::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:2px solid rgba(255,255,255,.7);animation:pulse 1.8s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.85);opacity:1}100%{transform:scale(1.35);opacity:0}}
+.open .seal{opacity:0;transform:scale(.6);pointer-events:none}
+.hint{position:relative;z-index:1;font-size:14px;letter-spacing:.12em;color:var(--accent);transition:opacity .4s}
+.hint span{display:inline-block;animation:nudge 1.4s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+.cap{position:absolute;left:0;right:0;bottom:0;padding:34px 12px 12px;text-align:center;color:#fff;background:linear-gradient(transparent,rgba(90,30,40,.55));opacity:0;transform:translateY(10px);transition:all .7s ease .5s}
+.cap b{font-family:'Great Vibes',cursive;font-weight:400;font-size:34px;line-height:1;display:block}
+.cap small{font-family:'Cormorant Garamond',serif;font-size:14px;letter-spacing:.3em}
+.open .cap{opacity:1;transform:none}
+.after{position:relative;z-index:1;opacity:0;transform:translateY(8px);transition:all .6s ease .8s;text-align:center;font-size:15px;line-height:2;letter-spacing:.08em}
+.after b{color:var(--accent);font-size:17px}
+.open~.after,.after.on{opacity:1;transform:none}
+.btn{display:inline-block;margin-top:10px;padding:11px 32px;border-radius:999px;background:linear-gradient(180deg,#C9727A,#A9484E);color:#fff;text-decoration:none;letter-spacing:.14em;font-size:15px}
+.replay{font-size:12px;color:var(--soft);background:none;border:0;margin-top:6px;text-decoration:underline;cursor:pointer;font-family:inherit}
+@media(prefers-reduced-motion:reduce){.seal::after,.hint span{animation:none}}
+.ends{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:4px}
+.ends button{font-family:inherit;border:0;cursor:pointer;padding:12px 34px;border-radius:999px;font-size:16px;letter-spacing:.14em;min-width:200px}
+.ends .go{background:linear-gradient(180deg,#C9727A,#A9484E);color:#fff;box-shadow:0 6px 16px rgba(169,72,78,.3)}
+.ends .rs{background:#fff;color:#A9484E;box-shadow:inset 0 0 0 1.5px #E2B6B9}
+.sw{font-size:12px;color:#8C6A5E;letter-spacing:.1em;margin-top:8px}
+.idle{position:relative;z-index:2;font-size:13px;color:#8C6A5E;letter-spacing:.12em;opacity:0;transition:opacity .6s;height:18px;text-align:center}
+.idle.on{opacity:1}.done .idle{opacity:0!important}
+</style></head><body>
+<img class="deco d1" src="bl.png" alt=""><img class="deco d2" src="br.png" alt="">
+<div class="top"><div class="small">THE WEDDING OF</div><div class="names">Chun-Hao &amp; Liang-Jou</div></div>
+<div class="frame">
+ <div class="stage" id="stage">
+  <div class="reveal"></div>
+  <div class="cap"><b>We're getting married!</b><small>2027 · 03 · 13</small></div>
+  <div class="door dl" id="dl"></div>
+  <div class="door dr" id="dr"></div>
+  <div class="seal" id="seal">♡</div>
+ </div>
+</div>
+<div class="hint" id="hint">我們有事要宣布…</div>
+<div class="idle" id="idle">點一下就可以喔</div>
+<div class="after" id="after">
+  <div class="ends"><button class="go" data-go="top">看喜帖 ↓</button><button class="rs" data-go="rsvp">直接回覆出席</button></div><div class="sw">往中間推可以關回去</div>
+</div>
+<script>
+(function(){
+  var st=document.getElementById('stage'), dl=document.getElementById('dl'), dr=document.getElementById('dr'),
+      hint=document.getElementById('hint'), after=document.getElementById('after');
+  var p=0, sx=0, sp=0, drag=false, moved=false;
+  function set(v,anim){ p=Math.max(0,Math.min(1,v)); var t=anim?'transform .9s cubic-bezier(.2,.8,.2,1)':'none';
+    dl.style.transition=dr.style.transition=t;
+    dl.style.transform='translateX('+(-p*102)+'%)'; dr.style.transform='translateX('+(p*102)+'%)'; }
+  function open(){ set(1,true); st.parentNode.classList.add('open'); st.classList.add('open'); after.classList.add('on'); hint.style.opacity=0; }
+  function close(){ set(0,true); st.parentNode.classList.remove('open'); st.classList.remove('open'); after.classList.remove('on'); hint.style.opacity=1; }
+  st.addEventListener('pointerdown',function(e){ drag=true; moved=false; sx=e.clientX; sp=p; try{st.setPointerCapture(e.pointerId);}catch(_){} });
+  st.addEventListener('pointermove',function(e){ if(!drag) return; var d=Math.abs(e.clientX-sx); if(d>5) moved=true; if(moved){ var dir=(sp>0.5?-1:1); set(sp+dir*d/(st.clientWidth*0.6),false); hint.style.opacity=0; if(p<0.97){ st.parentNode.classList.remove('open'); st.classList.remove('open'); after.classList.remove('on'); } } });
+  function up(){ if(!drag) return; drag=false; if(!moved){ if(p<0.5) open(); return; } if(p>(sp>0.5?0.7:0.3)) open(); else close(); }
+  st.addEventListener('pointerup',up); st.addEventListener('pointercancel',up);
+  setTimeout(function(){ if(p===0){ set(0.06,true); setTimeout(function(){ if(!drag && p<0.1) set(0,true); },700); } },1000);
+})();
+</script>
+<script>
+(function(){
+  function goTo(t){ try{ if(window.parent!==window){ window.parent.postMessage({intro:t},'*'); return; } }catch(_){} location.href='../../index.html'+(t==='rsvp'?'#rsvp':''); }
+  document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(e){ e.stopPropagation(); goTo(b.getAttribute('data-go')); }); });
+  var idle=document.getElementById('idle'), t=setTimeout(function(){ idle&&idle.classList.add('on'); },5000);
+  addEventListener('pointerdown',function(){ clearTimeout(t); idle&&idle.classList.remove('on'); },true);
+})();
+</script>
+</body></html>

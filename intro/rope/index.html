@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chun-Hao &amp; Liang-Jou · 牽紅線</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@500;600&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--accent:#A9484E;--red:#D3252B;--ink:#5A3530;--soft:#8C6A5E;--W:min(80vw,360px)}
+*{box-sizing:border-box;font-variant-numeric:lining-nums}
+html,body{overflow-x:hidden}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px 0 34px;font-family:'Noto Serif TC',serif;color:var(--ink);
+ background:radial-gradient(ellipse at 15% 10%,#FFF6F4,transparent 55%),radial-gradient(ellipse at 90% 90%,#F6D6DA,transparent 55%),linear-gradient(160deg,#FDF2F0,#F4DADB)}
+.top{position:relative;z-index:2;text-align:center}
+.small{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:13px;letter-spacing:.32em;color:var(--soft)}
+.names{font-family:'Great Vibes',cursive;color:var(--accent);font-size:38px;line-height:1.15;white-space:nowrap}
+.cap{position:relative;z-index:2;height:34px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;letter-spacing:.14em;color:var(--red)}
+.cap span{display:inline-block;animation:capIn .5s cubic-bezier(.3,1.6,.5,1)}
+.cap .en{font-family:'Great Vibes',cursive;font-weight:400;font-size:32px;letter-spacing:0;color:var(--accent)}
+@keyframes capIn{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.stage{position:relative;width:100vw;display:flex;justify-content:center;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab;padding:6px 0}
+.frame{position:relative;width:var(--W);aspect-ratio:4/5;border-radius:18px;overflow:hidden;background:#fff;
+ box-shadow:0 18px 40px rgba(150,50,60,.22),0 0 0 7px #fff,0 0 0 8px rgba(201,114,122,.35);will-change:transform;z-index:2}
+.ph{position:absolute;inset:0;opacity:0;transition:opacity .45s ease}
+.ph.on{opacity:1}
+.ph .bg{display:none}
+.ph{background:linear-gradient(180deg,#F4F3F6,#E9E8EE)}
+.ph .fg{position:absolute;inset:0;background:center/contain no-repeat}
+.rope{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3;overflow:visible}
+.rope path{fill:none;stroke:#C41E24;stroke-width:4;stroke-linecap:round;filter:drop-shadow(0 2px 2px rgba(120,20,20,.25))}
+.knob{position:absolute;z-index:4;width:46px;height:46px;margin:-23px 0 0 -23px;pointer-events:none}
+.knob svg{width:100%;height:100%;filter:drop-shadow(0 4px 6px rgba(140,20,30,.35))}
+.knob.pulse svg{animation:beat 1.2s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}45%{transform:scale(1.1)}}
+.hint{position:relative;z-index:2;font-size:14px;letter-spacing:.1em;color:var(--accent);height:20px;transition:opacity .3s}
+.dots{position:relative;z-index:2;display:flex;gap:8px}
+.dots i{width:7px;height:7px;border-radius:50%;background:#E6C3C3;transition:all .3s}
+.dots i.on{background:var(--accent);width:20px;border-radius:4px}
+.burst{position:fixed;z-index:9;pointer-events:none;width:22px;height:22px;margin:-11px 0 0 -11px}
+.after{position:relative;z-index:2;opacity:0;transform:translateY(8px);transition:all .6s ease .3s;text-align:center;font-size:15px;line-height:2;letter-spacing:.08em;pointer-events:none}
+.after b{color:var(--accent);font-size:17px}
+.done .after{opacity:1;transform:none;pointer-events:auto}
+.btn{display:inline-block;margin-top:10px;padding:11px 32px;border-radius:999px;background:linear-gradient(180deg,#C9727A,#A9484E);color:#fff;text-decoration:none;letter-spacing:.14em;font-size:15px}
+.pt{position:fixed;top:-30px;z-index:0;pointer-events:none;width:var(--w);height:calc(var(--w)*1.35);background:radial-gradient(ellipse at 40% 30%,#FBD3DD,#F2A3B6);border-radius:80% 10% 80% 10%;opacity:.7;animation:fall var(--d) linear infinite;animation-delay:var(--dl)}
+@keyframes fall{to{transform:translate(var(--x),110vh) rotate(540deg)}}
+@media(prefers-reduced-motion:reduce){.pt{display:none}.knob.pulse svg{animation:none}}
+.ends{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:4px}
+.ends button{font-family:inherit;border:0;cursor:pointer;padding:12px 34px;border-radius:999px;font-size:16px;letter-spacing:.14em;min-width:200px}
+.ends .go{background:linear-gradient(180deg,#C9727A,#A9484E);color:#fff;box-shadow:0 6px 16px rgba(169,72,78,.3)}
+.ends .rs{background:#fff;color:#A9484E;box-shadow:inset 0 0 0 1.5px #E2B6B9}
+.sw{font-size:12px;color:#8C6A5E;letter-spacing:.1em;margin-top:8px}
+.idle{position:relative;z-index:2;font-size:13px;color:#8C6A5E;letter-spacing:.12em;opacity:0;transition:opacity .6s;height:18px;text-align:center}
+.idle.on{opacity:1}.done .idle{opacity:0!important}
+</style></head><body>
+<div class="top"><div class="small">— THE WEDDING OF —</div><div class="names">Chun-Hao &amp; Liang-Jou</div></div>
+<div class="cap" id="cap"></div>
+<div class="stage" id="stage">
+  <div class="frame" id="frame">
+    <div class="ph on" style="--i:1"><div class="bg" style="background-image:url(p1.jpg)"></div><div class="fg" style="background-image:url(p1.jpg)"></div></div>
+    <div class="ph"><div class="bg" style="background-image:url(p2.jpg)"></div><div class="fg" style="background-image:url(p2.jpg)"></div></div>
+    <div class="ph"><div class="bg" style="background-image:url(p3.jpg)"></div><div class="fg" style="background-image:url(p3.jpg)"></div></div>
+    <div class="ph"><div class="bg" style="background-image:url(p4.jpg)"></div><div class="fg" style="background-image:url(p4.jpg)"></div></div>
+  </div>
+  <svg class="rope" id="rope"><path id="rp" d=""/></svg>
+  <div class="knob pulse" id="knob"><svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 5.3 3.1 1.7-1.9 3.2-3.1 5.3-3.1 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z" fill="#D3252B"/></svg></div>
+</div>
+<div class="hint" id="hint"></div>
+<div class="dots" id="dots"><i class="on"></i><i></i><i></i><i></i></div>
+<div class="after">
+  <div class="ends"><button class="go" data-go="top">看喜帖 ↓</button><button class="rs" data-go="rsvp">直接回覆出席</button></div><div class="sw">往回拉可以倒回去</div>
+</div>
+<div class="idle" id="idle">點一下就可以喔</div>
+<script>
+(function(){for(var i=0;i<12;i++){var e=document.createElement('i');e.className='pt';e.style.cssText='left:'+Math.random()*100+'vw;--w:'+(10+Math.random()*10)+'px;--d:'+(9+Math.random()*8)+'s;--dl:-'+(Math.random()*14)+'s;--x:'+(Math.random()*120-60)+'px';document.body.appendChild(e);}})();
+(function(){
+  // 每一頁：往哪邊拉（-1 左 / +1 右）、紅線從照片哪個高度出來、上方字
+  var P=[
+    {dir:-1,at:[.286,.56],drop:.30,ar:1100/733,cap:'抓到你了！',hint:'幫新娘把新郎拉過來 ♡'},
+    {dir: 1,at:[.792,.985],drop:.10,ar:1100/733,cap:'換我抓你！',hint:'換新郎反擊！拉回去'},
+    {dir:-1,at:[.137,.80],drop:.09,ar:733/1100,cap:'誰也跑不掉',hint:'把兩個人綁在一起'},
+    {dir: 0,cap:'<span class="en">We\'re getting married ♡</span>',hint:''}
+  ];
+  var st=document.getElementById('stage'), fr=document.getElementById('frame'), rp=document.getElementById('rp'),
+      knob=document.getElementById('knob'), cap=document.getElementById('cap'), hint=document.getElementById('hint'),
+      phs=fr.querySelectorAll('.ph'), dots=document.querySelectorAll('#dots i');
+  var i=0, drag=false, sx=0, pull=0, back=0, raf=null;
+  function geo(){ var s=st.getBoundingClientRect(), f=fr.getBoundingClientRect(); return {s:s,f:f}; }
+  function draw(){
+    var g=geo(), d=P[i].dir, w=g.s.width, h=g.s.height;
+    if(!d){ rp.setAttribute('d',''); knob.style.display='none'; if(!back) fr.style.transform=''; return; }
+    knob.style.display='';
+    // 照片在框內是 contain：算出照片實際顯示範圍，再把紅線起點對到照片裡的紅線
+    var fw=fr.offsetWidth, fh=fr.offsetHeight, ar=P[i].ar, pw,ph,ox,oy;
+    if(ar>fw/fh){ pw=fw; ph=fw/ar; ox=0; oy=(fh-ph)/2; } else { ph=fh; pw=fh*ar; oy=0; ox=(fw-pw)/2; }
+    var fl=g.f.left-g.s.left, ft=g.f.top-g.s.top;
+    var ax=fl+ox+pw*P[i].at[0], ay=ft+oy+ph*P[i].at[1];
+    var edge=(d<0?fl:fl+fw);
+    var rest=Math.min(60,(d<0?edge:w-edge)-26), ext=rest+pull*0.9;
+    // 緞帶尾端往下垂，再彎出畫面；越拉越直
+    var t=Math.min(1,pull/160), drop=ph*P[i].drop*(1-t*0.7);
+    var kx=edge+d*ext, ky=ay+drop;
+    var c1x=ax, c1y=ay+drop*0.9+18*(1-t), c2x=kx-d*Math.max(20,Math.abs(kx-ax)*0.45), c2y=ky;
+    rp.setAttribute('d','M'+ax+' '+(ay-2)+' C'+c1x+' '+c1y+' '+c2x+' '+c2y+' '+kx+' '+ky);
+    knob.style.left=kx+'px'; knob.style.top=ky+'px';
+    fr.style.transform='translateX('+(d*pull*0.05)+'px)';
+  }
+  function show(n,dirFrom){
+    i=n; phs.forEach(function(p,k){ p.classList.toggle('on',k===i); });
+    dots.forEach(function(d,k){ d.classList.toggle('on',k===i); });
+    cap.innerHTML='<span>'+P[i].cap+'</span>';
+    hint.textContent=P[i].hint;
+    document.body.classList.toggle('done',i===3);
+    if(i===3) burst();
+    pull=0; back=0; fr.style.transition='transform .45s cubic-bezier(.3,1.5,.5,1)'; draw();
+    setTimeout(function(){ fr.style.transition=''; },460);
+  }
+  function burst(){
+    var f=fr.getBoundingClientRect(), cx=f.left+f.width/2, cy=f.top+f.height*.25;
+    for(var k=0;k<16;k++){ var e=document.createElement('div'); e.className='burst';
+      e.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 5.3 3.1 1.7-1.9 3.2-3.1 5.3-3.1 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z" fill="'+(k%3?'#D3252B':'#F2A3B6')+'"/></svg>';
+      e.style.left=cx+'px'; e.style.top=cy+'px'; document.body.appendChild(e);
+      var a=Math.random()*Math.PI*2, r=90+Math.random()*120, s=.6+Math.random()*.9;
+      e.animate([{transform:'translate(0,0) scale(.2)',opacity:1},{transform:'translate('+Math.cos(a)*r+'px,'+(Math.sin(a)*r-40)+'px) scale('+s+') rotate('+(Math.random()*120-60)+'deg)',opacity:0}],{duration:1100+Math.random()*500,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=(function(el){return function(){el.remove();};})(e);
+    }
+  }
+  var lastDx=0; st.addEventListener('pointerdown',function(e){ drag=true; sx=e.clientX; lastDx=0; knob.classList.remove('pulse'); try{st.setPointerCapture(e.pointerId);}catch(_){} });
+  st.addEventListener('pointermove',function(e){ if(!drag) return; var dx=e.clientX-sx; lastDx=dx; var _u=0, d=P[i].dir, prevDir=i>0?P[i-1].dir:0;
+    pull = d ? Math.max(0,dx*d) : 0;
+    var bd=d||prevDir; back = i>0 ? Math.max(0,-dx*bd) : 0;
+    if(back>0){ fr.style.transform='translateX('+(-bd*back*0.15)+'px)'; }
+    cancelAnimationFrame(raf); raf=requestAnimationFrame(draw); });
+  function up(){ if(!drag) return; drag=false; knob.classList.add('pulse');
+    var th=Math.min(110,st.clientWidth*.22);
+    if(Math.abs(lastDx)<6 && i<3){ autoPull(); return; }
+    if(pull>th && i<3) show(i+1);
+    else if(back>th && i>0) show(i-1);
+    else { pull=0; back=0; fr.style.transition='transform .4s cubic-bezier(.3,1.5,.5,1)'; draw(); setTimeout(function(){ fr.style.transition=''; },420); }
+  }
+  function autoPull(){ var t0=performance.now(); (function a(t){ var k=Math.min(1,(t-t0)/420); pull=k*k*130; draw(); if(k<1) requestAnimationFrame(a); else show(i+1); })(t0); }
+  st.addEventListener('pointerup',up); st.addEventListener('pointercancel',up);
+  addEventListener('resize',draw);
+  show(0);
+  // 一開始輕輕拉一下示範
+  setTimeout(function(){ if(i===0&&!drag){ var t0=performance.now(); (function a(t){ var k=(t-t0)/900; if(k>1||drag){ pull=0; draw(); return; } pull=Math.sin(k*Math.PI)*40; draw(); requestAnimationFrame(a); })(t0); } },1000);
+})();
+</script>
+<script>
+(function(){
+  function goTo(t){ try{ if(window.parent!==window){ window.parent.postMessage({intro:t},'*'); return; } }catch(_){} location.href='../../index.html'+(t==='rsvp'?'#rsvp':''); }
+  document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(e){ e.stopPropagation(); goTo(b.getAttribute('data-go')); }); });
+  var idle=document.getElementById('idle'), t=setTimeout(function(){ idle&&idle.classList.add('on'); },5000);
+  addEventListener('pointerdown',function(){ clearTimeout(t); idle&&idle.classList.remove('on'); },true);
+})();
+</script>
+</body></html>

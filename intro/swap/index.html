@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>咦？拿反了！· 拋接喜帖試做</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@500;600&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--red:#C8312F;--accent:#A9484E;--ink:#5A3530;--soft:#8C6A5E;--gold:#C08A4A}
+*{box-sizing:border-box;font-variant-numeric:lining-nums}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:26px 14px 34px;font-family:'Noto Serif TC',serif;color:var(--ink);
+ background:radial-gradient(ellipse at 15% 10%,#FFF6F4,transparent 55%),radial-gradient(ellipse at 90% 90%,#F6D6DA,transparent 55%),linear-gradient(160deg,#FDF2F0,#F4DADB)}
+.top{text-align:center}
+.small{font-family:'Cormorant Garamond',serif;font-size:12px;letter-spacing:.34em;color:var(--soft)}
+.names{font-family:'Great Vibes',cursive;color:var(--accent);font-size:36px;line-height:1.1;margin-top:4px;white-space:nowrap}
+.scene{position:relative;width:min(90vw,380px);aspect-ratio:1/1;border-radius:20px;box-shadow:0 18px 44px rgba(150,40,40,.25),0 0 0 8px #fff,0 0 0 9px rgba(192,138,74,.45);overflow:hidden;cursor:pointer}
+.ph{position:absolute;inset:0;background:center/cover;transition:opacity .45s ease,filter .4s ease;transform:scale(1.04)}
+.ph.w{background-image:url(wrong.jpg)}.ph.r{background-image:url(right.jpg);opacity:0}
+.tossing .ph{filter:blur(12px) brightness(.62) saturate(.6)}
+.swapped .ph.w{opacity:0}.swapped .ph.r{opacity:1}
+.bn{position:absolute;left:0;top:0;width:46%;height:11.5%;margin:-5.75% 0 0 -23%;border-radius:2px;background:#E8392F center/100% 100% no-repeat;box-shadow:0 8px 18px rgba(0,0,0,.35);
+ display:flex;align-items:center;justify-content:center;gap:2px;color:#2B1A1A;font-weight:900;font-size:calc(min(90vw,380px)*.075);letter-spacing:.08em;opacity:0;pointer-events:none;z-index:4}
+#bQu{background-image:url(bn_qu.png);height:14.3%;margin-top:-7.15%}#bJia{background-image:url(bn_jia.png);height:13.5%;margin-top:-6.75%}
+.bn::before,.bn::after{content:"";position:absolute;top:-14%;bottom:-14%;width:6%;border:2px solid #E8392F;border-radius:40%}
+.bn::before{left:-4%;border-right:0}.bn::after{right:-4%;border-left:0}
+.bn small{position:absolute;bottom:6%;left:0;right:0;text-align:center;font-size:24%;letter-spacing:.1em;font-weight:700;opacity:.8}
+.bubble{position:absolute;right:4%;top:3%;padding:8px 14px;border-radius:16px;background:#fff;color:var(--red);font-weight:900;font-size:17px;letter-spacing:.06em;box-shadow:0 6px 16px rgba(0,0,0,.18);animation:pop .5s cubic-bezier(.3,1.6,.5,1) .6s both;z-index:5;transition:opacity .25s}
+.bubble::after{content:"";position:absolute;left:30%;bottom:-9px;border:6px solid transparent;border-top:8px solid #fff}
+.tossing .bubble,.swapped .bubble{opacity:0}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.stamp{position:absolute;z-index:5;left:50%;bottom:7%;transform:translateX(-50%) rotate(-6deg);padding:6px 18px;border:3px solid #fff;border-radius:10px;color:#fff;font-family:'Great Vibes',cursive;font-size:30px;white-space:nowrap;background:rgba(200,49,47,.75);text-shadow:0 2px 6px rgba(0,0,0,.25);opacity:0;transition:all .5s cubic-bezier(.3,1.6,.5,1) 1s}
+.done .stamp{opacity:1;transform:translateX(-50%) rotate(-6deg) scale(1)}
+.cta{display:inline-flex;align-items:center;gap:10px;padding:13px 30px;border-radius:999px;border:0;cursor:pointer;background:linear-gradient(180deg,#D44A47,#A8282A);color:#fff;font-family:inherit;font-size:17px;font-weight:700;letter-spacing:.12em;box-shadow:0 8px 20px rgba(168,40,42,.35);animation:bob 1.6s ease-in-out infinite}
+.cta .ic{display:inline-block;transition:transform .6s}
+.cta:active .ic{transform:rotate(180deg)}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.low{display:grid;justify-items:center;align-items:start}.low>*{grid-area:1/1}
+.done .cta{opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
+.sw{font-size:12px;color:var(--soft);letter-spacing:.1em;margin-top:6px}
+.after{opacity:0;transform:translateY(8px);transition:all .6s ease 1.2s;text-align:center;font-size:15px;line-height:2;letter-spacing:.08em;pointer-events:none}
+.after b{color:var(--accent);font-size:17px}
+.done .after{opacity:1;transform:none;pointer-events:auto}
+.btn{display:inline-block;margin-top:10px;padding:11px 32px;border-radius:999px;background:linear-gradient(180deg,#C9727A,#A9484E);color:#fff;text-decoration:none;letter-spacing:.14em;font-size:15px}
+.replay{font-size:12px;color:var(--soft);background:none;border:0;margin-top:6px;text-decoration:underline;cursor:pointer;font-family:inherit}
+@media(prefers-reduced-motion:reduce){.cta,.bubble{animation:none}}
+.ends{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:4px}
+.ends button{font-family:inherit;border:0;cursor:pointer;padding:12px 34px;border-radius:999px;font-size:16px;letter-spacing:.14em;min-width:200px}
+.ends .go{background:linear-gradient(180deg,#C9727A,#A9484E);color:#fff;box-shadow:0 6px 16px rgba(169,72,78,.3)}
+.ends .rs{background:#fff;color:#A9484E;box-shadow:inset 0 0 0 1.5px #E2B6B9}
+.sw{font-size:12px;color:#8C6A5E;letter-spacing:.1em;margin-top:8px}
+.idle{position:relative;z-index:2;font-size:13px;color:#8C6A5E;letter-spacing:.12em;opacity:0;transition:opacity .6s;height:18px;text-align:center}
+.idle.on{opacity:1}.done .idle{opacity:0!important}
+</style></head><body>
+<div class="top"><div class="small">THE WEDDING OF</div><div class="names">Chun-Hao &amp; Liang-Jou</div></div>
+<div class="scene" id="scene">
+ <div class="ph w"></div><div class="ph r"></div>
+ <div class="bn" id="bQu"></div>
+ <div class="bn" id="bJia"></div>
+ <div class="bubble">咦？好像拿反了！</div>
+ <div class="stamp">We got married!</div>
+</div>
+<div class="low"><button class="cta" id="cta" type="button"><span class="ic">↻</span>幫我們換回來</button>
+<div class="after" id="after">
+  <div class="ends"><button class="go" data-go="top">看喜帖 ↓</button><button class="rs" data-go="rsvp">直接回覆出席</button></div><div class="sw">點照片可以再拋回去 ↻</div>
+</div>
+</div>
+<div class="idle" id="idle">點一下就可以喔</div>
+<script>
+(function(){
+  var sc=document.getElementById('scene'), busy=false;
+  var Q=document.getElementById('bQu'), J=document.getElementById('bJia');
+  function P(x,y,r,o,sc){ return {transform:'translate('+x+'%,'+y+'%) rotate('+r+'deg) scale('+(sc||1)+')',opacity:o}; }
+  // 位置用 scene 寬高的百分比 → 轉成 left/top
+  function place(el,x,y){ el.style.left=x+'%'; el.style.top=y+'%'; }
+  var state=0; // 0 = 拿反, 1 = 拿對
+  function kf(a,b,peak,r0,r1,spin){
+    var W=sc.clientWidth,H=sc.clientHeight; function pt(x,y){ return [x*W/100, y*H/100]; }
+    var A=pt(a[0],a[1]),B=pt(b[0],b[1]),M=pt((a[0]+b[0])/2,peak);
+    function f(p,r,o,s){ return {transform:'translate('+p[0]+'px,'+p[1]+'px) rotate('+r+'deg) scale('+s+')',opacity:o}; }
+    return [f(A,r0,0,1),Object.assign(f(A,r0,1,1),{offset:.12}),Object.assign(f([A[0],A[1]-H*.04],r0-8,1,1.06),{offset:.22}),
+            Object.assign(f(M,(r0+r1)/2+spin,1,1.15),{offset:.6}),Object.assign(f(B,r1,1,1),{offset:.88}),f(B,r1,0,1)];
+  }
+  // 拿反時：娶了在新娘(左)、嫁了在新郎(右)；拿對時：嫁了在新娘、娶了在新郎
+  var QW=[[23.3,49.2],50], QR=[[71.7,49.5],-29], JW=[[71.7,42.5],-29], JR=[[28.3,65.3],28];
+  function go(){
+    if(busy) return; busy=true;
+    var to=state?0:1;
+    if(!to) document.body.classList.remove('done');
+    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    sc.classList.add('tossing');
+    if(reduce){ sc.classList.toggle('swapped',!!to); finish(to); return; }
+    place(Q,0,0); place(J,0,0);
+    var opt={duration:1700,easing:'cubic-bezier(.45,.05,.35,1)',fill:'forwards'};
+    var qa=to?QW:QR, qb=to?QR:QW, ja=to?JW:JR, jb=to?JR:JW;
+    var a1=Q.animate(kf(qa[0],qb[0],-6,qa[1],qb[1],to?-360:360),opt);
+    J.animate(kf(ja[0],jb[0],14,ja[1],jb[1],to?360:-360),Object.assign({},opt,{delay:90}));
+    setTimeout(function(){ sc.classList.toggle('swapped',!!to); },820);
+    setTimeout(function(){ sc.classList.remove('tossing'); },1380);
+    a1.onfinish=function(){ finish(to); };
+  }
+  function finish(to){ sc.classList.remove('tossing'); state=to; if(to) document.body.classList.add('done'); busy=false; }
+  document.getElementById('cta').addEventListener('click',go);
+  var sx=null; sc.addEventListener('pointerdown',function(e){ sx=e.clientX; });
+  sc.addEventListener('pointerup',function(e){ if(sx===null) return; var d=Math.abs(e.clientX-sx); sx=null; go(); });
+})();
+</script>
+<script>
+(function(){
+  function goTo(t){ try{ if(window.parent!==window){ window.parent.postMessage({intro:t},'*'); return; } }catch(_){} location.href='../../index.html'+(t==='rsvp'?'#rsvp':''); }
+  document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(e){ e.stopPropagation(); goTo(b.getAttribute('data-go')); }); });
+  var idle=document.getElementById('idle'), t=setTimeout(function(){ idle&&idle.classList.add('on'); },5000);
+  addEventListener('pointerdown',function(){ clearTimeout(t); idle&&idle.classList.remove('on'); },true);
+})();
+</script>
+</body></html>
