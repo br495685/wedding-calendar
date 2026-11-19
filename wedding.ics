@@ -3,6 +3,8 @@ VERSION:2.0
 PRODID:-//Chun-Hao & Liang-Jou//Wedding//ZH
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
+X-WR-CALNAME:王俊皓 & 陳良柔 婚宴
+X-WR-TIMEZONE:Asia/Taipei
 BEGIN:VEVENT
 UID:wedding-20270313-chunhao-liangjou@invite
 DTSTAMP:20261119T090000Z
