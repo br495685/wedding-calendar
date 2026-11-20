@@ -22,7 +22,7 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
 .dl{clip-path:polygon(0 0,44.44% 0,44.44% 35.42%,42.78% 35.42%,42.78% 100%,0 100%)}
 .dr{clip-path:polygon(44.44% 0,100% 0,100% 100%,42.78% 100%,42.78% 35.42%,44.44% 35.42%)}
 
-.seal{position:absolute;left:42.78%;top:62%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;z-index:3;display:flex;align-items:center;justify-content:center;
+.seal{display:none!important;position:absolute;left:42.78%;top:62%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;z-index:3;display:flex;align-items:center;justify-content:center;
  background:radial-gradient(circle at 35% 30%,#D2747C,#9C3E45);box-shadow:0 6px 16px rgba(120,30,40,.35),inset 0 0 0 3px rgba(246,217,184,.65);color:#fff;font-family:'Great Vibes',cursive;font-size:26px;transition:opacity .3s,transform .3s}
 .seal::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:2px solid rgba(255,255,255,.7);animation:pulse 1.8s ease-out infinite}
 @keyframes pulse{0%{transform:scale(.85);opacity:1}100%{transform:scale(1.35);opacity:0}}
@@ -56,7 +56,7 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
   <div class="cap"><b>We're getting married!</b><small>2027 · 03 · 13</small></div>
   <div class="door dl" id="dl"></div>
   <div class="door dr" id="dr"></div>
-  <div class="seal" id="seal">♡</div>
+  
  </div>
 </div>
 <div class="hint" id="hint">我們有事要宣布…</div>
