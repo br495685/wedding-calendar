@@ -136,6 +136,7 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
   function autoPull(){ var t0=performance.now(); (function a(t){ var k=Math.min(1,(t-t0)/420); pull=k*k*130; draw(); if(k<1) requestAnimationFrame(a); else show(i+1); })(t0); }
   st.addEventListener('pointerup',up); st.addEventListener('pointercancel',up);
   addEventListener('resize',draw);
+  window.HANDDIR=function(){ return P[i].dir; };
   show(0);
   // 一開始輕輕拉一下示範
   setTimeout(function(){ if(i===0&&!drag){ var t0=performance.now(); (function a(t){ var k=(t-t0)/900; if(k>1||drag){ pull=0; draw(); return; } pull=Math.sin(k*Math.PI)*40; draw(); requestAnimationFrame(a); })(t0); } },1000);
@@ -151,4 +152,5 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
   addEventListener('pointerdown',function(){ idle&&idle.classList.remove('on'); },true);
 })();
 </script>
+<script>window.HAND={isDone:function(){return window.HANDDIR&&window.HANDDIR()===0;},target:'#stage',y:.5,dir:function(){return window.HANDDIR?window.HANDDIR():1;}};</script><script src="../hand.js"></script>
 </body></html>
