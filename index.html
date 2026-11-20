@@ -160,8 +160,8 @@ html.introOn,html.introOn body{overflow:hidden}
 #envClone{position:fixed;z-index:102;margin:0;border-radius:6px;overflow:hidden;box-shadow:0 4px 14px rgba(150,60,80,.18);transition:all .8s cubic-bezier(.5,0,.2,1);pointer-events:none}
 #envClone img{display:block;width:100%;height:auto}
 #envClone.flat{border-radius:0;box-shadow:none}
-#env .eseal{position:absolute;left:50%;top:62%;z-index:5;width:20%;aspect-ratio:1;margin:-10% 0 0 -10%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#C9636B,#A9484E 60%,#8E3A40);box-shadow:0 2px 6px rgba(120,40,50,.35),inset 0 0 0 3px rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:#F1D8A8;font-family:'Cormorant Garamond','Noto Serif TC',serif;font-style:italic;font-size:min(5vw,20px);letter-spacing:.02em;transition:transform .35s cubic-bezier(.5,-0.6,.5,1),opacity .35s}
-#env.unseal .eseal{transform:scale(.2) rotate(-25deg);opacity:0}
+#env .eseal{position:absolute;left:50%;top:57%;z-index:5;width:31%;aspect-ratio:1;background:url(seal.webp) center/contain no-repeat;filter:drop-shadow(0 3px 5px rgba(90,20,30,.35));transform:translate(-50%,-50%);transition:transform .45s cubic-bezier(.5,-0.5,.5,1),opacity .4s}
+#env.unseal .eseal{transform:translate(-50%,-90%) scale(.6) rotate(-18deg);opacity:0}
 
 #drawer a.more{border-bottom:0;margin-top:10px;color:var(--accent)}
 #drawerBg{position:fixed;inset:0;z-index:21;background:rgba(90,53,48,.25)}
@@ -183,9 +183,10 @@ html.my #drawer *{font-family:'Noto Sans Myanmar',sans-serif!important}
 html.my #drawer a{font-size:16px;letter-spacing:0;line-height:1.7}
 a:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 </style>
+<link rel="preload" as="image" href="seal.webp">
 </head>
 <body>
-<div id="env" hidden><div class="ev"><div class="eback"></div><div class="epocket"><div class="eletter"><img src="hero.jpg" alt=""></div></div><div class="efront"></div><div class="eflap"></div><div class="eseal">C&amp;L</div></div></div>
+<div id="env" hidden><div class="ev"><div class="eback"></div><div class="epocket"><div class="eletter"><img src="hero.jpg" alt=""></div></div><div class="efront"></div><div class="eflap"></div><div class="eseal"></div></div></div>
 <div id="intro" hidden><iframe id="introF" title="開場動畫"></iframe><button type="button" id="introSkip">略過 ›</button></div>
 <button id="menuBtn" type="button" aria-label="開啟選單" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
 <div id="drawerBg" hidden></div>
@@ -718,10 +719,10 @@ var PHOTOS = ["photo01b.jpg","photo02.jpg","photo03.jpg","photo04b.jpg","photo05
   function envelope(){
     var H=document.documentElement; H.classList.add('introOn'); window.scrollTo(0,0);
     env.className=''; env.hidden=false;
-    var steps=[[30,'on'],[650,'unseal'],[900,'open'],[1220,'back'],[1450,'pull']];
+    var steps=[[30,'on'],[1100,'unseal'],[1380,'open'],[1700,'back'],[1930,'pull']];
     envT=steps.map(function(x){ return setTimeout(function(){ env.classList.add(x[1]); },x[0]); });
     envT.push(setTimeout(function(){ box.hidden=true; fr.src='about:blank'; },500));
-    envT.push(setTimeout(morph,2500));
+    envT.push(setTimeout(morph,2980));
   }
   function morph(){
     var L=env.querySelector('.eletter'), r=L.getBoundingClientRect(), hero=document.querySelector('.hero'), h=hero.getBoundingClientRect();
