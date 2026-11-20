@@ -128,8 +128,8 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
     cancelAnimationFrame(raf); raf=requestAnimationFrame(draw); });
   function up(){ if(!drag) return; drag=false; knob.classList.add('pulse');
     var th=Math.min(110,st.clientWidth*.22);
-    if(Math.abs(lastDx)<6 && i<3){ autoPull(); return; }
-    if(pull>th && i<3) show(i+1);
+    if(Math.abs(lastDx)<6 && i<3 && window.TAP_OK){ autoPull(); return; }
+    if(pull>th && i<3){ window.MOVED=true; show(i+1); }
     else if(back>th && i>0) show(i-1);
     else { pull=0; back=0; fr.style.transition='transform .4s cubic-bezier(.3,1.5,.5,1)'; draw(); setTimeout(function(){ fr.style.transition=''; },420); }
   }
@@ -145,8 +145,10 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
 (function(){
   function goTo(t){ try{ if(window.parent!==window){ window.parent.postMessage({intro:t},'*'); return; } }catch(_){} location.href='../../index.html'+(t==='rsvp'?'#rsvp':''); }
   document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(e){ e.stopPropagation(); goTo(b.getAttribute('data-go')); }); });
-  var idle=document.getElementById('idle'), t=setTimeout(function(){ idle&&idle.classList.add('on'); },5000);
-  addEventListener('pointerdown',function(){ clearTimeout(t); idle&&idle.classList.remove('on'); },true);
+  // 5 秒後才開放「點一下」；還沒成功操作過才顯示提示
+  var idle=document.getElementById('idle');
+  setTimeout(function(){ window.TAP_OK=true; if(!window.MOVED && idle) idle.classList.add('on'); },5000);
+  addEventListener('pointerdown',function(){ idle&&idle.classList.remove('on'); },true);
 })();
 </script>
 </body></html>

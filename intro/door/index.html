@@ -76,7 +76,7 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
   function close(){ set(0,true); st.parentNode.classList.remove('open'); st.classList.remove('open'); after.classList.remove('on'); hint.style.opacity=1; }
   st.addEventListener('pointerdown',function(e){ drag=true; moved=false; sx=e.clientX; sp=p; try{st.setPointerCapture(e.pointerId);}catch(_){} });
   st.addEventListener('pointermove',function(e){ if(!drag) return; var d=Math.abs(e.clientX-sx); if(d>5) moved=true; if(moved){ var dir=(sp>0.5?-1:1); set(sp+dir*d/(st.clientWidth*0.6),false); hint.style.opacity=0; if(p<0.97){ st.parentNode.classList.remove('open'); st.classList.remove('open'); after.classList.remove('on'); } } });
-  function up(){ if(!drag) return; drag=false; if(!moved){ if(p<0.5) open(); return; } if(p>(sp>0.5?0.7:0.3)) open(); else close(); }
+  function up(){ if(!drag) return; drag=false; if(!moved){ if(p<0.5 && window.TAP_OK) open(); return; } if(p>(sp>0.5?0.7:0.3)){ window.MOVED=true; open(); } else close(); }
   st.addEventListener('pointerup',up); st.addEventListener('pointercancel',up);
   setTimeout(function(){ if(p===0){ set(0.06,true); setTimeout(function(){ if(!drag && p<0.1) set(0,true); },700); } },1000);
 })();
@@ -85,8 +85,10 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
 (function(){
   function goTo(t){ try{ if(window.parent!==window){ window.parent.postMessage({intro:t},'*'); return; } }catch(_){} location.href='../../index.html'+(t==='rsvp'?'#rsvp':''); }
   document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(e){ e.stopPropagation(); goTo(b.getAttribute('data-go')); }); });
-  var idle=document.getElementById('idle'), t=setTimeout(function(){ idle&&idle.classList.add('on'); },5000);
-  addEventListener('pointerdown',function(){ clearTimeout(t); idle&&idle.classList.remove('on'); },true);
+  // 5 秒後才開放「點一下」；還沒成功操作過才顯示提示
+  var idle=document.getElementById('idle');
+  setTimeout(function(){ window.TAP_OK=true; if(!window.MOVED && idle) idle.classList.add('on'); },5000);
+  addEventListener('pointerdown',function(){ idle&&idle.classList.remove('on'); },true);
 })();
 </script>
 </body></html>
