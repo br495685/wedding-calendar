@@ -11,7 +11,7 @@
   document.body.appendChild(h);
   var t=null, anim=null, touched=false;
   function play(){
-    if(window.MOVED||document.body.classList.contains('done')||(C.isDone&&C.isDone())) return;
+    if(document.body.classList.contains('done')||(C.isDone&&C.isDone())) return;
     var r=el.getBoundingClientRect(), d=(C.dir?C.dir():1)||1, len=Math.min(130,r.width*.34);
     var x0=r.left+r.width/2-d*len/2, y=r.top+r.height*(C.y||.55), x1=x0+d*len;
     h.style.left=x0+'px'; h.style.top=y+'px';
@@ -21,11 +21,11 @@
       {opacity:1,transform:'translate('+(x1-x0)+'px,0) scale(1)',offset:.7},
       {opacity:0,transform:'translate('+(x1-x0)+'px,0) scale(1)'}],
       {duration:1500,iterations:3,easing:'ease-in-out'});
-    anim.onfinish=function(){ sched(4000); };
+    anim.onfinish=function(){ sched(2500); };
   }
   function stop(){ clearTimeout(t); if(anim){ anim.cancel(); anim=null; } h.style.opacity=0; }
   function sched(ms){ clearTimeout(t); t=setTimeout(play,ms); }
   addEventListener('pointerdown',function(){ touched=true; stop(); },true);
-  addEventListener('pointerup',function(){ if(!window.MOVED) sched(3500); },true);
+  addEventListener('pointerup',function(){ sched(1200); },true);
   sched(C.first||1000);
 })();
