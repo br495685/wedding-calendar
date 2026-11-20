@@ -14,6 +14,10 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
 .cap{position:relative;z-index:2;height:34px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;letter-spacing:.14em;color:var(--red)}
 .cap span{display:inline-block;animation:capIn .5s cubic-bezier(.3,1.6,.5,1)}
 .cap .en{font-family:'Great Vibes',cursive;font-weight:400;font-size:30px;letter-spacing:0;color:#B8914F;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+.say{position:absolute;z-index:4;padding:8px 14px;border-radius:16px;background:#fff;color:var(--red);font-weight:900;font-size:17px;letter-spacing:.06em;white-space:nowrap;box-shadow:0 6px 16px rgba(0,0,0,.16);pointer-events:none;opacity:0;transform:scale(.4);transform-origin:var(--to,20% 100%);transition:opacity .2s}
+.say.on{opacity:1;transform:scale(1);transition:transform .45s cubic-bezier(.3,1.6,.5,1) .25s,opacity .2s .25s}
+.say::after{content:"";position:absolute;bottom:-9px;border:6px solid transparent;border-top:8px solid #fff}
+.say.l::after{left:22%}.say.r::after{right:22%}
 @keyframes capIn{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
 .stage{position:relative;width:100vw;display:flex;justify-content:center;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab;padding:6px 0}
 .frame{position:relative;width:var(--W);aspect-ratio:4/5;border-radius:18px;overflow:hidden;background:#fff;
@@ -58,6 +62,7 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
     <div class="ph"><div class="bg" style="background-image:url(p3.jpg)"></div><div class="fg" style="background-image:url(p3.jpg)"></div></div>
     <div class="ph"><div class="bg" style="background-image:url(p4.jpg)"></div><div class="fg" style="background-image:url(p4.jpg)"></div></div>
   </div>
+  <div class="say" id="say"></div>
   <svg class="rope" id="rope"><path id="rp" d=""/></svg>
   <div class="knob pulse" id="knob"><svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 5.3 3.1 1.7-1.9 3.2-3.1 5.3-3.1 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z" fill="#D3252B"/></svg></div>
 </div>
@@ -72,9 +77,9 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
 (function(){
   // 每一頁：往哪邊拉（-1 左 / +1 右）、紅線從照片哪個高度出來、上方字
   var P=[
-    {dir:-1,at:[.286,.56],drop:.30,ar:1100/733,cap:'抓到你了！',hint:'幫新娘把新郎拉過來 ♡'},
-    {dir: 1,at:[.792,.985],drop:.10,ar:1100/733,cap:'換我抓你！',hint:'換新郎反擊！拉回去'},
-    {dir:-1,at:[.137,.80],drop:.09,ar:733/1100,cap:'誰也跑不掉',hint:'把兩個人綁在一起'},
+    {dir:-1,at:[.286,.56],drop:.30,ar:1100/733,say:['抓到你了！',.07,.05,'l'],cap:'',hint:'幫新娘把新郎拉過來 ♡'},
+    {dir: 1,at:[.792,.985],drop:.10,ar:1100/733,say:['換我抓你！',.86,.03,'r'],cap:'',hint:'換新郎反擊！拉回去'},
+    {dir:-1,at:[.137,.80],drop:.09,ar:733/1100,say:['誰也跑不掉！',.05,.15,'l'],cap:'',hint:'把兩個人綁在一起'},
     {dir: 0,cap:'<span class="en">We\'re getting married ♡</span>',hint:''}
   ];
   var st=document.getElementById('stage'), fr=document.getElementById('frame'), rp=document.getElementById('rp'),
@@ -101,10 +106,22 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
     knob.style.left=kx+'px'; knob.style.top=ky+'px';
     fr.style.transform='translateX('+(d*pull*0.05)+'px)';
   }
+  function placeSay(){
+    var b=document.getElementById('say'), q=P[i].say; if(!q){ b.classList.remove('on'); return; }
+    var fw=fr.offsetWidth, fh=fr.offsetHeight, ar=P[i].ar, pw,ph,ox,oy;
+    if(ar>fw/fh){ pw=fw; ph=fw/ar; ox=0; oy=(fh-ph)/2; } else { ph=fh; pw=fh*ar; oy=0; ox=(fw-pw)/2; }
+    var fl=fr.offsetLeft, ft=fr.offsetTop, x=fl+ox+pw*q[1], y=ft+oy+ph*q[2];
+    b.textContent=q[0]; b.className='say '+q[3];
+    var bw=b.offsetWidth, bh=b.offsetHeight;
+    b.style.left=(q[3]==='l'? x : x-bw)+'px'; b.style.top=Math.max(ft+8,y-bh)+'px';
+    b.style.setProperty('--to',q[3]==='l'?'20% 100%':'80% 100%');
+    b.offsetWidth; b.classList.add('on');
+  }
   function show(n,dirFrom){
     i=n; phs.forEach(function(p,k){ p.classList.toggle('on',k===i); });
     dots.forEach(function(d,k){ d.classList.toggle('on',k===i); });
-    cap.innerHTML='<span>'+P[i].cap+'</span>';
+    cap.innerHTML=P[i].cap?'<span>'+P[i].cap+'</span>':'';
+    placeSay();
     hint.textContent=P[i].hint;
     document.body.classList.toggle('done',i===3);
     if(i===3) burst();
@@ -135,7 +152,7 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
   }
   function autoPull(){ var t0=performance.now(); (function a(t){ var k=Math.min(1,(t-t0)/420); pull=k*k*130; draw(); if(k<1) requestAnimationFrame(a); else show(i+1); })(t0); }
   st.addEventListener('pointerup',up); st.addEventListener('pointercancel',up);
-  addEventListener('resize',draw);
+  addEventListener('resize',function(){ draw(); placeSay(); });
   window.HANDDIR=function(){ return P[i].dir; };
   show(0);
   // 一開始輕輕拉一下示範
@@ -152,5 +169,5 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
   addEventListener('pointerdown',function(){ idle&&idle.classList.remove('on'); },true);
 })();
 </script>
-<script>window.HAND={isDone:function(){return window.HANDDIR&&window.HANDDIR()===0;},target:'#stage',y:.5,dir:function(){return window.HANDDIR?window.HANDDIR():1;},rev:function(){return 1;}};</script><script src="../hand.js?v=3"></script>
+<script>window.HAND={isDone:function(){return window.HANDDIR&&window.HANDDIR()===0;},target:'#stage',y:.5,dir:function(){return window.HANDDIR?window.HANDDIR():1;},rev:function(){return 1;}};</script><script src="../hand.js?v=5"></script>
 </body></html>
