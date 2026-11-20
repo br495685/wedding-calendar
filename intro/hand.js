@@ -17,6 +17,7 @@
     if(done) d=C.rev?C.rev():-d;
     var cx=done&&C.revX!=null ? r.left+r.width*C.revX+d*len/2 : r.left+r.width/2;
     var x0=cx-d*len/2, y=r.top+r.height*(C.y||.55), x1=x0+d*len;
+    if(C.path){ var q=C.path(); x0=r.left+r.width*q[0]; y=r.top+r.height*q[1]; x1=r.left+r.width*q[2]; }
     DONE=done;
     h.style.left=x0+'px'; h.style.top=y+'px';
     anim=h.animate([
