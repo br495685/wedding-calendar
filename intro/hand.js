@@ -9,23 +9,28 @@
   var h=document.createElement('div'); h.className='hand';
   h.innerHTML='<div class="dot"></div><svg viewBox="0 0 48 48"><path d="M17 26V9.5a3.5 3.5 0 0 1 7 0V22l1-.2V18a3.3 3.3 0 0 1 6.6 0v4.2l1 .1v-2.3a3.2 3.2 0 0 1 6.4 0V31c0 7-4.6 12-11.5 12h-3.2c-3.6 0-6.4-1.5-8.6-4.6L9 31.5c-1.3-1.9-.8-4.2 1-5.3 1.7-1 3.8-.6 5 1z" fill="#fff" stroke="#A9484E" stroke-width="2" stroke-linejoin="round"/></svg>';
   document.body.appendChild(h);
-  var t=null, anim=null, touched=false;
+  var t=null, anim=null, touched=false, DONE=false, SEEN=false;
   function play(){
-    if(document.body.classList.contains('done')||(C.isDone&&C.isDone())) return;
+    var done=document.body.classList.contains('done')||(C.isDone&&C.isDone());
+    if(done && !SEEN){ SEEN=true; sched(2500); return; }
     var r=el.getBoundingClientRect(), d=(C.dir?C.dir():1)||1, len=Math.min(130,r.width*.34);
-    var x0=r.left+r.width/2-d*len/2, y=r.top+r.height*(C.y||.55), x1=x0+d*len;
+    if(done) d=C.rev?C.rev():-d;
+    var cx=done&&C.revX!=null ? r.left+r.width*C.revX+d*len/2 : r.left+r.width/2;
+    var x0=cx-d*len/2, y=r.top+r.height*(C.y||.55), x1=x0+d*len;
+    DONE=done;
     h.style.left=x0+'px'; h.style.top=y+'px';
     anim=h.animate([
       {opacity:0,transform:'translate(0,0) scale(1.15)'},
       {opacity:1,transform:'translate(0,0) scale(1)',offset:.15},
       {opacity:1,transform:'translate('+(x1-x0)+'px,0) scale(1)',offset:.7},
       {opacity:0,transform:'translate('+(x1-x0)+'px,0) scale(1)'}],
-      {duration:1500,iterations:3,easing:'ease-in-out'});
-    anim.onfinish=function(){ sched(2500); };
+      {duration:1500,iterations:done?2:3,easing:'ease-in-out'});
+    anim.onfinish=function(){ sched(DONE?6000:2500); };
   }
   function stop(){ clearTimeout(t); if(anim){ anim.cancel(); anim=null; } h.style.opacity=0; }
   function sched(ms){ clearTimeout(t); t=setTimeout(play,ms); }
   addEventListener('pointerdown',function(){ touched=true; stop(); },true);
   addEventListener('pointerup',function(){ sched(1200); },true);
+  window.HANDKICK=function(ms){ sched(ms||1500); };
   sched(C.first||1000);
 })();
