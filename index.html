@@ -714,7 +714,7 @@ var PHOTOS = ["photo01b.jpg","photo02.jpg","photo03.jpg","photo04b.jpg","photo05
     else{ if(!st.q||!st.q.length){ st.q=shuffle(ALL.slice()); if(st.q[0]===st.last) st.q.push(st.q.shift()); } n=st.q.shift(); }
     st.last=n; save(st); return n;
   }
-  function show(){ fr.src='intro/'+next()+'/index.html?v=25'; box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn'); }
+  function show(){ fr.src='intro/'+next()+'/index.html?v=26'; box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn'); }
   var env=document.getElementById('env'), envT=[];
   function envelope(){
     var H=document.documentElement; H.classList.add('introOn'); window.scrollTo(0,0);
