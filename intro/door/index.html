@@ -45,7 +45,7 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
 .ends button{font-family:inherit;border:0;cursor:pointer;padding:12px 34px;border-radius:999px;font-size:16px;letter-spacing:.14em;min-width:200px}
 .ends .go{background:linear-gradient(180deg,#C9727A,#A9484E);color:#fff;box-shadow:0 6px 16px rgba(169,72,78,.3)}
 .ends .rs{background:#fff;color:#A9484E;box-shadow:inset 0 0 0 1.5px #E2B6B9}
-.sw{font-size:12px;color:#8C6A5E;letter-spacing:.1em;margin-top:8px}
+.sw{font-size:15px;color:var(--accent);letter-spacing:.1em;margin:2px 0 12px;font-weight:700}
 .idle{position:relative;z-index:2;font-size:13px;color:#8C6A5E;letter-spacing:.12em;opacity:0;transition:opacity .6s;height:18px;text-align:center}
 .idle.on{opacity:1}.done .idle{opacity:0!important}
 </style></head><body>
@@ -63,7 +63,7 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
 <div class="hint" id="hint">我們有事要宣布…</div>
 <div class="idle" id="idle">點一下就可以喔</div>
 <div class="after" id="after">
-  <div class="ends"><button class="go" data-go="top">看喜帖 ↓</button><button class="rs" data-go="rsvp">直接回覆出席</button></div><div class="sw">往中間推可以關回去</div>
+  <div class="sw" id="swt">好害羞～快把簾子拉上 ⇢⇠</div><div class="ends"><button class="go" data-go="top">看喜帖 ↓</button><button class="rs" data-go="rsvp">直接回覆出席</button></div>
 </div>
 <script>
 (function(){
@@ -74,10 +74,10 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
     dl.style.transition=dr.style.transition=t;
     var k=1-p*0.86, f=Math.min(1,p*2.2), op=p>0.82?Math.max(0,1-(p-0.82)/0.18):1;
     [dl,dr].forEach(function(d){ d.style.transform='scaleX('+k+')'; d.style.setProperty('--f',f); d.style.opacity=op; d.style.transition=anim?'transform .9s cubic-bezier(.2,.8,.2,1),opacity .9s ease':'none'; }); }
-  function open(){ set(1,true); st.parentNode.classList.add('open'); st.classList.add('open'); after.classList.add('on'); hint.style.opacity=0; }
-  function close(){ set(0,true); st.parentNode.classList.remove('open'); st.classList.remove('open'); after.classList.remove('on'); hint.style.opacity=1; }
+  function open(){ window.WAS_OPEN=true; document.getElementById('swt').textContent='好害羞～快把簾子拉上 ⇢⇠'; set(1,true); st.parentNode.classList.add('open'); st.classList.add('open'); after.classList.add('on'); hint.style.opacity=0; }
+  function close(){ set(0,true); st.parentNode.classList.remove('open'); st.classList.remove('open'); if(window.WAS_OPEN){ document.getElementById('swt').textContent='好啦～再偷看一次 ♡'; hint.style.opacity=0; } else { after.classList.remove('on'); hint.style.opacity=1; } }
   st.addEventListener('pointerdown',function(e){ drag=true; moved=false; sx=e.clientX; sp=p; try{st.setPointerCapture(e.pointerId);}catch(_){} });
-  st.addEventListener('pointermove',function(e){ if(!drag) return; var d=Math.abs(e.clientX-sx); if(d>5) moved=true; if(moved){ var dir=(sp>0.5?-1:1); set(sp+dir*d/(st.clientWidth*0.6),false); hint.style.opacity=0; if(p<0.97){ st.parentNode.classList.remove('open'); st.classList.remove('open'); after.classList.remove('on'); } } });
+  st.addEventListener('pointermove',function(e){ if(!drag) return; var d=Math.abs(e.clientX-sx); if(d>5) moved=true; if(moved){ var dir=(sp>0.5?-1:1); set(sp+dir*d/(st.clientWidth*0.6),false); hint.style.opacity=0; if(p<0.97){ st.parentNode.classList.remove('open'); st.classList.remove('open'); if(!window.WAS_OPEN) after.classList.remove('on'); } } });
   function up(){ if(!drag) return; drag=false; if(!moved){ if(p<0.5 && window.TAP_OK) open(); return; } if(p>(sp>0.5?0.7:0.3)){ window.MOVED=true; open(); } else close(); }
   st.addEventListener('pointerup',up); st.addEventListener('pointercancel',up);
   setTimeout(function(){ if(p===0){ set(0.06,true); setTimeout(function(){ if(!drag && p<0.1) set(0,true); },700); } },1000);
@@ -93,5 +93,5 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
   addEventListener('pointerdown',function(){ idle&&idle.classList.remove('on'); },true);
 })();
 </script>
-<script>window.HAND={isDone:function(){return document.getElementById('stage').classList.contains('open');},target:'#stage',y:.55,first:3200};</script><script src="../hand.js"></script>
+<script>window.HAND={isDone:function(){return document.getElementById('stage').classList.contains('open');},target:'#stage',y:.55,first:1000};</script><script src="../hand.js"></script>
 </body></html>

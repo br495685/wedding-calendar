@@ -27,5 +27,5 @@
   function sched(ms){ clearTimeout(t); t=setTimeout(play,ms); }
   addEventListener('pointerdown',function(){ touched=true; stop(); },true);
   addEventListener('pointerup',function(){ if(!window.MOVED) sched(3500); },true);
-  sched(C.first||2800);
+  sched(C.first||1000);
 })();
