@@ -142,19 +142,19 @@ html.my .btn{letter-spacing:0;font-size:15px;line-height:1.6;padding-left:20px;p
 #intro iframe{width:100%;height:100%;border:0;display:block}
 #introSkip{position:absolute;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:2;padding:8px 16px;border-radius:999px;border:0;cursor:pointer;background:rgba(255,255,255,.88);color:#A9484E;font-family:'Noto Serif TC',serif;font-size:14px;letter-spacing:.12em;box-shadow:0 2px 10px rgba(169,72,78,.18)}
 html.introOn,html.introOn body{overflow:hidden}
-#env{position:fixed;inset:0;z-index:101;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 20%,#FDEFF1 0%,transparent 60%),linear-gradient(160deg,#FBE6E9,#F6D6DB);opacity:0;transition:opacity .45s;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#env{position:fixed;inset:0;z-index:101;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 20%,#FFFFFF 0%,transparent 60%),linear-gradient(160deg,#FDF7F6,#F7EAEB);opacity:0;transition:opacity .45s;cursor:pointer;-webkit-tap-highlight-color:transparent}
 #env.on{opacity:1}
 #env.bye{opacity:0;transition:opacity .6s ease}
 #env .ev{position:relative;width:min(84vw,360px);aspect-ratio:1/.9;perspective:900px;transform:translateY(18%) scale(.92);transition:transform .6s cubic-bezier(.3,1.4,.5,1)}
 #env.on .ev{transform:translateY(18%) scale(1)}
 #env.drop .ev{transform:translateY(40%) scale(1);transition:transform .7s cubic-bezier(.5,0,.3,1)}
-#env .eback{position:absolute;inset:0;background:#E9DED2;border-radius:6px;box-shadow:0 18px 40px rgba(130,70,70,.22)}
+#env .eback{position:absolute;inset:0;background:#C4878E;border-radius:6px;box-shadow:0 18px 40px rgba(130,70,70,.22)}
 #env .epocket{position:absolute;left:0;right:0;bottom:0;top:-260%;overflow:hidden;z-index:2;pointer-events:none}
 #env .eletter{position:absolute;left:6%;width:88%;bottom:0;transform:translateY(-4%);border-radius:6px;overflow:hidden;background:#fff;box-shadow:0 4px 14px rgba(150,60,80,.18);transition:transform .9s cubic-bezier(.45,0,.2,1)}
 #env .eletter img{display:block;width:100%;height:auto}
 #env.pull .eletter{transform:translateY(-92%)}
-#env .efront{position:absolute;inset:0;z-index:3;background:linear-gradient(170deg,#F8F2EB,#EFE5D9);clip-path:polygon(0 0,50% 56%,100% 0,100% 100%,0 100%);border-radius:0 0 6px 6px}
-#env .eflap{position:absolute;left:0;right:0;top:0;height:58%;z-index:4;background:linear-gradient(180deg,#FBF7F2,#F0E6DA);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0;transition:transform .65s cubic-bezier(.5,0,.3,1)}
+#env .efront{position:absolute;inset:0;z-index:3;background:linear-gradient(170deg,#E3B4B8,#D6A0A5);clip-path:polygon(0 0,50% 56%,100% 0,100% 100%,0 100%);border-radius:0 0 6px 6px}
+#env .eflap{position:absolute;left:0;right:0;top:0;height:58%;z-index:4;background:linear-gradient(180deg,#ECC6C9,#DDABAF);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0;transition:transform .65s cubic-bezier(.5,0,.3,1)}
 #env.open .eflap{transform:rotateX(180deg)}
 #env.back .eflap{z-index:1}
 #envClone{position:fixed;z-index:102;margin:0;border-radius:6px;overflow:hidden;box-shadow:0 4px 14px rgba(150,60,80,.18);transition:all .8s cubic-bezier(.5,0,.2,1);pointer-events:none}
