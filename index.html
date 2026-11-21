@@ -142,7 +142,7 @@ html.my .btn{letter-spacing:0;font-size:15px;line-height:1.6;padding-left:20px;p
 #intro iframe{width:100%;height:100%;border:0;display:block}
 #introSkip{position:absolute;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:2;padding:8px 16px;border-radius:999px;border:0;cursor:pointer;background:rgba(255,255,255,.88);color:#A9484E;font-family:'Noto Serif TC',serif;font-size:14px;letter-spacing:.12em;box-shadow:0 2px 10px rgba(169,72,78,.18)}
 html.introOn,html.introOn body{overflow:hidden}
-#env{position:fixed;inset:0;z-index:101;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 20%,#FFFFFF 0%,transparent 60%),linear-gradient(160deg,#FDF7F6,#F7EAEB);opacity:0;transition:opacity .45s;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#env{position:fixed;inset:0;z-index:101;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 20%,#FFFFFF 0%,transparent 60%),linear-gradient(160deg,#FDF7F6,#F7EAEB);opacity:0;transition:opacity .45s;-webkit-tap-highlight-color:transparent}
 #env.on{opacity:1}
 #env.bye{opacity:0;transition:opacity .6s ease}
 #env .ev{position:relative;width:min(84vw,360px);aspect-ratio:1/.9;perspective:900px;transform:translateY(18%) scale(.92);transition:transform .6s cubic-bezier(.3,1.4,.5,1)}
@@ -702,19 +702,16 @@ var PHOTOS = ["photo01b.jpg","photo02.jpg","photo03.jpg","photo04b.jpg","photo05
     Array.prototype.forEach.call(dots.children, function(d, j){ d.className = j === k ? "on" : ""; });
   }, {passive: true});
 })();
-// 開場動畫：第一次固定「紅布條拋接」，之後輪流、同一支手機不重複
+// 開場動畫：依序循環 嫁了娶了(swap) → 窗簾(door) → 拉愛心(rope)
 (function(){
-  var ALL=['swap','rope','door'], MEM=null, box=document.getElementById('intro'), fr=document.getElementById('introF');
+  var ORDER=['swap','door','rope'], MEM=null, box=document.getElementById('intro'), fr=document.getElementById('introF');
   function load(){ try{ var v=localStorage.getItem('wIntro'); if(v) return JSON.parse(v); }catch(e){} return MEM; }
   function save(st){ MEM=st; try{ localStorage.setItem('wIntro',JSON.stringify(st)); }catch(e){} }
-  function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
   function next(){
-    var st=load()||{seen:false,q:[],last:null}, n;
-    if(!st.seen){ n='swap'; st.seen=true; st.q=shuffle(['rope','door']); }
-    else{ if(!st.q||!st.q.length){ st.q=shuffle(ALL.slice()); if(st.q[0]===st.last) st.q.push(st.q.shift()); } n=st.q.shift(); }
-    st.last=n; save(st); return n;
+    var st=load()||{}, i=(typeof st.i==='number')?st.i:-1;
+    i=(i+1)%ORDER.length; st={i:i}; save(st); return ORDER[i];
   }
-  function show(){ fr.src='intro/'+next()+'/index.html?v=29'; box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn'); }
+  function show(){ fr.src='intro/'+next()+'/index.html?v=30'; box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn'); }
   var env=document.getElementById('env'), envT=[];
   function envelope(){
     var H=document.documentElement; H.classList.add('introOn'); window.scrollTo(0,0);
@@ -735,9 +732,9 @@ var PHOTOS = ["photo01b.jpg","photo02.jpg","photo03.jpg","photo04b.jpg","photo05
     envT.push(setTimeout(envDone,900));
   }
   function envDone(){ envT.forEach(clearTimeout); envT=[]; env.hidden=true; env.className=''; var c=document.getElementById('envClone'); if(c) c.remove(); env.querySelector('.eletter').style.visibility=''; document.documentElement.classList.remove('introOn'); }
-  env.addEventListener('click',function(){ if(env.hidden) return; box.hidden=true; fr.src='about:blank'; env.classList.add('bye'); envT.forEach(clearTimeout); envT=[setTimeout(envDone,600)]; });
   function close(to,how){
     if(box.hidden) return;
+    if(to==='next'){ show(); return; }
     if(to==='top' && how!=='skip'){ envelope(); return; }
     document.documentElement.classList.remove('introOn');
     if(to==='rsvp'){ var r=document.getElementById('rsvp'); if(r) r.scrollIntoView(); } else window.scrollTo(0,0);

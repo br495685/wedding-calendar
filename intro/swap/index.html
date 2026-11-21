@@ -43,6 +43,10 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
 .ends button{font-family:inherit;border:0;cursor:pointer;padding:12px 34px;border-radius:999px;font-size:16px;letter-spacing:.14em;min-width:200px}
 .ends .go{background:linear-gradient(180deg,#C9727A,#A9484E);color:#fff;box-shadow:0 6px 16px rgba(169,72,78,.3)}
 .ends .rs{background:#fff;color:#A9484E;box-shadow:inset 0 0 0 1.5px #E2B6B9}
+.ends .go{animation:hlPop 3s ease-out 1s infinite,hlGlow 3s ease-in-out 1s infinite}
+@keyframes hlPop{0%,30%,100%{transform:scale(1)}8%{transform:scale(1.08) translateY(-1px)}16%{transform:scale(.98)}23%{transform:scale(1.02)}}
+@keyframes hlGlow{0%,100%{box-shadow:0 6px 16px rgba(169,72,78,.3)}50%{box-shadow:0 0 0 5px rgba(212,168,92,.5),0 4px 18px rgba(192,138,74,.55)}}
+.ends .nx{background:transparent;color:#A9484E;padding:6px 20px;font-size:14px;min-width:0;text-decoration:underline;text-underline-offset:4px;opacity:.85}
 .sw{font-size:15px;color:var(--accent);letter-spacing:.1em;margin:2px 0 12px;font-weight:700}
 .idle{position:relative;z-index:2;font-size:13px;color:#8C6A5E;letter-spacing:.12em;opacity:0;transition:opacity .6s;height:18px;text-align:center}
 .idle.on{opacity:1}.done .idle{opacity:0!important}
@@ -57,7 +61,7 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
 </div>
 <div class="low"><p class="cta" id="cta">幫我們換回來 ♡</p>
 <div class="after" id="after">
-  <div class="sw" id="swt">新娘不服氣？滑回去換她娶 ↻</div><div class="ends"><button class="go" data-go="top">看喜帖 ↓</button><button class="rs" data-go="rsvp">直接回覆出席</button></div>
+  <div class="sw" id="swt">新娘不服氣？滑回去換她娶 ↻</div><div class="ends"><button class="go" data-go="top">看喜帖 ↓</button><button class="rs" data-go="rsvp">直接回覆出席</button><button class="nx" data-go="next">看其他開場 ↻</button></div>
 </div>
 </div>
 <div class="idle" id="idle">點一下就可以喔</div>
