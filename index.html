@@ -288,7 +288,10 @@ a:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offse
 </div>
 </div>
 <script>
-(function(){var bs=document.querySelectorAll('#details .tab');bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(x){var on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-selected',on);document.getElementById('tab-'+x.dataset.tab).hidden=!on;});});});})();
+(function(){var bs=document.querySelectorAll('#details .tab');bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(x){var on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-selected',on);document.getElementById('tab-'+x.dataset.tab).hidden=!on;});});});
+// 從 LINE 點「看完整交通說明」：#car 直接打開「計程車／開車」分頁
+if(location.hash==='#car'){var c=document.querySelector('#details .tab[data-tab=car]');if(c){c.click();setTimeout(function(){document.getElementById('details').scrollIntoView();},50);}}
+})();
 </script>
 </section>
 
