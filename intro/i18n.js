@@ -40,7 +40,7 @@
   function go(){
     document.documentElement.lang='my';
     var st=document.createElement('style');
-    st.textContent="body,button,.sw,.cta,.bubble,.idle,#hint,.hint,.go,.nx{font-family:'Noto Sans Myanmar','Padauk',sans-serif!important;line-height:1.6}";
+    st.textContent="body,button,.sw,.cta,.bubble,.idle,#hint,.hint,.go,.nx{font-family:'Noto Sans Myanmar','Padauk',sans-serif!important;line-height:1.6}"+".hint,#hint,.sw,.idle{height:auto!important;min-height:20px;letter-spacing:0!important;padding:0 18px;box-sizing:border-box;text-align:center;font-size:13px!important;max-width:100vw}";
     document.head.appendChild(st);
     var l=document.createElement('link'); l.rel='stylesheet'; l.href='https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@500;700&display=swap'; document.head.appendChild(l);
     fix(document.body);

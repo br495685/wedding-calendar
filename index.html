@@ -38,7 +38,8 @@ nav a.hl{position:relative;animation:hlPop 3s ease-out 1s infinite,hlGlow 3s eas
 @keyframes hlGlow{0%,100%{box-shadow:0 3px 10px rgba(169,72,78,.25)}50%{box-shadow:0 0 0 5px rgba(212,168,92,.5),0 4px 18px rgba(192,138,74,.55)}}
 /* 提醒長輩「這裡可以按」：按鈕滑進畫面時發光 3 次 */
 .nudge{animation:hlPop 3s ease-out .3s 3,hlGlow 3s ease-in-out .3s 3}
-@media (prefers-reduced-motion: reduce){.nudge{animation:none}}
+.nudge1{animation:hlPop 1.6s ease-out,hlGlow 1.6s ease-in-out}
+@media (prefers-reduced-motion: reduce){.nudge,.nudge1{animation:none}}
 @media(prefers-reduced-motion:reduce){nav a.hl,.fab.show{animation:none}}
 .btn.cta{background:var(--accent);color:#fff;border-color:var(--accent);width:220px;box-shadow:0 4px 14px rgba(169,72,78,.25)}
 nav svg{width:26px;height:26px;stroke:var(--accent);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
@@ -227,6 +228,14 @@ html.my .ln{display:inline}
 .way .venuemap{cursor:zoom-in}
 .tabhint{line-height:1.6}
 .way .wk .stc{font-size:.72em;font-weight:500;color:var(--soft)}
+
+#thxBox{text-align:center;margin:0 0 16px}
+#thxBox .s{font-family:'Great Vibes',cursive;font-size:44px;color:var(--accent);margin:0 0 4px;line-height:1.2}
+#thxBox h3{font-size:22px;margin:0 0 12px;color:var(--accent)}
+#thxBox p{font-size:16px;line-height:1.9;margin:0;color:var(--ink)}
+#thxBox .lnbox{margin-top:22px;padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:#fff}
+#thxBox .lnbox p{font-size:15px;color:var(--soft)}
+#thxBox .lnbox a{display:inline-block;margin-top:14px;padding:13px 34px;border-radius:999px;background:#06C755;color:#fff;font-weight:700;text-decoration:none;font-size:17px}
 </style>
 <link rel="preload" as="image" href="seal.webp">
 </head>
@@ -391,7 +400,9 @@ html.my .ln{display:inline}
 <a class="btn" id="sendLink" href="#" target="_blank" rel="noopener" hidden>送出回覆 ›</a>
 </form>
 <div class="result" id="result" hidden>
-<p class="invite" id="sentMsg" hidden style="margin:0 0 14px;text-align:center"><b style="color:var(--accent)">正在送出，請稍候幾秒鐘…</b><br>新頁面出現「已收到您的回覆」就完成了 ♡<br><span style="font-size:14px;color:var(--soft)">若新頁面顯示「無法開啟這個檔案」，請用瀏覽器的無痕視窗開啟本喜帖再送出一次</span></p>
+<div id="thxBox" hidden></div>
+<p class="invite" id="sendFail" hidden style="margin:0 0 14px;text-align:center"><b style="color:var(--accent)">網路有點慢，還沒確定送出成功</b><br>請按下面的按鈕再送一次（不會重複登記）<br><a class="btn" id="sendRetry" href="#" target="_blank" rel="noopener" style="margin-top:12px">再送一次 ›</a></p>
+<p class="invite" id="sentMsg" hidden style="margin:0 0 14px;text-align:center"><b style="color:var(--accent)">正在送出，請稍候幾秒鐘…</b><br>畫面出現「已收到您的回覆」就完成了 ♡</p>
 <pre id="resultText"></pre>
 <div class="btns" style="margin-top:0">
 <button class="btn ghost" type="button" id="copyBtn">複製回覆內容</button>
@@ -530,6 +541,10 @@ var MY = {
 "選單": "မီနူး",
 "松山新店線 (綠線) 或 文湖線 (棕線)": "Songshan-Xindian လိုင်း (အစိမ်း) သို့မဟုတ် Wenhu လိုင်း (အညို)",
 "(G16／BR11)": "(G16/BR11)",
+"畫面出現「已收到您的回覆」就完成了 ♡": "「သင့်အကြောင်းပြန်စာ ရရှိပါပြီ」 ဟု ပေါ်လာလျှင် ပြီးပါပြီ ♡",
+"網路有點慢，還沒確定送出成功": "အင်တာနက် နှေးနေသဖြင့် ပေးပို့ပြီးကြောင်း မသေချာသေးပါ",
+"請按下面的按鈕再送一次（不會重複登記）": "အောက်ပါ ခလုတ်ကို နှိပ်၍ ထပ်ပို့ပါ (နှစ်ခါ မှတ်တမ်းမတင်ပါ)",
+"再送一次 ›": "ထပ်ပို့ရန် ›",
 "告訴司機：": "ယာဉ်မောင်းကို ပြောပါ –",
 "停車位置": "ကားရပ်နေရာ",
 "‹ 回到完整喜帖": "‹ ဖိတ်စာ အပြည့်အစုံသို့ ပြန်သွားရန်",
@@ -827,7 +842,7 @@ var PHOTOS = ["photo01b.jpg","photo02.jpg","photo03.jpg","photo04b.jpg","photo05
   function show(k){
     var first=!load();  // 第一次打開：不給略過，一定看完開場 (避免長輩一進來就誤按)
     if(k){ var st=load()||{}; st.i=ORDER.indexOf(k); save(st); } else k=next();
-    seen[k]=1; fr.src='intro/'+k+'/index.html?v=37'+(LANG==='my'?'&l=my':''); box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn');
+    seen[k]=1; fr.src='intro/'+k+'/index.html?v=38'+(LANG==='my'?'&l=my':''); box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn');
     clearTimeout(skipT); skip.classList.remove('on');
     if(!first) skipT=setTimeout(function(){ skip.classList.add('on'); },3000);  // 看過的人 3 秒後才出現略過
   }
@@ -1005,11 +1020,44 @@ function liveErrors(){ if (errShown){ checkNames(); if (showErrors(false)) errSh
 form.addEventListener("input", liveErrors);
 form.addEventListener("change", liveErrors);
 document.getElementById("langBtn").addEventListener("click", function(){ setTimeout(liveErrors, 0); });
+// 送出：在這個頁面裡直接送（不開新分頁），送完在這裡顯示感謝
+// 好處：不會遇到「同時登入兩個 Google 帳號 → 無法開啟這個檔案」，長輩也不用切分頁
+var LINE_ADD = "https://line.me/R/ti/p/@144mwyvr", sending = false;
+function thanksHtml(x, r){
+  var who = r.name ? r.name.replace(/[<>&"]/g, "") + x.name_suffix : "";
+  var h = '<p class="s">Thank you</p><h3>' + x.ok_title + '</h3><p>' + (r.going ? x.ok_going : x.ok_notgoing).replace(/\{名字\}/g, who).replace(/<br>可以關閉此頁面了。|<br>ဤစာမျက်နှာကို ပိတ်နိုင်ပါပြီ။/g, "") + '</p>';
+  if (r.going) h += '<div class="lnbox"><p>' + x.line_text + '</p><a href="' + LINE_ADD + '" target="_blank" rel="noopener">' + x.line_btn + '</a></div>';
+  return h;
+}
+function showThanks(r){
+  fetch("thanks.json?t=" + Date.now()).then(function(x){ return x.json(); }).catch(function(){ return null; }).then(function(j){
+    var x = j && j[LANG];
+    if (!x) x = LANG === "my"
+      ? {ok_title:"သင့်အကြောင်းပြန်စာ ရရှိပါပြီ ♡", ok_going:"{名字}ကျေးဇူးတင်ပါသည်။", ok_notgoing:"{名字}ကျေးဇူးတင်ပါသည် ♡", name_suffix:" ", line_text:"", line_btn:"LINE တွင် ထည့်ရန်"}
+      : {ok_title:"已收到您的回覆 ♡", ok_going:"{名字}謝謝您！<br>俊皓 & 良柔 期待 3 月 13 日與您相見。", ok_notgoing:"{名字}謝謝您的回覆與祝福！", name_suffix:"，", line_text:"加入 俊皓 & 良柔 的婚禮 LINE 小幫手", line_btn:"加入婚禮 LINE"};
+    var b = document.getElementById("thxBox"); b.innerHTML = thanksHtml(x, r); b.hidden = false;
+    document.getElementById("sentMsg").hidden = true;
+    document.getElementById("result").scrollIntoView({behavior:"smooth", block:"start"});
+  });
+}
 sendLink.addEventListener("click", function(e){
   checkNames();
   if (!form.checkValidity()) { e.preventDefault(); errShown = true; showErrors(true); return; }
   refreshSendLink();
-  setTimeout(function(){ showResult(true); }, 50);
+  if (!window.fetch) { setTimeout(function(){ showResult(true); }, 50); return; }   // 很舊的手機：照舊開新分頁送出
+  e.preventDefault();
+  if (sending) return; sending = true;
+  var url = sendLink.href;
+  document.getElementById("thxBox").hidden = true; document.getElementById("sendFail").hidden = true;
+  showResult(true);
+  var done = false, timer = setTimeout(fail, 25000);
+  function fail(){ if (done) return; done = true; sending = false;
+    document.getElementById("sentMsg").hidden = true;
+    var r = document.getElementById("sendRetry"); r.href = url; document.getElementById("sendFail").hidden = false; }
+  fetch(url + "&fmt=json", { credentials: "omit", redirect: "follow" })
+    .then(function(x){ return x.json(); })
+    .then(function(r){ if (done) return; if (!r || !r.ok) return fail(); done = true; clearTimeout(timer); sending = false; showThanks(r); })
+    .catch(fail);
 });
 document.getElementById("copyBtn").addEventListener("click", function(){
   var note = document.getElementById("copyNote");
@@ -1046,7 +1094,18 @@ document.getElementById("againBtn").addEventListener("click", function(){
 // 按鈕滑進畫面時發光提醒 (iPhone 行事曆、Google 地圖導航、交通的其他分頁)
 (function(){
   if(!("IntersectionObserver" in window)) return;
-  var els=[document.getElementById("icsBtn"),document.getElementById("map")].concat([].slice.call(document.querySelectorAll("#details .tab")));
+  var els=[document.getElementById("icsBtn"),document.getElementById("map")];
+  // 交通分頁：沒選到的兩個「輪流」亮（一次亮一個，來回 3 輪），比較看得出是不同的按鈕
+  var tabs=[].slice.call(document.querySelectorAll("#details .tab")), tt=null;
+  function stopTabs(){ clearTimeout(tt); tt=null; tabs.forEach(function(t){ t.classList.remove("nudge1"); }); }
+  function runTabs(){ stopTabs(); var i=0, n=0;
+    (function step(){ var off=tabs.filter(function(t){ return !t.classList.contains("on"); });
+      if(!off.length || n>=off.length*3) return stopTabs();
+      var t=off[i%off.length]; t.classList.remove("nudge1"); void t.offsetWidth; t.classList.add("nudge1");
+      i++; n++; tt=setTimeout(step,1700); })(); }
+  if(tabs.length){ var bar=tabs[0].parentNode;
+    new IntersectionObserver(function(es){ if(es[0].isIntersecting) runTabs(); else stopTabs(); },{threshold:.8}).observe(bar);
+    tabs.forEach(function(t){ t.addEventListener("animationend",function(){ t.classList.remove("nudge1"); }); t.addEventListener("click",stopTabs); }); }
   function go(el){ if(el.classList.contains("on")) return; el.classList.remove("nudge"); void el.offsetWidth; el.classList.add("nudge"); }
   var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) go(e.target); else e.target.classList.remove("nudge"); }); },{threshold:.8});
   els.forEach(function(el){ if(!el) return; io.observe(el); el.addEventListener("animationend",function(){ el.classList.remove("nudge"); }); el.addEventListener("click",function(){ el.classList.remove("nudge"); }); });

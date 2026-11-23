@@ -112,10 +112,12 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
     var ax=fl+ox+pw*P[i].at[0], ay=ft+oy+ph*P[i].at[1];
     // 往旁邊拉的設計：紅線從照片裡垂下來，愛心掛在照片框裡下方的空白處，往旁邊拉（LINE 裡往下拉會把網頁關掉）
     var pd=-d, band=fh-oy-ph, rest=ft+oy+ph+Math.max(28,band*0.55);
-    var off=Math.min(70,fw*0.2);   // 愛心一開始就往要拉的方向偏，紅線彎過去，一看就知道往哪邊拉
+    var off=Math.min(125,fw*0.34);   // 愛心一開始就往要拉的方向偏，紅線彎過去，一看就知道往哪邊拉
     var kx=Math.max(fl+30,Math.min(fl+fw-30,ax+pd*(off+pull))), ky=rest-Math.min(pull,120)*0.12;
-    var ty=ky-14, dy=Math.max(24,ty-ay);   // 紅線接到愛心上方正中間：從照片垂直往下 → 彎過去 → 從上面接進愛心
-    rp.setAttribute('d','M'+ax+' '+(ay-2)+' C'+ax+' '+(ay+dy*0.85)+' '+kx+' '+(ty-dy*0.6)+' '+kx+' '+ty);
+    // 紅線：從手上垂直往下 → 轉彎 → 橫著接到愛心的側邊（靠近手的那一側）
+    // 一條平順的大弧線：從手往下 → 慢慢彎 → 平平地接到愛心側邊（不要直角轉彎）
+    var sx=kx-pd*17, sy=ky-2, hx=Math.abs(sx-ax);
+    rp.setAttribute('d','M'+ax+' '+(ay-2)+' C'+ax+' '+(ay+(sy-ay)*0.6)+' '+(sx-pd*hx*0.55)+' '+sy+' '+sx+' '+sy);
     knob.style.left=kx+'px'; knob.style.top=ky+'px';
     fr.style.transform='translate('+(pd*pull*0.05)+'px,0)';
   }
@@ -185,5 +187,5 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
 })();
 </script>
 <script>window.HAND={path:function(){var st=document.getElementById('stage').getBoundingClientRect(),k=document.getElementById('knob').getBoundingClientRect(),d=-(window.HANDDIR?window.HANDDIR():1),cx=k.left+k.width/2;return [(cx-st.left)/st.width,(k.top+k.height/2-st.top)/st.height,(cx+d*110-st.left)/st.width];},isDone:function(){return window.HANDDIR&&window.HANDDIR()===0;},target:'#stage',y:.5,dir:function(){return -(window.HANDDIR?window.HANDDIR():1);},rev:function(){return 1;}};</script><script src="../hand.js?v=7"></script>
-<script src="../i18n.js?v=1"></script>
+<script src="../i18n.js?v=2"></script>
 </body></html>
