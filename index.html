@@ -140,6 +140,7 @@ html.my .btn{letter-spacing:0;font-size:15px;line-height:1.6;padding-left:20px;p
 #intro{position:fixed;inset:0;z-index:100;background:#FDF2F0;transition:transform .75s cubic-bezier(.6,0,.25,1),opacity .75s}
 #intro.out{transform:translateY(-100%);opacity:.6}
 #intro iframe{width:100%;height:100%;border:0;display:block}
+#introSkip{opacity:0;pointer-events:none;transition:opacity .6s} #introSkip.on{opacity:1;pointer-events:auto}
 #introSkip{position:absolute;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:2;padding:8px 16px;border-radius:999px;border:0;cursor:pointer;background:rgba(255,255,255,.88);color:#A9484E;font-family:'Noto Serif TC',serif;font-size:14px;letter-spacing:.12em;box-shadow:0 2px 10px rgba(169,72,78,.18)}
 html.introOn,html.introOn body{overflow:hidden}
 #env{position:fixed;inset:0;z-index:101;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 20%,#FFFFFF 0%,transparent 60%),linear-gradient(160deg,#FDF7F6,#F7EAEB);opacity:0;transition:opacity .45s;-webkit-tap-highlight-color:transparent}
@@ -711,7 +712,13 @@ var PHOTOS = ["photo01b.jpg","photo02.jpg","photo03.jpg","photo04b.jpg","photo05
     var st=load()||{}, i=(typeof st.i==='number')?st.i:-1;
     i=(i+1)%ORDER.length; st={i:i}; save(st); return ORDER[i];
   }
-  function show(){ fr.src='intro/'+next()+'/index.html?v=30'; box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn'); }
+  var skip=document.getElementById('introSkip'), skipT=null;
+  function show(){
+    var first=!load();  // 第一次打開：不給略過，一定看完開場（避免長輩一進來就誤按）
+    fr.src='intro/'+next()+'/index.html?v=31'; box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn');
+    clearTimeout(skipT); skip.classList.remove('on');
+    if(!first) skipT=setTimeout(function(){ skip.classList.add('on'); },3000);  // 看過的人 3 秒後才出現略過
+  }
   var env=document.getElementById('env'), envT=[];
   function envelope(){
     var H=document.documentElement; H.classList.add('introOn'); window.scrollTo(0,0);
