@@ -82,7 +82,7 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
   }
   // 拿反時：娶了在新娘(左)、嫁了在新郎(右)；拿對時：嫁了在新娘、娶了在新郎
   var QW=[[23.3,49.2],50], QR=[[71.7,49.5],-29], JW=[[71.7,42.5],-29], JR=[[28.3,65.3],28];
-  var NSW=0, MAXSW=5;   // 第一次換＋最多來回兩次，之後就請大家去看喜帖
+  var NSW=0, MAXSW=3;   // 第一次換＋最多來回兩次，之後就請大家去看喜帖
   function go(){
     if(busy||NSW>=MAXSW) return; busy=true; NSW++;
     var to=state?0:1;
@@ -102,7 +102,7 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
     if(document.body.classList.contains('done')){
       var b=document.getElementById('bub'), w=document.getElementById('swt');
       // 下面那行字：每一下都不一樣，像一段小劇情
-      var LINES=['新娘不服氣？滑回去換她娶 ↻','好啦好啦，還是你娶 ↻','新娘：不行！我還是要娶你！再滑一次 ↻','新郎：好啦好啦～老婆說了算 ♡ 最後滑一次 ↻','誰娶誰都一樣，反正我們結婚啦 ♡'];
+      var LINES=['新娘不服氣？滑回去換她娶 ↻','好啦好啦，還是你娶 ↻','誰娶誰都一樣，反正我們結婚啦 ♡'];
       w.textContent=LINES[Math.min(NSW,LINES.length)-1];
       if(NSW>=MAXSW){ var hh=document.querySelector('.hand'); if(hh) hh.remove(); }
       if(!to){ b.textContent='剛剛那樣才是對的！'; b.classList.add('bride'); b.style.animation='none'; b.offsetWidth; b.style.animation=''; }
@@ -123,4 +123,5 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
 })();
 </script>
 <script>window.HAND={target:'#scene',y:.5,path:function(){return window.SW_ST?[.72,.50,.26,.50]:[.26,.50,.72,.50];}};</script><script src="../hand.js?v=7"></script>
+<script src="../i18n.js?v=1"></script>
 </body></html>

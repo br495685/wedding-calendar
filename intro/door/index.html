@@ -80,7 +80,7 @@ body.wo .after.on,body.wo .open~.after{transform:translateY(calc(-1 * var(--lift
     dl.style.transition=dr.style.transition=t;
     var k=1-p*0.86, f=Math.min(1,p*2.2), op=p>0.82?Math.max(0,1-(p-0.82)/0.18):1;
     [dl,dr].forEach(function(d){ d.style.transform='scaleX('+k+')'; d.style.setProperty('--f',f); d.style.opacity=op; d.style.transition=anim?'transform .9s cubic-bezier(.2,.8,.2,1),opacity .9s ease':'none'; }); }
-  var NOPEN=0, MAXOPEN=3, LOCK=false;   // 第一次打開＋最多來回兩次，之後簾子固定打開
+  var NOPEN=0, MAXOPEN=2, LOCK=false;   // 第一次打開＋最多來回兩次，之後簾子固定打開
   function open(){ NOPEN++; if(NOPEN>=MAXOPEN){ LOCK=true; var hh=document.querySelector('.hand'); if(hh) hh.remove(); } window.WAS_OPEN=true; document.getElementById('swt').textContent=LOCK?'3/13 來現場看更清楚 ♡':(NOPEN>=2?'新娘：還看！快拉上啦 ⇢⇠':'好害羞～快把簾子拉上 ⇢⇠'); document.body.style.setProperty('--lift',(after.getBoundingClientRect().top-st.getBoundingClientRect().bottom-30)+'px'); document.body.classList.add('wo'); set(1,true); st.parentNode.classList.add('open'); st.classList.add('open'); after.classList.add('on'); hint.style.opacity=0; }
   function close(){ set(0,true); st.parentNode.classList.remove('open'); st.classList.remove('open'); if(window.WAS_OPEN){ document.getElementById('swt').textContent=NOPEN>=2?'新郎：沒關係，讓大家看 ♡ 再拉開 ⇠⇢':'好啦～再偷看一次 ♡'; hint.style.opacity=0; } else { after.classList.remove('on'); hint.style.opacity=1; } }
   st.addEventListener('pointerdown',function(e){ if(LOCK) return; drag=true; moved=false; sx=e.clientX; sp=p; try{st.setPointerCapture(e.pointerId);}catch(_){} });
@@ -101,4 +101,5 @@ body.wo .after.on,body.wo .open~.after{transform:translateY(calc(-1 * var(--lift
 })();
 </script>
 <script>window.HAND={isDone:function(){return document.getElementById('stage').classList.contains('open');},target:'#stage',y:.55,first:1000,rev:function(){return -1;},revX:.82};</script><script src="../hand.js?v=7"></script>
+<script src="../i18n.js?v=1"></script>
 </body></html>
