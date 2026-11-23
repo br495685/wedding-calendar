@@ -97,6 +97,11 @@ html.my .tab{font-family:'Noto Sans Myanmar',sans-serif;font-size:13.5px;letter-
 @keyframes fall{0%{transform:translate3d(0,0,0) rotate(0)}100%{transform:translate3d(var(--drift),110vh,0) rotate(540deg)}}
 @media(prefers-reduced-motion:reduce){.petal{display:none}}
 form.rsvp{display:grid;gap:14px;text-align:left;max-width:400px;margin:0 auto}
+form.rsvp .ferr{background:#FFF1F1;border:1.5px solid #E08A8A;border-radius:12px;padding:12px 14px;color:#A12B2B;font-size:15px;line-height:1.7;text-align:left}
+form.rsvp .ferr b{display:block;margin-bottom:4px}
+form.rsvp .ferr ul{margin:0;padding-left:1.2em}
+form.rsvp .fmsg{color:#C0392B;font-size:14px;margin-top:-2px}
+form.rsvp .bad{border-color:#D9534F!important;box-shadow:0 0 0 2px rgba(217,83,79,.18)}
 form.rsvp label{display:grid;gap:6px;font-family:'Noto Serif TC',serif;font-size:15px;color:var(--ink)}
 form.rsvp input,form.rsvp select,form.rsvp textarea{font:inherit;font-size:16px;width:100%;min-height:46px;padding:10px 12px;border:1px solid #E3C1C8;border-radius:12px;background:#fff;color:var(--ink)}
 form.rsvp textarea{min-height:90px;resize:vertical}
@@ -317,6 +322,7 @@ a:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offse
 <label>電子喜帖（Email）<select name="emailOpt" id="emailSel"><option value="不需要">不需要</option><option value="需要">需要，寄到我的 Email</option></select></label>
 <label id="emailWrap" hidden>Email<input name="email" id="emailIn" type="email" inputmode="email" autocomplete="email" placeholder="例如：name@gmail.com"></label>
 <label>祝福留言<textarea name="msg" placeholder="想對新人說的話…"></textarea></label>
+<div class="ferr" id="formErr" role="alert" hidden></div>
 <button class="btn" type="submit" id="submitBtn">送出回覆 ›</button>
 <a class="btn" id="sendLink" href="#" target="_blank" rel="noopener" hidden>送出回覆 ›</a>
 </form>
@@ -523,7 +529,6 @@ var MY = {
 "寄送地址（含收件人）": "ပို့ရမည့် လိပ်စာ (လက်ခံသူ အမည် အပါအဝင်)",
 "例如：台北市松山區敦化北路 158 號 王小明": "ဥပမာ - 台北市松山區敦化北路 158 號 王小明", "1 張": "၁ ခုံ", "2 張": "၂ ခုံ", "3 張": "၃ ခုံ",
 "祝福留言": "ဆုတောင်းစကား (တရုတ် သို့မဟုတ် အင်္ဂလိပ်လို ရေးပါ၊ မဖြည့်လည်း ရပါသည်)",
-"祝福留言請用中文或英文": "ဆုတောင်းစကားကို တရုတ် သို့မဟုတ် အင်္ဂလိပ်လိုသာ ရေးပါ",
 "想對新人說的話…": "မင်္ဂလာမောင်နှံထံ ပြောလိုသောစကား…",
 "送出回覆 ›": "အကြောင်းပြန်မည် ›",
 "姓名": "အမည် (တရုတ် သို့မဟုတ် အင်္ဂလိပ်လို ရေးပါ)",
@@ -556,7 +561,14 @@ var MY = {
 "新頁面出現「已收到您的回覆」就完成了 ♡": "စာမျက်နှာအသစ်တွင် «ရရှိပါပြီ» ဟု ပေါ်လာပါက ပြီးဆုံးပါပြီ ♡",
 "若新頁面顯示「無法開啟這個檔案」，請用瀏覽器的無痕視窗開啟本喜帖再送出一次": "စာမျက်နှာအသစ်တွင် «ဖိုင်ကို ဖွင့်၍ မရပါ» ဟု ပေါ်လာပါက browser ၏ Private/Incognito window ဖြင့် ဤဖိတ်စာကို ဖွင့်၍ ထပ်ပို့ပါ",
 "無法自動複製，請長按上方文字複製": "အလိုအလျောက် ကူးမရပါ။ အပေါ်ရှိစာကို ဖိထား၍ ကူးယူပါ",
-"請用中文或英文填寫姓名": "အမည်ကို တရုတ် သို့မဟုတ် အင်္ဂလိပ်လိုသာ ဖြည့်ပါ (ဥပမာ - 王小明)"
+"請用中文或英文填寫姓名": "အမည်ကို တရုတ် သို့မဟုတ် အင်္ဂလိပ်လိုသာ ဖြည့်ပါ (ဥပမာ - 王小明)",
+"還不能送出，請修改以下地方：": "မပို့ရသေးပါ။ အောက်ပါနေရာများကို ပြင်ပေးပါ -",
+"還沒選": "မရွေးရသေးပါ",
+"還沒填": "မဖြည့်ရသေးပါ",
+"格式不對，例如 name@gmail.com": "ပုံစံ မမှန်ပါ (ဥပမာ - name@gmail.com)",
+"請填 3～6 位數字": "ဂဏန်း ၃ လုံးမှ ၆ လုံးအထိ ဖြည့်ပါ",
+"不能用緬甸文，請用中文或英文": "မြန်မာစာ မရပါ၊ တရုတ် သို့မဟုတ် အင်္ဂလိပ်လို ရေးပါ",
+"祝福留言請用中文或英文": "ဆုတောင်းစကားကို တရုတ် သို့မဟုတ် အင်္ဂလိပ်လိုသာ ရေးပါ",
 };
 function T(zh){ return LANG === "my" && MY[zh] ? MY[zh] : zh; }
 function applyLang(){
@@ -715,7 +727,7 @@ var PHOTOS = ["photo01b.jpg","photo02.jpg","photo03.jpg","photo04b.jpg","photo05
   var skip=document.getElementById('introSkip'), skipT=null;
   function show(){
     var first=!load();  // 第一次打開：不給略過，一定看完開場（避免長輩一進來就誤按）
-    fr.src='intro/'+next()+'/index.html?v=31'; box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn');
+    fr.src='intro/'+next()+'/index.html?v=35'; box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn');
     clearTimeout(skipT); skip.classList.remove('on');
     if(!first) skipT=setTimeout(function(){ skip.classList.add('on'); },3000);  // 看過的人 3 秒後才出現略過
   }
@@ -817,7 +829,7 @@ function showResult(sent){
   var r = document.getElementById("result"); r.hidden = false;
   r.scrollIntoView({behavior:"smooth", block:"center"});
 }
-form.addEventListener("submit", function(e){ e.preventDefault(); showResult(false); });
+form.setAttribute("novalidate", ""); form.addEventListener("submit", function(e){ e.preventDefault(); checkNames(); if (!form.checkValidity()) { errShown = true; showErrors(true); return; } showResult(false); });
 var sendLink = document.getElementById("sendLink");
 if (GAS_URL) {
   document.getElementById("submitBtn").hidden = true;
@@ -836,9 +848,49 @@ form.addEventListener("input", refreshSendLink);
 form.addEventListener("change", refreshSendLink);
 document.getElementById("langBtn").addEventListener("click", refreshSendLink);
 refreshSendLink();
+// 送不出去時：在按鈕上方列出原因，並把有問題的欄位框紅
+var MYAN = /[\u1000-\u109F\uA9E0-\uA9FF\uAA60-\uAA7F]/;
+function fieldName(el){
+  var lb = el.closest("label"), t = "";
+  if (lb) for (var k = 0; k < lb.childNodes.length; k++){ var n = lb.childNodes[k]; if (n.nodeType === 3 && n.nodeValue.trim()){ t = (n.__zh || n.nodeValue).trim(); break; } }
+  t = T(t).replace(/\s*\(.*\)\s*$/, "");
+  var fs = el.closest("fieldset"), lg = fs && fs.querySelector("legend");
+  if (lg && lg.textContent) t = lg.textContent.replace(/[（(].*$/, "").trim() + " · " + t;
+  return t;
+}
+function whyBad(el){
+  var v = el.validity;
+  if (v.valueMissing) return T(el.tagName === "SELECT" ? "還沒選" : "還沒填");
+  if (v.typeMismatch) return T("格式不對，例如 name@gmail.com");
+  if (v.patternMismatch) return T("請填 3～6 位數字");
+  if (v.customError) return MYAN.test(el.value) ? T("不能用緬甸文，請用中文或英文") : el.validationMessage;
+  return el.validationMessage;
+}
+var errShown = false;
+function showErrors(scroll){
+  var box2 = document.getElementById("formErr"), bad = [];
+  form.querySelectorAll(".bad").forEach(function(x){ x.classList.remove("bad"); });
+  form.querySelectorAll(".fmsg").forEach(function(x){ x.remove(); });
+  Array.prototype.forEach.call(form.elements, function(el){
+    if (!el.willValidate || el.validity.valid) return;
+    if (el.closest("[hidden]")) return;
+    el.classList.add("bad"); bad.push(el);
+    // 欄位正下方也寫出原因，捲過去就看得到
+    var m = document.createElement("small"); m.className = "fmsg"; m.textContent = "⚠ " + whyBad(el); el.insertAdjacentElement("afterend", m);
+  });
+  if (!bad.length){ box2.hidden = true; return true; }
+  box2.innerHTML = "<b>" + T("還不能送出，請修改以下地方：") + "</b><ul>" + bad.map(function(el){ return "<li>「" + fieldName(el) + "」" + whyBad(el) + "</li>"; }).join("") + "</ul>";
+  box2.hidden = false;
+  if (scroll){ bad[0].scrollIntoView({behavior: "smooth", block: "center"}); }
+  return false;
+}
+function liveErrors(){ if (errShown){ checkNames(); if (showErrors(false)) errShown = false; } }
+form.addEventListener("input", liveErrors);
+form.addEventListener("change", liveErrors);
+document.getElementById("langBtn").addEventListener("click", function(){ setTimeout(liveErrors, 0); });
 sendLink.addEventListener("click", function(e){
   checkNames();
-  if (!form.checkValidity()) { e.preventDefault(); form.reportValidity(); return; }
+  if (!form.checkValidity()) { e.preventDefault(); errShown = true; showErrors(true); return; }
   refreshSendLink();
   setTimeout(function(){ showResult(true); }, 50);
 });

@@ -64,7 +64,7 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
   <div class="sw" id="swt">新娘不服氣？滑回去換她娶 ↻</div><div class="ends"><button class="go" data-go="top">看喜帖 ↓</button><button class="nx" data-go="next">看其他開場 ↻</button></div>
 </div>
 </div>
-<div class="idle" id="idle">點一下就可以喔</div>
+<div class="idle" id="idle">用手指滑一下，或點一下也可以喔</div>
 <script>
 (function(){
   var sc=document.getElementById('scene'), busy=false;
@@ -112,11 +112,11 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
 (function(){
   function goTo(t){ try{ if(window.parent!==window){ window.parent.postMessage({intro:t},'*'); return; } }catch(_){} location.href='../../index.html'+(t==='rsvp'?'#rsvp':''); }
   document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(e){ e.stopPropagation(); goTo(b.getAttribute('data-go')); }); });
-  // 10 秒後才開放「點一下」；還沒成功操作過才顯示提示
+  // 2 秒後出現提示（剛示範完）；還沒成功操作過才顯示提示
   var idle=document.getElementById('idle');
-  setTimeout(function(){ window.TAP_OK=true; if(!window.MOVED && idle) idle.classList.add('on'); },10000);
+  setTimeout(function(){ window.TAP_OK=true; if(!window.MOVED && idle) idle.classList.add('on'); },2000);
   addEventListener('pointerdown',function(){ idle&&idle.classList.remove('on'); },true);
 })();
 </script>
-<script>window.HAND={target:'#scene',y:.5,path:function(){return window.SW_ST?[.70,.50,.28,.50]:[.22,.50,.68,.50];}};</script><script src="../hand.js?v=5"></script>
+<script>window.HAND={target:'#scene',y:.5,path:function(){return window.SW_ST?[.70,.50,.28,.50]:[.22,.50,.68,.50];}};</script><script src="../hand.js?v=6"></script>
 </body></html>

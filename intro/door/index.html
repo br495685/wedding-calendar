@@ -67,7 +67,7 @@ body.wo .after.on,body.wo .open~.after{transform:translateY(calc(-1 * var(--lift
  </div>
 </div>
 <div class="hint" id="hint">我們有事要宣布…</div>
-<div class="idle" id="idle">點一下就可以喔</div>
+<div class="idle" id="idle">用手指滑一下，或點一下也可以喔</div>
 <div class="after" id="after">
   <div class="sw" id="swt">好害羞～快把簾子拉上 ⇢⇠</div><div class="ends"><button class="go" data-go="top">看喜帖 ↓</button><button class="nx" data-go="next">看其他開場 ↻</button></div>
 </div>
@@ -93,11 +93,11 @@ body.wo .after.on,body.wo .open~.after{transform:translateY(calc(-1 * var(--lift
 (function(){
   function goTo(t){ try{ if(window.parent!==window){ window.parent.postMessage({intro:t},'*'); return; } }catch(_){} location.href='../../index.html'+(t==='rsvp'?'#rsvp':''); }
   document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(e){ e.stopPropagation(); goTo(b.getAttribute('data-go')); }); });
-  // 10 秒後才開放「點一下」；還沒成功操作過才顯示提示
+  // 2 秒後出現提示（剛示範完）；還沒成功操作過才顯示提示
   var idle=document.getElementById('idle');
-  setTimeout(function(){ window.TAP_OK=true; if(!window.MOVED && idle) idle.classList.add('on'); },10000);
+  setTimeout(function(){ window.TAP_OK=true; if(!window.MOVED && idle) idle.classList.add('on'); },2000);
   addEventListener('pointerdown',function(){ idle&&idle.classList.remove('on'); },true);
 })();
 </script>
-<script>window.HAND={isDone:function(){return document.getElementById('stage').classList.contains('open');},target:'#stage',y:.55,first:1000,rev:function(){return -1;},revX:.82};</script><script src="../hand.js?v=3"></script>
+<script>window.HAND={isDone:function(){return document.getElementById('stage').classList.contains('open');},target:'#stage',y:.55,first:1000,rev:function(){return -1;},revX:.82};</script><script src="../hand.js?v=6"></script>
 </body></html>

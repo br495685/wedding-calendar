@@ -11,15 +11,16 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
 .top{position:relative;z-index:2;text-align:center}
 .small{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:13px;letter-spacing:.32em;color:var(--soft)}
 .names{font-family:'Great Vibes',cursive;color:var(--accent);font-size:38px;line-height:1.15;white-space:nowrap}
-.cap{position:relative;z-index:2;height:34px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;letter-spacing:.14em;color:var(--red)}
+.cap{position:relative;z-index:2;height:44px;margin-top:2px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;letter-spacing:.14em;color:var(--red)}
+.cap:empty{height:0;margin:0}
 .cap span{display:inline-block;animation:capIn .5s cubic-bezier(.3,1.6,.5,1)}
-.cap .en{font-family:'Great Vibes',cursive;font-weight:400;font-size:30px;letter-spacing:0;color:#B8914F;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+.cap .en{font-family:'Great Vibes',cursive;font-weight:400;font-size:36px;letter-spacing:0;color:#B8914F;text-shadow:0 1px 0 rgba(255,255,255,.7)}
 .say{position:absolute;z-index:4;padding:8px 14px;border-radius:16px;background:#fff;color:var(--red);font-weight:900;font-size:17px;letter-spacing:.06em;white-space:nowrap;box-shadow:0 6px 16px rgba(0,0,0,.16);pointer-events:none;opacity:0;transform:scale(.4);transform-origin:var(--to,20% 100%);transition:opacity .2s}
 .say.on{opacity:1;transform:scale(1);transition:transform .45s cubic-bezier(.3,1.6,.5,1) .25s,opacity .2s .25s}
 .say::after{content:"";position:absolute;bottom:-9px;border:6px solid transparent;border-top:8px solid #fff}
 .say.l::after{left:22%}.say.r::after{right:22%}
 @keyframes capIn{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
-.stage{position:relative;width:100vw;display:flex;justify-content:center;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab;padding:6px 0}
+.stage{position:relative;width:100vw;display:flex;justify-content:center;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;padding:6px 0 104px}
 .frame{position:relative;width:var(--W);aspect-ratio:4/5;border-radius:18px;overflow:hidden;background:#fff;
  box-shadow:0 18px 40px rgba(150,50,60,.22),0 0 0 7px #fff,0 0 0 8px rgba(201,114,122,.35);will-change:transform;z-index:2}
 .ph{position:absolute;inset:0;opacity:0;transition:opacity .45s ease}
@@ -41,6 +42,7 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
 .after{position:relative;z-index:2;opacity:0;transform:translateY(8px);transition:all .6s ease .3s;text-align:center;font-size:15px;line-height:2;letter-spacing:.08em;pointer-events:none}
 .after b{color:var(--accent);font-size:17px}
 .done .after{opacity:1;transform:none;pointer-events:auto}
+.stage{transition:padding .5s ease}.done .stage{padding-bottom:6px}
 .btn{display:inline-block;margin-top:10px;padding:11px 32px;border-radius:999px;background:linear-gradient(180deg,#C9727A,#A9484E);color:#fff;text-decoration:none;letter-spacing:.14em;font-size:15px}
 .pt{position:fixed;top:-30px;z-index:0;pointer-events:none;width:var(--w);height:calc(var(--w)*1.35);background:radial-gradient(ellipse at 40% 30%,#FBD3DD,#F2A3B6);border-radius:80% 10% 80% 10%;opacity:.7;animation:fall var(--d) linear infinite;animation-delay:var(--dl)}
 @keyframes fall{to{transform:translate(var(--x),110vh) rotate(540deg)}}
@@ -58,7 +60,7 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
 .idle.on{opacity:1}.done .idle{opacity:0!important}
 </style></head><body>
 <div class="top"><div class="small">— THE WEDDING OF —</div><div class="names">Chun-Hao &amp; Liang-Jou</div></div>
-<div class="cap" id="cap"></div>
+
 <div class="stage" id="stage">
   <div class="frame" id="frame">
     <div class="ph on" style="--i:1"><div class="bg" style="background-image:url(p1.jpg)"></div><div class="fg" style="background-image:url(p1.jpg)"></div></div>
@@ -70,26 +72,27 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
   <svg class="rope" id="rope"><path id="rp" d=""/></svg>
   <div class="knob pulse" id="knob"><svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 5.3 3.1 1.7-1.9 3.2-3.1 5.3-3.1 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z" fill="#D3252B"/></svg></div>
 </div>
+<div class="cap" id="cap"></div>
 <div class="hint" id="hint"></div>
-<div class="dots" id="dots"><i class="on"></i><i></i><i></i><i></i></div>
+<div class="dots" id="dots"><i class="on"></i><i></i><i style="display:none"></i><i></i></div>
 <div class="after">
-  <div class="ends"><button class="go" data-go="top">看喜帖 ↓</button><button class="nx" data-go="next">看其他開場 ↻</button></div><div class="sw">往回拉可以倒回去</div>
+  <div class="ends"><button class="go" data-go="top">看喜帖 ↓</button><button class="nx" data-go="next">看其他開場 ↻</button></div>
 </div>
-<div class="idle" id="idle">點一下就可以喔</div>
+<div class="idle" id="idle">用手指按住愛心，往下拉 ↓</div>
 <script>
 (function(){for(var i=0;i<12;i++){var e=document.createElement('i');e.className='pt';e.style.cssText='left:'+Math.random()*100+'vw;--w:'+(10+Math.random()*10)+'px;--d:'+(9+Math.random()*8)+'s;--dl:-'+(Math.random()*14)+'s;--x:'+(Math.random()*120-60)+'px';document.body.appendChild(e);}})();
 (function(){
   // 每一頁：往哪邊拉（-1 左 / +1 右）、紅線從照片哪個高度出來、上方字
   var P=[
-    {dir:-1,at:[.286,.56],drop:.30,ar:1100/733,say:['抓到你了！',.07,.05,'l'],cap:'',hint:'幫新娘把新郎拉過來 ♡'},
-    {dir: 1,at:[.792,.985],drop:.10,ar:1100/733,say:['換我抓你！',.86,.03,'r'],cap:'',hint:'換新郎反擊！拉回去'},
-    {dir:-1,at:[.137,.80],drop:.09,ar:733/1100,say:['誰也跑不掉！',.05,.15,'l'],cap:'',hint:'把兩個人綁在一起'},
+    {dir:-1,at:[.286,.56],drop:.30,ar:1100/733,say:['抓到你了！',.07,.05,'l'],cap:'',hint:'把愛心往下拉，幫新娘把新郎拉過來 ♡'},
+    {dir: 1,at:[.792,.985],drop:.10,ar:1100/733,say:['換我抓你！',.86,.03,'r'],cap:'',hint:'再往下拉一次，換新郎反擊！'},
+    {dir:-1,at:[.137,.80],drop:.09,ar:733/1100,say:['誰也跑不掉！',.05,.15,'l'],cap:'',hint:'把兩個人綁在一起 ♡'},
     {dir: 0,cap:'<span class="en">We\'re getting married ♡</span>',hint:''}
   ];
   var st=document.getElementById('stage'), fr=document.getElementById('frame'), rp=document.getElementById('rp'),
       knob=document.getElementById('knob'), cap=document.getElementById('cap'), hint=document.getElementById('hint'),
       phs=fr.querySelectorAll('.ph'), dots=document.querySelectorAll('#dots i');
-  var i=0, drag=false, sx=0, pull=0, back=0, raf=null;
+  var i=0, drag=false, sx=0, sy=0, pull=0, back=0, raf=null;
   function geo(){ var s=st.getBoundingClientRect(), f=fr.getBoundingClientRect(); return {s:s,f:f}; }
   function draw(){
     var g=geo(), d=P[i].dir, w=g.s.width, h=g.s.height;
@@ -100,15 +103,14 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
     if(ar>fw/fh){ pw=fw; ph=fw/ar; ox=0; oy=(fh-ph)/2; } else { ph=fh; pw=fh*ar; oy=0; ox=(fw-pw)/2; }
     var fl=g.f.left-g.s.left, ft=g.f.top-g.s.top;
     var ax=fl+ox+pw*P[i].at[0], ay=ft+oy+ph*P[i].at[1];
-    var edge=(d<0?fl:fl+fw);
-    var rest=Math.min(60,(d<0?edge:w-edge)-26), ext=rest+pull*0.9;
-    // 緞帶尾端往下垂，再彎出畫面；越拉越直
-    var t=Math.min(1,pull/160), drop=ph*P[i].drop*(1-t*0.7);
-    var kx=edge+d*ext, ky=ay+drop;
-    var c1x=ax, c1y=ay+drop*0.9+18*(1-t), c2x=kx-d*Math.max(20,Math.abs(kx-ax)*0.45), c2y=ky;
+    // 往下拉的設計：紅線從照片裡垂下來，愛心掛在照片下方
+    var fb=ft+fh, t=Math.min(1,pull/120);
+    var kx=Math.max(fl+34,Math.min(fl+fw-34,ax+d*26)), ky=fb+52+pull*0.8;
+    var sag=(ky-ay)*(0.45-0.25*t);
+    var c1x=ax+d*18*(1-t), c1y=ay+sag, c2x=kx, c2y=ky-sag;
     rp.setAttribute('d','M'+ax+' '+(ay-2)+' C'+c1x+' '+c1y+' '+c2x+' '+c2y+' '+kx+' '+ky);
     knob.style.left=kx+'px'; knob.style.top=ky+'px';
-    fr.style.transform='translateX('+(d*pull*0.05)+'px)';
+    fr.style.transform='translate('+(d*pull*0.04)+'px,'+(pull*0.03)+'px)';
   }
   function placeSay(){
     var b=document.getElementById('say'), q=P[i].say; if(!q){ b.classList.remove('on'); return; }
@@ -141,20 +143,19 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
       e.animate([{transform:'translate(0,0) scale(.2)',opacity:1},{transform:'translate('+Math.cos(a)*r+'px,'+(Math.sin(a)*r-40)+'px) scale('+s+') rotate('+(Math.random()*120-60)+'deg)',opacity:0}],{duration:1100+Math.random()*500,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=(function(el){return function(){el.remove();};})(e);
     }
   }
-  var lastDx=0; st.addEventListener('pointerdown',function(e){ drag=true; sx=e.clientX; lastDx=0; knob.classList.remove('pulse'); try{st.setPointerCapture(e.pointerId);}catch(_){} });
-  st.addEventListener('pointermove',function(e){ if(!drag) return; var dx=e.clientX-sx; lastDx=dx; var _u=0, d=P[i].dir, prevDir=i>0?P[i-1].dir:0;
-    pull = d ? Math.max(0,dx*d) : 0;
-    var bd=d||prevDir; back = i>0 ? Math.max(0,-dx*bd) : 0;
-    if(back>0){ fr.style.transform='translateX('+(-bd*back*0.15)+'px)'; }
+  var lastDx=0; st.addEventListener('pointerdown',function(e){ drag=true; sx=e.clientX; sy=e.clientY; lastDx=0; knob.classList.remove('pulse'); try{st.setPointerCapture(e.pointerId);}catch(_){} });
+  st.addEventListener('pointermove',function(e){ if(!drag) return; var dx=e.clientX-sx, dy=e.clientY-sy; lastDx=Math.max(Math.abs(dx),Math.abs(dy)); var _u=0, d=P[i].dir, prevDir=i>0?P[i-1].dir:0;
+    // 長輩友善：往哪邊拉都算，不再有「往回拉倒回去」
+    pull = d ? Math.max(dy,Math.abs(dx)*0.6,0) : 0; back=0;  // 主要往下拉；往旁邊拉也算一點
     cancelAnimationFrame(raf); raf=requestAnimationFrame(draw); });
   function up(){ if(!drag) return; drag=false; knob.classList.add('pulse');
-    var th=Math.min(110,st.clientWidth*.22);
-    if(Math.abs(lastDx)<6 && i<3 && window.TAP_OK){ autoPull(); return; }
-    if(pull>th && i<3){ window.MOVED=true; show(i+1); }
-    else if(back>th && i>0) show(i-1);
+    var th=Math.min(60,st.clientWidth*.12);
+    if(pull>th && i<3){ window.MOVED=true; show(nx()); }
     else { pull=0; back=0; fr.style.transition='transform .4s cubic-bezier(.3,1.5,.5,1)'; draw(); setTimeout(function(){ fr.style.transition=''; },420); }
   }
-  function autoPull(){ var t0=performance.now(); (function a(t){ var k=Math.min(1,(t-t0)/420); pull=k*k*130; draw(); if(k<1) requestAnimationFrame(a); else show(i+1); })(t0); }
+  function autoPull(){ var t0=performance.now(); (function a(t){ var k=Math.min(1,(t-t0)/420); pull=k*k*130; draw(); if(k<1) requestAnimationFrame(a); else show(nx()); })(t0); }
+  // 只拉兩次：第二下拉完直接進結尾（不播「綁在一起」那段）
+  function nx(){ return i===1 ? 3 : i+1; }
   st.addEventListener('pointerup',up); st.addEventListener('pointercancel',up);
   addEventListener('resize',function(){ draw(); placeSay(); });
   window.HANDDIR=function(){ return P[i].dir; };
@@ -167,11 +168,11 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
 (function(){
   function goTo(t){ try{ if(window.parent!==window){ window.parent.postMessage({intro:t},'*'); return; } }catch(_){} location.href='../../index.html'+(t==='rsvp'?'#rsvp':''); }
   document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(e){ e.stopPropagation(); goTo(b.getAttribute('data-go')); }); });
-  // 10 秒後才開放「點一下」；還沒成功操作過才顯示提示
+  // 2 秒後出現提示（剛示範完）；還沒成功操作過才顯示提示
   var idle=document.getElementById('idle');
-  setTimeout(function(){ window.TAP_OK=true; if(!window.MOVED && idle) idle.classList.add('on'); },10000);
+  setTimeout(function(){ window.TAP_OK=true; if(!window.MOVED && idle) idle.classList.add('on'); },2000);
   addEventListener('pointerdown',function(){ idle&&idle.classList.remove('on'); },true);
 })();
 </script>
-<script>window.HAND={isDone:function(){return window.HANDDIR&&window.HANDDIR()===0;},target:'#stage',y:.5,dir:function(){return window.HANDDIR?window.HANDDIR():1;},rev:function(){return 1;}};</script><script src="../hand.js?v=5"></script>
+<script>window.HAND={isDone:function(){return window.HANDDIR&&window.HANDDIR()===0;},vpath:function(){var k=document.getElementById('knob').getBoundingClientRect();return [k.left+k.width/2,k.top+k.height/2,k.top+k.height/2+90];},target:'#stage',y:.5,dir:function(){return window.HANDDIR?window.HANDDIR():1;},rev:function(){return 1;}};</script><script src="../hand.js?v=6"></script>
 </body></html>
