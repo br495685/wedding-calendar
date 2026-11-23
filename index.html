@@ -36,6 +36,9 @@ nav a.hl{background:var(--accent);border-radius:16px;margin:-6px 0;border-left:0
 nav a.hl{position:relative;animation:hlPop 3s ease-out 1s infinite,hlGlow 3s ease-in-out 1s infinite}
 @keyframes hlPop{0%,30%,100%{transform:scale(1)}8%{transform:scale(1.08) translateY(-1px)}16%{transform:scale(.98)}23%{transform:scale(1.02)}}
 @keyframes hlGlow{0%,100%{box-shadow:0 3px 10px rgba(169,72,78,.25)}50%{box-shadow:0 0 0 5px rgba(212,168,92,.5),0 4px 18px rgba(192,138,74,.55)}}
+/* 提醒長輩「這裡可以按」：按鈕滑進畫面時發光 3 次 */
+.nudge{animation:hlPop 3s ease-out .3s 3,hlGlow 3s ease-in-out .3s 3}
+@media (prefers-reduced-motion: reduce){.nudge{animation:none}}
 @media(prefers-reduced-motion:reduce){nav a.hl,.fab.show{animation:none}}
 .btn.cta{background:var(--accent);color:#fff;border-color:var(--accent);width:220px;box-shadow:0 4px 14px rgba(169,72,78,.25)}
 nav svg{width:26px;height:26px;stroke:var(--accent);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
@@ -87,6 +90,7 @@ html.my .fab{font-family:'Noto Sans Myanmar',sans-serif;font-size:14px;letter-sp
 .way .wc{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:500;color:var(--soft);letter-spacing:.03em}.way b{color:var(--accent);font-weight:600}.way b.tf{color:#08A093}.way b.pp{color:#7E1A6E}
 .way .venuemap{display:block;width:100%;height:auto;margin-top:12px;border-radius:10px}
 .tabs{display:flex;gap:10px;max-width:440px;margin:0 auto 14px}
+.tabs.t3{gap:8px}.tabs.t3 .tab{gap:6px;padding:8px 6px;letter-spacing:.02em}
 .tab{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:8px 10px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--accent);font-family:'LXGW WenKai TC','Noto Serif TC',serif;font-size:16px;font-weight:700;letter-spacing:.06em;cursor:pointer}
 .tab .wi{width:28px;height:28px;border-radius:50%;background:#F8E9E6;display:flex;align-items:center;justify-content:center}.tab .wi svg{width:17px;height:17px;stroke:var(--accent);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .tab.on{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 4px 12px rgba(169,72,78,.22)}.tab.on .wi{background:rgba(255,255,255,.2)}.tab.on .wi svg{stroke:#fff}
@@ -188,23 +192,65 @@ html.introOn,html.introOn body{overflow:hidden}
 html.my #drawer *{font-family:'Noto Sans Myanmar',sans-serif!important}
 html.my #drawer a{font-size:16px;letter-spacing:0;line-height:1.7}
 a:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* 只看某一段（從側邊選單或 LINE 進來） */
+#focusBar{display:none}
+html.focus #focusBar{display:flex;justify-content:center;padding:22px 16px 4px}
+#focusBack{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:10px 22px;border-radius:999px;border:1.5px solid var(--rose);background:#fff;color:var(--accent);font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 2px 10px rgba(169,72,78,.12)}
+html.focus .wrap>.hero,html.focus #topNav,html.focus .wrap>section:not(.fshow),html.focus #fab{display:none!important}
+html.focus .wrap>section.fshow{padding-top:18px}
+
+/* 看其他開場：三個開場一次列出來，可以挑、也可以輪流看 */
+#introPick{position:fixed;inset:0;z-index:102;background:linear-gradient(160deg,#FDF7F6,#F7EAEB);display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}
+#introPick[hidden]{display:none}
+#introPick .pk{width:100%;max-width:420px;text-align:center}
+#introPick .pkt{margin:0 0 4px;font-family:'LXGW WenKai TC','Noto Serif TC',serif;font-size:22px;font-weight:700;color:var(--accent);letter-spacing:.08em}
+#introPick .pks{margin:0 0 18px;font-family:'Noto Serif TC',serif;font-size:15px;color:var(--soft)}
+#introPick .pkc{display:flex;align-items:center;gap:14px;width:100%;margin:0 0 12px;padding:10px;border-radius:18px;border:1.5px solid var(--line);background:#fff;cursor:pointer;text-align:left;box-shadow:0 2px 10px rgba(169,72,78,.08)}
+#introPick .pkc img{width:88px;height:66px;object-fit:cover;border-radius:12px;flex:none}
+#introPick .pkn{flex:1;font-family:'Noto Serif TC',serif;font-size:18px;font-weight:700;color:var(--ink)}
+#introPick .pkd{font-family:'Noto Serif TC',serif;font-size:13px;color:var(--rose);white-space:nowrap}
+#introPick .pkp{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;flex:none}
+#introPick .pkc.nx{border-color:var(--rose);animation:hlGlow 3s ease-in-out infinite}
+#introPick .btn{display:flex;width:100%;margin:10px 0 0}
+
+/* 一句話一行（中文版）；緬文版照常接在一起 */
+.ln{display:block}
+html.my .ln{display:inline}
+
+.tabhint{margin:-4px auto 14px;text-align:center;font-family:'Noto Serif TC',serif;font-size:14px;color:var(--rose)}
+
+#menuBtn{flex-direction:column;gap:0;width:50px;height:50px}
+#menuBtn svg{width:20px;height:20px}
+#menuBtn .mlbl{font-family:'Noto Serif TC',serif;font-size:11px;font-weight:700;color:var(--accent);line-height:1}
+.way .venuemap{cursor:zoom-in}
+.tabhint{line-height:1.6}
 </style>
 <link rel="preload" as="image" href="seal.webp">
 </head>
 <body>
 <div id="env" hidden><div class="ev"><div class="eback"></div><div class="epocket"><div class="eletter"><img src="hero.jpg" alt=""></div></div><div class="efront"></div><div class="eflap"></div><div class="eseal"></div></div></div>
+<div id="introPick" hidden><div class="pk">
+<p class="pkt">選一個開場來看 ♡</p>
+<p class="pks">三個開場都可以看，看完會回到這裡</p>
+<button type="button" class="pkc" data-k="swap"><img src="intro/swap/right.jpg" alt=""><span class="pkn">嫁了娶了</span><span class="pkd" hidden>✓ 看過了</span><span class="pkp" aria-hidden="true">▶</span></button>
+<button type="button" class="pkc" data-k="door"><img src="intro/door/cover.jpg" alt=""><span class="pkn">窗簾</span><span class="pkd" hidden>✓ 看過了</span><span class="pkp" aria-hidden="true">▶</span></button>
+<button type="button" class="pkc" data-k="rope"><img src="intro/rope/p1.jpg" alt=""><span class="pkn">拉愛心</span><span class="pkd" hidden>✓ 看過了</span><span class="pkp" aria-hidden="true">▶</span></button>
+<button type="button" class="btn" id="pkAll">▶ 三個輪流看</button>
+<button type="button" class="btn ghost" id="pkBack">回到喜帖</button>
+</div></div>
 <div id="intro" hidden><iframe id="introF" title="開場動畫"></iframe><button type="button" id="introSkip">略過 ›</button></div>
-<button id="menuBtn" type="button" aria-label="開啟選單" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+<button id="menuBtn" type="button" aria-label="開啟選單" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg><span class="mlbl">選單</span></button>
 <div id="drawerBg" hidden></div>
 <div id="drawer" role="navigation" aria-label="選單" hidden><button type="button" id="drawerClose" aria-label="關閉選單">✕</button>
-<a href="#date">時間<small>Date &amp; Time</small></a>
-<a href="#venue">地點<small>Venue</small></a>
+<a href="#date">時間與地點<small>Date &amp; Venue</small></a>
 <a href="#details">交通與停車<small>Getting Here</small></a>
 <a href="#album">婚紗照<small>Our Moments</small></a>
 <a href="#rsvp">回覆出席<small>12/31 前</small></a>
 <a href="#" class="more" id="moreIntro">♡ 看其他開場</a>
 </div>
 <div class="wrap">
+<div id="focusBar"><button type="button" id="focusBack">‹ 回到完整喜帖</button></div>
 <img class="hero" src="hero.jpg" alt="Chun-Hao &amp; Liang-Jou 婚禮邀請：2027 年 3 月 13 日星期六">
 
 <a class="fab" id="fab" href="#rsvp"><span>回覆出席</span><span aria-hidden="true">♡</span></a>
@@ -235,63 +281,76 @@ a:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offse
 <div class="row"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg><span>Saturday, March 13, 2027<br><span class="zh">2027 年 3 月 13 日（六）</span></span></div>
 <div class="row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><span class="tgrid"><span>Reception 11:30</span><span class="tsep" aria-hidden="true"></span><span>Banquet 12:00</span><span class="zh">11:30 迎賓</span><span class="zh">12:00 午宴開席</span></span></div>
 <div class="btns" style="flex-direction:column;align-items:center;gap:14px">
-<a class="btn ghost calbtn" id="icsBtn" href="#" target="_blank" rel="noopener"><span class="zhl"><span>加入</span><span class="brand">iPhone</span><span>行事曆</span></span><span class="myl">加入 iPhone 行事曆</span></a>
+<a class="btn calbtn" id="icsBtn" href="#" target="_blank" rel="noopener"><span class="zhl"><span>加入</span><span class="brand">iPhone</span><span>行事曆</span></span><span class="myl">加入 iPhone 行事曆</span></a>
 <a class="btn ghost calbtn" id="cal" href="#" target="_blank" rel="noopener"><span class="zhl"><span>加入</span><span class="brand">Android</span><span>行事曆</span></span><span class="myl">加入 Android 行事曆</span></a>
 </div>
+<p class="tabhint" style="margin-top:12px">👆 點上面按鈕，把婚禮加進手機行事曆</p>
 </section>
 
 <section id="venue">
 <h2>Venue</h2><p class="sub">宴客地點</p>
 <div class="row"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"></path><circle cx="12" cy="9" r="2.5"></circle></svg><span>Mandarin Oriental, Taipei<br>8F The Grand Salon<br><span class="zh">台北文華東方酒店　8F 文華閣</span><br><span class="zh">台北市松山區敦化北路 158 號</span></span></div>
 <div class="btns"><a class="btn ghost" id="map" href="#">Google 地圖導航</a></div>
+<p class="tabhint" style="margin-top:12px">👆 點上面按鈕，用 Google 地圖幫您導航</p>
 </section>
 
 <section id="details">
 <h2>Getting Here</h2><p class="sub">交通與停車</p>
-<div class="tabs" role="tablist" aria-label="交通方式">
+<div class="tabs t3" role="tablist" aria-label="交通方式">
 <button type="button" role="tab" class="tab on" data-tab="mrt" aria-selected="true"><span class="wi"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l1.5-4M15 21l-1.5-4"/><circle cx="9" cy="14" r=".6"/><circle cx="15" cy="14" r=".6"/></svg></span><span>捷運</span></button>
-<button type="button" role="tab" class="tab" data-tab="car" aria-selected="false"><span class="wi"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M10 16V8h3a2.5 2.5 0 0 1 0 5h-3"/></svg></span><span>計程車／開車</span></button>
+<button type="button" role="tab" class="tab" data-tab="taxi" aria-selected="false"><span class="wi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16v-4l2-5h12l2 5v4z"/><path d="M4 16v2M20 16v2M10 4h4v3"/><circle cx="8" cy="13.5" r=".7"/><circle cx="16" cy="13.5" r=".7"/></svg></span><span>計程車</span></button>
+<button type="button" role="tab" class="tab" data-tab="car" aria-selected="false"><span class="wi"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M10 16V8h3a2.5 2.5 0 0 1 0 5h-3"/></svg></span><span>開車</span></button>
 </div>
+<p class="tabhint">👆 點上面選擇您的交通方式</p>
 <div class="tabp" id="tab-mrt">
 <div class="way">
 <p class="wk">南京復興站 <b>7 號出口</b></p>
-<p class="ws">松山新店線（綠線 G16）或文湖線（棕線 BR11）</p>
-<p class="ws">出站後沿慶城街步行約 10 分鐘，從<b>慶城街入口</b>進入</p>
+<p class="ws"><span class="ln">松山新店線（綠線 G16）</span><span class="ln">或文湖線（棕線 BR11）</span></p>
+<p class="ws"><span class="ln">出站後沿慶城街步行約 10 分鐘，</span><span class="ln">從<b>慶城街入口</b>進入</span></p>
 <img class="venuemap" src="mrt-map.jpg" alt="捷運南京復興站 7 號出口沿慶城街步行至台北文華東方酒店慶城街入口的路線圖">
+<p class="note" style="margin-top:6px;text-align:center">👆 點地圖可以放大</p>
 </div>
 <p class="waysep">到了酒店</p>
 <div class="way">
 <div class="wh"><span class="wi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg></span><span class="wt">酒店平面圖</span></div>
-<p class="ws">一樓精品區設有指引牌，依指引前往<b>文華餅房旁的電梯</b>直達 <b class="tf">8F 文華閣</b><span class="myo">抵達</span>（只有這台電梯可到 8F）</p>
+<p class="ws"><span class="ln">一樓精品區設有指引牌，</span><span class="ln">依指引前往<b>文華餅房旁的電梯</b></span><span class="ln">直達 <b class="tf">8F 文華閣</b><span class="myo">抵達</span></span><span class="ln">（只有這台電梯可到 8F）</span></p>
 <img class="venuemap" src="venue-map-mrt.jpg" alt="酒店平面圖：從慶城街入口步行至文華餅房旁電梯">
-<p class="note" style="margin-top:6px;text-align:center">請以現場指示為準</p>
+<p class="note" style="margin-top:6px;text-align:center">👆 點地圖可以放大・請以現場指示為準</p>
+</div>
+</div>
+<div class="tabp" id="tab-taxi" hidden>
+<div class="way">
+<p class="ws" style="margin-bottom:0">告訴司機：</p>
+<p class="wk"><span class="ln">台北文華東方酒店</span><span class="ln">（敦化北路 158 號）</span></p>
+<p class="ws"><span class="ln">車子會從敦化北路車道</span><span class="ln">開進酒店前的噴水池廣場</span></p>
+<p class="ws"><span class="ln">在噴水池廣場下車，</span><span class="ln">從右側<b>商場大門</b>進入</span></p>
+</div>
+<p class="waysep">到了酒店</p>
+<div class="way">
+<div class="wh"><span class="wi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg></span><span class="wt">酒店平面圖</span></div>
+<p class="ws"><span class="ln">一樓精品區設有指引牌，</span><span class="ln">依指引前往<b>文華餅房旁的電梯</b></span><span class="ln">直達 <b class="tf">8F 文華閣</b><span class="myo">抵達</span></span><span class="ln">（只有這台電梯可到 8F）</span></p>
+<img class="venuemap" src="venue-map-taxi.jpg" alt="酒店平面圖：計程車在商場大門下車，步行至文華餅房旁電梯">
+<p class="note" style="margin-top:6px;text-align:center">👆 點地圖可以放大・請以現場指示為準</p>
 </div>
 </div>
 <div class="tabp" id="tab-car" hidden>
 <div class="way">
 <p class="ws" style="margin-bottom:0">導航或告訴司機：</p>
-<p class="wk">台北文華東方酒店（敦化北路 158 號）</p>
-<p class="ws">從敦化北路車道駛入酒店前的噴水池廣場</p>
-<div class="wsub"><div class="wh"><span class="wi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16v-4l2-5h12l2 5v4z"/><path d="M4 16v2M20 16v2M10 4h4v3"/><circle cx="8" cy="13.5" r=".7"/><circle cx="16" cy="13.5" r=".7"/></svg></span><span class="wt">搭計程車</span></div>
-<p class="ws">在噴水池廣場下車，從右側<b>商場大門</b>進入</p></div>
-<div class="wsub"><div class="wh"><span class="wi"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M10 16V8h3a2.5 2.5 0 0 1 0 5h-3"/></svg></span><span class="wt">自行開車</span></div>
-<p class="ws">沿噴水池旁車道下至 <b class="pp">B5「紫色停車區」</b>，該區電梯直達 <b class="tf">8F 文華閣</b><span class="myo">抵達</span></p>
-<p class="wn">B5／B6 共 240 個車位・先到先停恕不保留車位</p>
-<p class="ws" style="margin-top:10px"><b>停車折抵</b>：桌上備有 QR Code，掃描折抵 5 小時</p></div>
+<p class="wk"><span class="ln">台北文華東方酒店</span><span class="ln">（敦化北路 158 號）</span></p>
+<p class="ws"><span class="ln">從敦化北路車道</span><span class="ln">駛入酒店前的噴水池廣場</span></p>
+<p class="ws"><span class="ln">沿噴水池旁車道下至 <b class="pp">B5「紫色停車區」</b></span><span class="ln">該區電梯直達 <b class="tf">8F 文華閣</b><span class="myo">抵達</span></span></p>
+<p class="wn"><span class="ln">B5／B6 共 240 個車位</span><span class="ln">先到先停，恕不保留車位</span></p>
+<p class="ws" style="margin-top:10px"><span class="ln"><b>停車折抵</b>：桌上備有 QR Code，</span><span class="ln">掃描折抵 5 小時</span></p>
 </div>
-<p class="waysep">到了酒店</p>
+<p class="waysep">停車位置</p>
 <div class="way">
 <div class="wh"><span class="wi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg></span><span class="wt">酒店平面圖</span></div>
-<p class="ws">一樓精品區設有指引牌，依指引前往<b>文華餅房旁的電梯</b>直達 <b class="tf">8F 文華閣</b><span class="myo">抵達</span>（只有這台電梯可到 8F）</p>
-<img class="venuemap" src="venue-map-car.jpg" alt="酒店平面圖：計程車下車與開車路線">
-<p class="note" style="margin-top:6px;text-align:center">請以現場指示為準</p>
+<img class="venuemap" src="venue-map-car.jpg" alt="酒店平面圖：開車到 B5 紫色停車區的車道">
+<p class="note" style="margin-top:6px;text-align:center">👆 點地圖可以放大・請以現場指示為準</p>
 </div>
 </div>
 <script>
-(function(){var bs=document.querySelectorAll('#details .tab');bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(x){var on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-selected',on);document.getElementById('tab-'+x.dataset.tab).hidden=!on;});});});
-// 從 LINE 點「看完整交通說明」：#car 直接打開「計程車／開車」分頁
-if(location.hash==='#car'){var c=document.querySelector('#details .tab[data-tab=car]');if(c){c.click();setTimeout(function(){document.getElementById('details').scrollIntoView();},50);}}
-})();
+(function(){var bs=document.querySelectorAll('#details .tab');bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(x){var on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-selected',on);document.getElementById('tab-'+x.dataset.tab).hidden=!on;});});});})();
 </script>
 </section>
 
@@ -299,7 +358,7 @@ if(location.hash==='#car'){var c=document.querySelector('#details .tab[data-tab=
 <h2>Our Moments</h2><p class="sub">婚紗照</p>
 <div class="album" id="albumTrack"></div>
 <div class="dots" id="albumDots"></div>
-<p class="note" style="margin-top:6px">左右滑動看更多 ›</p>
+<p class="tabhint" style="margin-top:10px">👈 用手指左右滑，看更多照片 👉</p>
 </section>
 
 <section id="rsvp">
@@ -437,6 +496,39 @@ var MY = {
 "略過 ›": "ကျော်ရန် ›",
 "搭捷運、計程車或開車都看這張": "MRT၊ တက္ကစီ သို့မဟုတ် ကိုယ်ပိုင်ကား – အားလုံး ဤမြေပုံကို ကြည့်ပါ",
 "計程車／開車": "တက္ကစီ / ကိုယ်ပိုင်ကား",
+"選一個開場來看 ♡": "အဖွင့်တစ်ခုကို ရွေးကြည့်ပါ ♡",
+"三個開場都可以看，看完會回到這裡": "အဖွင့် ၃ ခုလုံး ကြည့်နိုင်ပါသည်၊ ကြည့်ပြီးလျှင် ဤနေရာသို့ ပြန်လာပါမည်",
+"▶ 三個輪流看": "▶ ၃ ခုလုံး အစဉ်လိုက် ကြည့်ရန်",
+"回到喜帖": "ဖိတ်စာသို့ ပြန်သွားရန်",
+"✓ 看過了": "✓ ကြည့်ပြီး",
+"松山新店線（綠線 G16）": "Songshan-Xindian လိုင်း (အစိမ်း G16)",
+"或文湖線（棕線 BR11）": " သို့မဟုတ် Wenhu လိုင်း (အညို BR11)",
+"出站後沿慶城街步行約 10 分鐘，": "ဘူတာမှ ထွက်ပြီး Qingcheng Street အတိုင်း ၁၀ မိနစ်ခန့် လမ်းလျှောက်ကာ ",
+"從": " ",
+"台北文華東方酒店": "Mandarin Oriental, Taipei",
+"（敦化北路 158 號）": " (敦化北路 158 號)",
+"車子會從敦化北路車道": "ကားသည် Dunhua North Road ကားလမ်းမှ ",
+"開進酒店前的噴水池廣場": "ဟိုတယ်ရှေ့ ရေပန်းရင်ပြင်ထဲ ဝင်ပါမည်",
+"在噴水池廣場下車，": "ရေပန်းရင်ပြင်တွင် ဆင်းပြီး ",
+"從右側": "ညာဘက်ရှိ ",
+"從敦化北路車道": "Dunhua North Road ကားလမ်းမှ ",
+"駛入酒店前的噴水池廣場": "ဟိုတယ်ရှေ့ ရေပန်းရင်ပြင်ထဲ ဝင်ပါ",
+"該區電梯直達": "၊ ထိုဇုန်ရှိ ဓာတ်လှေကားဖြင့်",
+"B5／B6 共 240 個車位": "B5/B6 ကားရပ်နေရာ စုစုပေါင်း ၂၄၀ ・ ",
+"先到先停，恕不保留車位": "ရောက်သူဦးစွာ ရပ်နိုင်ပြီး ကြိုတင် နေရာ မထားပေးပါ",
+"：桌上備有 QR Code，": " – စားပွဲပေါ်ရှိ QR Code ကို ",
+"掃描折抵 5 小時": "စကင်ဖတ်ပါက ၅ နာရီ အခမဲ့",
+"時間與地點": "အချိန်နှင့် နေရာ",
+"👆 點上面選擇您的交通方式": "👆 အပေါ်တွင် သင့်သွားလာမည့်နည်းလမ်းကို ရွေးပါ",
+"👆 點上面按鈕，把婚禮加進手機行事曆": "👆 အပေါ်ရှိ ခလုတ်ကို နှိပ်၍ ဖုန်းပြက္ခဒိန်ထဲ ထည့်ပါ",
+"👆 點上面按鈕，用 Google 地圖幫您導航": "👆 အပေါ်ရှိ ခလုတ်ကို နှိပ်၍ Google Maps ဖြင့် လမ်းညွှန်ပါ",
+"👈 用手指左右滑，看更多照片 👉": "👈 ဘယ်ညာ ပွတ်ဆွဲ၍ ဓာတ်ပုံများ ကြည့်ပါ 👉",
+"👆 點地圖可以放大・請以現場指示為準": "👆 မြေပုံကို နှိပ်၍ ချဲ့ကြည့်ပါ・နေရာရှိ ညွှန်ပြချက်များကို လိုက်နာပါ",
+"👆 點地圖可以放大": "👆 မြေပုံကို နှိပ်၍ ချဲ့ကြည့်ပါ",
+"選單": "မီနူး",
+"告訴司機：": "ယာဉ်မောင်းကို ပြောပါ –",
+"停車位置": "ကားရပ်နေရာ",
+"‹ 回到完整喜帖": "‹ ဖိတ်စာ အပြည့်အစုံသို့ ပြန်သွားရန်",
 "出站後沿慶城街步行約 10 分鐘，從": "ဘူတာမှ ထွက်ပြီး Qingcheng Street အတိုင်း ၁၀ မိနစ်ခန့် လမ်းလျှောက်ကာ ",
 "進入，依指引前往": " မှ ဝင်ပြီး ညွှန်ပြချက်အတိုင်း ",
 "一樓精品區設有指引牌，": "ပထမထပ် ဇိမ်ခံဆိုင်များဧရိယာတွင် ညွှန်ပြဆိုင်းဘုတ် ရှိပါသည်၊ ",
@@ -728,9 +820,10 @@ var PHOTOS = ["photo01b.jpg","photo02.jpg","photo03.jpg","photo04b.jpg","photo05
     i=(i+1)%ORDER.length; st={i:i}; save(st); return ORDER[i];
   }
   var skip=document.getElementById('introSkip'), skipT=null;
-  function show(){
+  function show(k){
     var first=!load();  // 第一次打開：不給略過，一定看完開場（避免長輩一進來就誤按）
-    fr.src='intro/'+next()+'/index.html?v=35'; box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn');
+    if(k){ var st=load()||{}; st.i=ORDER.indexOf(k); save(st); } else k=next();
+    seen[k]=1; fr.src='intro/'+k+'/index.html?v=35'; box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn');
     clearTimeout(skipT); skip.classList.remove('on');
     if(!first) skipT=setTimeout(function(){ skip.classList.add('on'); },3000);  // 看過的人 3 秒後才出現略過
   }
@@ -756,7 +849,7 @@ var PHOTOS = ["photo01b.jpg","photo02.jpg","photo03.jpg","photo04b.jpg","photo05
   function envDone(){ envT.forEach(clearTimeout); envT=[]; env.hidden=true; env.className=''; var c=document.getElementById('envClone'); if(c) c.remove(); env.querySelector('.eletter').style.visibility=''; document.documentElement.classList.remove('introOn'); }
   function close(to,how){
     if(box.hidden) return;
-    if(to==='next'){ show(); return; }
+    if(to==='next'){ if(seq.length){ show(seq.shift()); } else { box.hidden=true; fr.src='about:blank'; document.documentElement.classList.remove('introOn'); pick(); } return; }
     if(to==='top' && how!=='skip'){ envelope(); return; }
     document.documentElement.classList.remove('introOn');
     if(to==='rsvp'){ var r=document.getElementById('rsvp'); if(r) r.scrollIntoView(); } else window.scrollTo(0,0);
@@ -765,7 +858,19 @@ var PHOTOS = ["photo01b.jpg","photo02.jpg","photo03.jpg","photo04b.jpg","photo05
   }
   window.addEventListener('message',function(e){ if(e.data&&e.data.intro) close(e.data.intro); });
   document.getElementById('introSkip').addEventListener('click',function(){ close('top','skip'); });
-  document.getElementById('moreIntro').addEventListener('click',function(e){ e.preventDefault(); show(); });
+  // 看其他開場：列出三個，可以挑一個看，或三個輪流看
+  var seen={}, seq=[], pk=document.getElementById('introPick');
+  function pick(){
+    var nx=null;
+    [].forEach.call(pk.querySelectorAll('.pkc'),function(c){ var k=c.dataset.k, v=!!seen[k]; c.querySelector('.pkd').hidden=!v; c.classList.remove('nx'); if(!v&&!nx) nx=c; });
+    if(nx) nx.classList.add('nx');   // 還沒看過的下一個會發光
+    pk.hidden=false; document.documentElement.classList.add('introOn');
+  }
+  function unpick(){ pk.hidden=true; document.documentElement.classList.remove('introOn'); }
+  [].forEach.call(pk.querySelectorAll('.pkc'),function(c){ c.addEventListener('click',function(){ seq=[]; unpick(); show(c.dataset.k); }); });
+  document.getElementById('pkAll').addEventListener('click',function(){ seq=ORDER.slice(); unpick(); show(seq.shift()); });
+  document.getElementById('pkBack').addEventListener('click',unpick);
+  document.getElementById('moreIntro').addEventListener('click',function(e){ e.preventDefault(); pick(); });
   var h=location.hash.replace('#','');
   if(!h || h==='my') show();
 })();
@@ -932,6 +1037,44 @@ document.getElementById("againBtn").addEventListener("click", function(){
   io.observe(document.getElementById("topNav")); io.observe(document.querySelector("footer"));
   new IntersectionObserver(function(es){ vis.rsvp = es[0].isIntersecting; upd(); },{rootMargin:"0px 0px -50% 0px"}).observe(document.getElementById("rsvpForm"));
 })();
+</script>
+<script>
+// 按鈕滑進畫面時發光提醒（Android 行事曆、交通的其他分頁）
+(function(){
+  if(!("IntersectionObserver" in window)) return;
+  var els=[document.getElementById("cal")].concat([].slice.call(document.querySelectorAll("#details .tab")));
+  function go(el){ if(el.classList.contains("on")) return; el.classList.remove("nudge"); void el.offsetWidth; el.classList.add("nudge"); }
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) go(e.target); else e.target.classList.remove("nudge"); }); },{threshold:.8});
+  els.forEach(function(el){ if(!el) return; io.observe(el); el.addEventListener("animationend",function(){ el.classList.remove("nudge"); }); el.addEventListener("click",function(){ el.classList.remove("nudge"); }); });
+})();
+</script>
+<script>
+// 從側邊選單點「交通」等：只顯示那一段；手機「上一頁」或「回到完整喜帖」就回來
+(function(){
+  var H=document.documentElement, IDS=["date","venue","details","album","rsvp"], TABS={mrt:1,taxi:1,car:1};
+  function show(id,tab){
+    H.classList.add("focus");
+    var grp=(id==="date"||id==="venue")?["date","venue"]:[id];   // 時間和地點一起看
+    IDS.forEach(function(k){ var s=document.getElementById(k); if(s) s.classList.toggle("fshow",grp.indexOf(k)>=0); });
+    if(tab){ var t=document.querySelector('#details .tab[data-tab="'+tab+'"]'); if(t) t.click(); }
+    window.scrollTo(0,0);
+  }
+  function hide(){ H.classList.remove("focus"); IDS.forEach(function(k){ var s=document.getElementById(k); if(s) s.classList.remove("fshow"); }); window.scrollTo(0,0); }
+  document.querySelectorAll('#drawer a[href^="#"]:not(.more)').forEach(function(a){
+    a.addEventListener("click",function(e){ var id=a.getAttribute("href").slice(1); if(IDS.indexOf(id)<0) return; e.preventDefault(); show(id); history.pushState({f:id},"","#"+id); });
+  });
+  document.getElementById("focusBack").addEventListener("click",function(){
+    if(history.state&&history.state.f) history.back(); else { hide(); history.replaceState(null,"",location.pathname+location.search); }
+  });
+  window.addEventListener("popstate",function(e){ if(e.state&&e.state.f) show(e.state.f); else hide(); });
+  // LINE 連結：#details（捷運）、#taxi、#car、#mrt 直接只看交通
+  var h=location.hash.slice(1);
+  if(h==="details"||TABS[h]){ show("details",TABS[h]?h:null); history.replaceState({f:"details"},"",location.href); }
+})();
+</script>
+<script>
+// 交通平面圖：點一下打開大圖（可以用手指放大）
+document.querySelectorAll(".way .venuemap").forEach(function(im){ im.addEventListener("click",function(){ window.open(im.src,"_blank"); }); });
 </script>
 </body>
 </html>
