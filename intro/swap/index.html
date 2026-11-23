@@ -82,8 +82,9 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
   }
   // 拿反時：娶了在新娘(左)、嫁了在新郎(右)；拿對時：嫁了在新娘、娶了在新郎
   var QW=[[23.3,49.2],50], QR=[[71.7,49.5],-29], JW=[[71.7,42.5],-29], JR=[[28.3,65.3],28];
+  var NSW=0, MAXSW=5;   // 第一次換＋最多來回兩次，之後就請大家去看喜帖
   function go(){
-    if(busy) return; busy=true;
+    if(busy||NSW>=MAXSW) return; busy=true; NSW++;
     var to=state?0:1;
     var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     sc.classList.add('tossing');
@@ -100,8 +101,11 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
   function finish(to){ sc.classList.remove('tossing'); state=to; window.SW_ST=to; if(to) document.body.classList.add('done'); busy=false;
     if(document.body.classList.contains('done')){
       var b=document.getElementById('bub'), w=document.getElementById('swt');
-      if(to){ w.textContent='新娘不服氣？滑回去換她娶 ↻'; }
-      else{ b.textContent='剛剛那樣才是對的！'; b.classList.add('bride'); b.style.animation='none'; b.offsetWidth; b.style.animation=''; w.textContent='好啦好啦，還是你娶 ↻'; }
+      // 下面那行字：每一下都不一樣，像一段小劇情
+      var LINES=['新娘不服氣？滑回去換她娶 ↻','好啦好啦，還是你娶 ↻','新娘：不行！我還是要娶你！再滑一次 ↻','新郎：好啦好啦～老婆說了算 ♡ 最後滑一次 ↻','誰娶誰都一樣，反正我們結婚啦 ♡'];
+      w.textContent=LINES[Math.min(NSW,LINES.length)-1];
+      if(NSW>=MAXSW){ var hh=document.querySelector('.hand'); if(hh) hh.remove(); }
+      if(!to){ b.textContent='剛剛那樣才是對的！'; b.classList.add('bride'); b.style.animation='none'; b.offsetWidth; b.style.animation=''; }
     }
   }
     var sx=null; sc.addEventListener('pointerdown',function(e){ sx=e.clientX; });
@@ -118,5 +122,5 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
   addEventListener('pointerdown',function(){ idle&&idle.classList.remove('on'); },true);
 })();
 </script>
-<script>window.HAND={target:'#scene',y:.5,path:function(){return window.SW_ST?[.70,.50,.28,.50]:[.22,.50,.68,.50];}};</script><script src="../hand.js?v=6"></script>
+<script>window.HAND={target:'#scene',y:.5,path:function(){return window.SW_ST?[.72,.50,.26,.50]:[.26,.50,.72,.50];}};</script><script src="../hand.js?v=7"></script>
 </body></html>

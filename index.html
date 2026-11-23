@@ -195,6 +195,7 @@ a:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offse
 
 /* 只看某一段（從側邊選單或 LINE 進來） */
 #focusBar{display:none}
+html.introOn,html.introOn body{overscroll-behavior:none}
 html.focus #focusBar{display:flex;justify-content:center;padding:22px 16px 4px}
 #focusBack{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:10px 22px;border-radius:999px;border:1.5px solid var(--rose);background:#fff;color:var(--accent);font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 2px 10px rgba(169,72,78,.12)}
 html.focus .wrap>.hero,html.focus #topNav,html.focus .wrap>section:not(.fshow),html.focus #fab{display:none!important}
@@ -823,7 +824,7 @@ var PHOTOS = ["photo01b.jpg","photo02.jpg","photo03.jpg","photo04b.jpg","photo05
   function show(k){
     var first=!load();  // 第一次打開：不給略過，一定看完開場（避免長輩一進來就誤按）
     if(k){ var st=load()||{}; st.i=ORDER.indexOf(k); save(st); } else k=next();
-    seen[k]=1; fr.src='intro/'+k+'/index.html?v=35'; box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn');
+    seen[k]=1; fr.src='intro/'+k+'/index.html?v=36'; box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn');
     clearTimeout(skipT); skip.classList.remove('on');
     if(!first) skipT=setTimeout(function(){ skip.classList.add('on'); },3000);  // 看過的人 3 秒後才出現略過
   }
@@ -1039,10 +1040,10 @@ document.getElementById("againBtn").addEventListener("click", function(){
 })();
 </script>
 <script>
-// 按鈕滑進畫面時發光提醒（Android 行事曆、交通的其他分頁）
+// 按鈕滑進畫面時發光提醒（iPhone 行事曆、Google 地圖導航、交通的其他分頁）
 (function(){
   if(!("IntersectionObserver" in window)) return;
-  var els=[document.getElementById("cal")].concat([].slice.call(document.querySelectorAll("#details .tab")));
+  var els=[document.getElementById("icsBtn"),document.getElementById("map")].concat([].slice.call(document.querySelectorAll("#details .tab")));
   function go(el){ if(el.classList.contains("on")) return; el.classList.remove("nudge"); void el.offsetWidth; el.classList.add("nudge"); }
   var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) go(e.target); else e.target.classList.remove("nudge"); }); },{threshold:.8});
   els.forEach(function(el){ if(!el) return; io.observe(el); el.addEventListener("animationend",function(){ el.classList.remove("nudge"); }); el.addEventListener("click",function(){ el.classList.remove("nudge"); }); });

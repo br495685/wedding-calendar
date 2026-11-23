@@ -19,7 +19,7 @@
     var x0=cx-d*len/2, y=r.top+r.height*(C.y||.55), x1=x0+d*len;
     if(C.path){ var q=C.path(); x0=r.left+r.width*q[0]; y=r.top+r.height*q[1]; x1=r.left+r.width*q[2]; }
     var dx=x1-x0, dy=0;
-    if(C.vpath && !done){ var v=C.vpath(); x0=v[0]; y=v[1]; dx=0; dy=v[2]-v[1]; }  // 往下拉的提示
+    if(C.vpath && !done){ var v=C.vpath(); if(v){ x0=v[0]; y=v[1]; dx=0; dy=v[2]-v[1]; } }  // 往下拉的提示
     DONE=done;
     h.style.left=x0+'px'; h.style.top=y+'px';
     anim=h.animate([
