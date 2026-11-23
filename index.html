@@ -314,12 +314,12 @@ a:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offse
 <label>兒童座椅<select name="kid"><option value="0">不需要</option><option value=1>1 張</option><option value=2>2 張</option><option value=3>3 張</option></select></label>
 <label>停車<select name="car" id="carSel"><option value="0">不開車</option><option value="1">開車 1 台</option><option value="2">開車 2 台</option><option value="3">開車 3 台</option></select></label>
 </div>
-<label>紙本喜帖<select name="paper" id="paperSel"><option value="不需要">不需要</option><option value="郵寄">郵寄給我</option><option value="當面">當面親送給我</option></select></label>
+<label>紙本喜帖<select name="paper" id="paperSel" required><option value="">請選擇</option><option value="不需要">不需要</option><option value="郵寄">郵寄給我</option><option value="當面">當面親送給我</option></select></label>
 <div id="addrWrap" hidden style="display:grid;gap:14px">
 <label>郵遞區號<input name="zip" id="zipIn" inputmode="numeric" pattern="[0-9]{3,6}" maxlength="6" autocomplete="postal-code" placeholder="例如：10548"></label>
 <label>寄送地址（含收件人）<input name="addr" id="addrIn" placeholder="例如：台北市松山區敦化北路 158 號 王小明" autocomplete="street-address"></label>
 </div>
-<label>電子喜帖（Email）<select name="emailOpt" id="emailSel"><option value="不需要">不需要</option><option value="需要">需要，寄到我的 Email</option></select></label>
+<label>電子喜帖（Email）<select name="emailOpt" id="emailSel" required><option value="">請選擇</option><option value="不需要">不需要</option><option value="需要">需要，寄到我的 Email</option></select></label>
 <label id="emailWrap" hidden>Email<input name="email" id="emailIn" type="email" inputmode="email" autocomplete="email" placeholder="例如：name@gmail.com"></label>
 <label>祝福留言<textarea name="msg" placeholder="想對新人說的話…"></textarea></label>
 <div class="ferr" id="formErr" role="alert" hidden></div>
@@ -881,7 +881,12 @@ function showErrors(scroll){
   if (!bad.length){ box2.hidden = true; return true; }
   box2.innerHTML = "<b>" + T("還不能送出，請修改以下地方：") + "</b><ul>" + bad.map(function(el){ return "<li>「" + fieldName(el) + "」" + whyBad(el) + "</li>"; }).join("") + "</ul>";
   box2.hidden = false;
-  if (scroll){ bad[0].scrollIntoView({behavior: "smooth", block: "center"}); }
+  if (scroll){
+    // LINE／手機瀏覽器有時會先跳到回覆區塊頂端，所以稍後再捲一次，確定停在第一個沒填的欄位
+    var go = function(){ var r = bad[0].getBoundingClientRect(); window.scrollTo(0, window.pageYOffset + r.top - window.innerHeight / 2 + r.height / 2); };
+    go(); setTimeout(go, 350); setTimeout(go, 800);
+    bad[0].animate && bad[0].animate([{boxShadow:"0 0 0 0 rgba(217,83,79,.6)"},{boxShadow:"0 0 0 8px rgba(217,83,79,0)"}],{duration:900,iterations:2});
+  }
   return false;
 }
 function liveErrors(){ if (errShown){ checkNames(); if (showErrors(false)) errShown = false; } }
