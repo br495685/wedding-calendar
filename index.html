@@ -236,6 +236,9 @@ html.my .ln{display:inline}
 #thxBox .lnbox{margin-top:22px;padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:#fff}
 #thxBox .lnbox p{font-size:15px;color:var(--soft)}
 #thxBox .lnbox a{display:inline-block;margin-top:14px;padding:13px 34px;border-radius:999px;background:#06C755;color:#fff;font-weight:700;text-decoration:none;font-size:17px}
+
+.carnote{margin:-4px 0 0;padding:12px 16px;border-radius:14px;background:#F8E9E6;color:var(--accent);font-size:15px;line-height:1.8}
+.carnote b{font-size:16px}
 </style>
 <link rel="preload" as="image" href="seal.webp">
 </head>
@@ -386,6 +389,7 @@ html.my .ln{display:inline}
 <div id="persons" style="display:grid;gap:14px"></div>
 <label>兒童座椅<select name="kid"><option value="0">不需要</option><option value=1>1 張</option><option value=2>2 張</option><option value=3>3 張</option></select></label>
 <label>停車<select name="car" id="carSel"><option value="0">不開車</option><option value="1">開車 1 台</option><option value="2">開車 2 台</option><option value="3">開車 3 台</option></select></label>
+<p class="carnote" id="carNote" hidden><b>🅿️ 停車提醒</b><br>B5／B6 共 240 個車位<br>先到先停，恕不保留車位<br>桌上 QR Code 掃描折抵 5 小時</p>
 </div>
 <label>紙本喜帖<select name="paper" id="paperSel" required><option value="">請選擇</option><option value="不需要">不需要</option><option value="郵寄">郵寄給我</option><option value="當面">當面親送給我</option></select></label>
 <div id="addrWrap" hidden style="display:grid;gap:14px">
@@ -564,6 +568,7 @@ var MY = {
 "沿噴水池旁車道下至": "ရေပန်းဘေးလမ်းမှ ဆင်းပြီး ",
 "B5「紫色停車區」": "B5 «ခရမ်းရောင် ကားရပ်ဇုန်»",
 "，該區電梯直達": " တွင် ရပ်ပါ၊ ထိုဇုန်ရှိ ဓာတ်လှေကားဖြင့်",
+"🅿️ 停車提醒": "🅿️ ကားရပ်ရန် သတိပေးချက်",
 "停車折抵": "ကားရပ်ခ လျှော့ပေးချက်",
 "：桌上備有 QR Code，掃描折抵 5 小時": " – စားပွဲပေါ်ရှိ QR Code ကို စကင်ဖတ်ပါက ၅ နာရီ အခမဲ့",
 "超過 5 小時請洽現場穿西裝的酒店人員": "၅ နာရီထက် ကျော်လွန်ပါက ကုတ်အင်္ကျီဝတ် ဟိုတယ်ဝန်ထမ်းများထံ ဆက်သွယ်ပါ",
@@ -1070,8 +1075,13 @@ document.getElementById("againBtn").addEventListener("click", function(){
   RID = newId(); form.reset(); while (box.firstChild) box.removeChild(box.firstChild); sync(); refreshSendLink();
   document.getElementById("result").hidden = true;
   form.scrollIntoView({behavior:"smooth", block:"start"});
+
   form.querySelector('input[name="name"]').focus({preventScroll:true});
 });
+// 選「開車 1–3 台」時，提醒停車先到先停
+(function(){ var c=document.getElementById("carSel"), n=document.getElementById("carNote");
+  function u(){ n.hidden = !(c.value && c.value !== "0"); }
+  c.addEventListener("change", u); document.getElementById("againBtn").addEventListener("click", function(){ setTimeout(u,0); }); u(); })();
 </script>
 <script>
 (function(){
