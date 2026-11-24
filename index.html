@@ -241,6 +241,16 @@ html.my .ln{display:inline}
 .carnote b{font-size:16px}
 
 .fhint{display:block;margin-top:6px;font-size:14px;line-height:1.6;color:var(--soft);font-weight:400}
+
+#scrollCue{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;width:160px;height:130px;pointer-events:none;opacity:0;transition:opacity .5s}
+#scrollCue.on{opacity:1}
+#scrollCue .hd{position:absolute;left:66px;top:76px;width:54px;height:54px;opacity:0}
+#scrollCue.on .hd{animation:cueSwipe 1.8s ease-in-out infinite}
+#scrollCue .dot{position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.85);box-shadow:0 0 0 6px rgba(255,255,255,.35),0 3px 10px rgba(120,40,50,.35)}
+#scrollCue svg{position:absolute;left:8px;top:6px;width:44px;height:44px;filter:drop-shadow(0 3px 5px rgba(80,30,40,.35))}
+#scrollCue span{position:absolute;left:0;right:0;bottom:-2px;text-align:center;white-space:nowrap;font-size:14px;font-weight:700;color:var(--accent);text-shadow:0 0 6px #fff,0 0 3px #fff}
+@keyframes cueSwipe{0%{opacity:0;transform:translateY(0) scale(1.15)}15%{opacity:1;transform:translateY(0) scale(1)}70%{opacity:1;transform:translateY(-70px) scale(1)}100%{opacity:0;transform:translateY(-70px)}}
+@media (prefers-reduced-motion: reduce){#scrollCue.on .hd{animation:none;opacity:1}}
 </style>
 <link rel="preload" as="image" href="seal.webp">
 </head>
@@ -255,6 +265,7 @@ html.my .ln{display:inline}
 <button type="button" class="btn" id="pkAll">▶ 三個輪流看</button>
 <button type="button" class="btn ghost" id="pkBack">回到喜帖</button>
 </div></div>
+<div id="scrollCue" aria-hidden="true"><div class="hd"><div class="dot"></div><svg viewBox="0 0 48 48"><path d="M17 26V9.5a3.5 3.5 0 0 1 7 0V22l1-.2V18a3.3 3.3 0 0 1 6.6 0v4.2l1 .1v-2.3a3.2 3.2 0 0 1 6.4 0V31c0 7-4.6 12-11.5 12h-3.2c-3.6 0-6.4-1.5-8.6-4.6L9 31.5c-1.3-1.9-.8-4.2 1-5.3 1.7-1 3.8-.6 5 1z" fill="#fff" stroke="#A9484E" stroke-width="2" stroke-linejoin="round"/></svg></div><span>滑動看更多</span></div>
 <div id="intro" hidden><iframe id="introF" title="開場動畫"></iframe><button type="button" id="introSkip">略過 ›</button></div>
 <button id="menuBtn" type="button" aria-label="開啟選單" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg><span class="mlbl">選單</span></button>
 <div id="drawerBg" hidden></div>
@@ -595,6 +606,7 @@ var MY = {
 "需要": "လိုအပ်သည်",
 "例如：小寶": "ဥပမာ - သားလေး",
 "5 位": "၅ ဦး", "6 位": "၆ ဦး",
+"滑動看更多": "ပွတ်ဆွဲ၍ ဆက်ကြည့်ပါ",
 "停車折抵": "ကားရပ်ခ လျှော့ပေးချက်",
 "：桌上備有 QR Code，掃描折抵 5 小時": " – စားပွဲပေါ်ရှိ QR Code ကို စကင်ဖတ်ပါက ၅ နာရီ အခမဲ့",
 "超過 5 小時請洽現場穿西裝的酒店人員": "၅ နာရီထက် ကျော်လွန်ပါက ကုတ်အင်္ကျီဝတ် ဟိုတယ်ဝန်ထမ်းများထံ ဆက်သွယ်ပါ",
@@ -1212,6 +1224,14 @@ document.getElementById("againBtn").addEventListener("click", function(){
 <script>
 // 交通平面圖：點一下打開大圖 (可以用手指放大)
 document.querySelectorAll(".way .venuemap").forEach(function(im){ im.addEventListener("click",function(){ window.open(im.src,"_blank"); }); });
+
+// 進到喜帖、停在最上面時，下方出現「往下滑看更多」；滑動後就消失，不再出現
+(function(){ var c=document.getElementById("scrollCue"), H=document.documentElement, done=false, t=null;
+  function busy(){ var e=document.getElementById("env"); return H.classList.contains("introOn") || H.classList.contains("focus") || (e && !e.hidden); }
+  function check(){ if(done) return; if(scrollY > 40){ done=true; c.classList.remove("on"); clearInterval(t); return; }
+    if(busy()){ c.classList.remove("on"); return; }
+    if(!c.classList.contains("on") && scrollY < 20){ setTimeout(function(){ if(!done && !busy() && scrollY < 20) c.classList.add("on"); }, 1200); } }
+  t=setInterval(check, 500); addEventListener("scroll", check, {passive:true}); })();
 </script>
 </body>
 </html>
