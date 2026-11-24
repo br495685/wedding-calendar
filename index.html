@@ -239,6 +239,8 @@ html.my .ln{display:inline}
 
 .carnote{margin:-4px 0 0;padding:12px 16px;border-radius:14px;background:#F8E9E6;color:var(--accent);font-size:15px;line-height:1.8}
 .carnote b{font-size:16px}
+
+.fhint{display:block;margin-top:6px;font-size:14px;line-height:1.6;color:var(--soft);font-weight:400}
 </style>
 <link rel="preload" as="image" href="seal.webp">
 </head>
@@ -388,6 +390,8 @@ html.my .ln{display:inline}
 <label>出席人數 (含本人)<select name="n" id="nSel"><option value="">請選擇</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></label>
 <div id="persons" style="display:grid;gap:14px"></div>
 <label>兒童座椅<select name="kid"><option value="0">不需要</option><option value=1>1 張</option><option value=2>2 張</option><option value=3>3 張</option></select></label>
+<label>兒童餐 (12 歲以下)<select name="kidmeal"><option value="0">不需要 (跟大人吃一樣)</option><option value="1">1 份</option><option value="2">2 份</option><option value="3">3 份</option></select><span class="fhint">小朋友也請算在上面的出席人數裡</span></label>
+<label>行動協助<select name="access"><option value="不需要">不需要</option><option value="需要輪椅位置">需要輪椅位置</option><option value="行動較不便，需要協助">行動較不便，需要協助</option></select><span class="fhint">我們會安排離入口近的座位</span></label>
 <label>停車<select name="car" id="carSel"><option value="0">不開車</option><option value="1">開車 1 台</option><option value="2">開車 2 台</option><option value="3">開車 3 台</option></select></label>
 <p class="carnote" id="carNote" hidden><b>🅿️ 停車提醒</b><br>B5／B6 共 240 個車位<br>先到先停，恕不保留車位<br>桌上 QR Code 掃描折抵 5 小時</p>
 </div>
@@ -402,6 +406,7 @@ html.my .ln{display:inline}
 <div class="ferr" id="formErr" role="alert" hidden></div>
 <button class="btn" type="submit" id="submitBtn">送出回覆 ›</button>
 <a class="btn" id="sendLink" href="#" target="_blank" rel="noopener" hidden>送出回覆 ›</a>
+<p class="fhint" style="text-align:center;margin:-4px 0 0">填錯了沒關係，再填一次送出就好<br>我們會以最後一次為準</p>
 </form>
 <div class="result" id="result" hidden>
 <div id="thxBox" hidden></div>
@@ -569,6 +574,16 @@ var MY = {
 "B5「紫色停車區」": "B5 «ခရမ်းရောင် ကားရပ်ဇုန်»",
 "，該區電梯直達": " တွင် ရပ်ပါ၊ ထိုဇုန်ရှိ ဓာတ်လှေကားဖြင့်",
 "🅿️ 停車提醒": "🅿️ ကားရပ်ရန် သတိပေးချက်",
+"兒童餐 (12 歲以下)": "ကလေးစာ (၁၂ နှစ်အောက်)",
+"不需要 (跟大人吃一樣)": "မလိုပါ (လူကြီးနှင့် အတူတူ စားမည်)",
+"1 份": "၁ ပွဲ", "2 份": "၂ ပွဲ", "3 份": "၃ ပွဲ",
+"小朋友也請算在上面的出席人數裡": "ကလေးများကိုလည်း အထက်ပါ တက်ရောက်မည့်သူ အရေအတွက်တွင် ထည့်သွင်းပါ",
+"行動協助": "လှုပ်ရှားသွားလာရေး အကူအညီ",
+"需要輪椅位置": "ဘီးတပ်ကုလားထိုင်အတွက် နေရာ လိုအပ်သည်",
+"行動較不便，需要協助": "လမ်းလျှောက်ရ ခက်ခဲ၍ အကူအညီ လိုအပ်သည်",
+"我們會安排離入口近的座位": "ဝင်ပေါက်နှင့် နီးသော ထိုင်ခုံကို စီစဉ်ပေးပါမည်",
+"填錯了沒關係，再填一次送出就好": "မှားဖြည့်မိပါက နောက်တစ်ကြိမ် ပြန်ဖြည့်ပို့ရုံသာ",
+"我們會以最後一次為準": "နောက်ဆုံးပို့သည့် အကြောင်းပြန်စာကို အတည်ယူပါမည်",
 "停車折抵": "ကားရပ်ခ လျှော့ပေးချက်",
 "：桌上備有 QR Code，掃描折抵 5 小時": " – စားပွဲပေါ်ရှိ QR Code ကို စကင်ဖတ်ပါက ၅ နာရီ အခမဲ့",
 "超過 5 小時請洽現場穿西裝的酒店人員": "၅ နာရီထက် ကျော်လွန်ပါက ကုတ်အင်္ကျီဝတ် ဟိုတယ်ဝန်ထမ်းများထံ ဆက်သွယ်ပါ",
@@ -916,7 +931,7 @@ function newId(){ return Date.now().toString(36) + Math.random().toString(36).sl
 function buildData(){
   var f = new FormData(form);
   var d = { id: RID, name: (f.get("name") || "").trim(), side: f.get("side"), rel: f.get("rel"),
-            att: f.get("att"), msg: (f.get("msg") || "").trim(), kid: "0", car: "0", paper: "不需要", zip: "", addr: "", email: "", people: [] };
+            att: f.get("att"), msg: (f.get("msg") || "").trim(), kid: "0", kidmeal: "0", access: "不需要", car: "0", paper: "不需要", zip: "", addr: "", email: "", people: [] };
   if (d.att !== "不克出席") {
     var n = parseInt(f.get("n"), 10);
     for (var i = 0; i < n; i++) {
@@ -925,6 +940,8 @@ function buildData(){
                       allergy: allergyOf(f, i > 0 && f.get("p" + i + "_same") ? 0 : i) });
     }
     d.kid = f.get("kid");
+    d.kidmeal = f.get("kidmeal") || "0";
+    d.access = f.get("access") || "不需要";
     d.car = f.get("car") || "0";
   }
   d.paper = f.get("paper") || "不需要";
@@ -941,6 +958,8 @@ function replyText(d){
       lines += (i + 1) + ". " + p.name + "｜" + p.meal + (p.allergy ? "｜過敏／禁忌：" + p.allergy : "") + "\n";
     });
     if (d.kid !== "0") lines += "兒童座椅：" + d.kid + " 張\n";
+    if (d.kidmeal !== "0") lines += "兒童餐：" + d.kidmeal + " 份\n";
+    if (d.access !== "不需要") lines += "行動協助：" + d.access + "\n";
     if (d.car !== "0") lines += "停車：" + d.car + " 台\n";
   }
   if (d.paper !== "不需要") lines += "紙本喜帖：" + d.paper + (d.addr ? "(" + d.zip + " " + d.addr + ")" : "") + "\n";
