@@ -46,6 +46,6 @@
   function sched(ms){ clearTimeout(t); t=setTimeout(play,ms); }
   addEventListener('pointerdown',function(){ touched=true; stop(); },true);
   addEventListener('pointerup',function(){ sched(2200); },true);   // 等動畫做完再示範，方向才不會錯
-  window.HANDKICK=function(ms){ SEEN=true; stop(); sched(ms||1500); };   // 狀態改變時重來（方向／按鈕才會對）
+  window.HANDKICK=function(ms){ SEEN=true; stop(); sched(ms==null?1500:ms); };   // 狀態改變時重來（方向／按鈕才會對）
   sched(C.first||1000);
 })();

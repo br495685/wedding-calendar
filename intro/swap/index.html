@@ -90,12 +90,12 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
     sc.classList.add('tossing');
     if(reduce){ sc.classList.toggle('swapped',!!to); finish(to); return; }
     place(Q,0,0); place(J,0,0);
-    var opt={duration:1700,easing:'cubic-bezier(.45,.05,.35,1)',fill:'forwards'};
+    var opt={duration:1200,easing:'cubic-bezier(.45,.05,.35,1)',fill:'forwards'};
     var qa=to?QW:QR, qb=to?QR:QW, ja=to?JW:JR, jb=to?JR:JW;
     var a1=Q.animate(kf(qa[0],qb[0],-6,qa[1],qb[1],to?-360:360),opt);
     J.animate(kf(ja[0],jb[0],14,ja[1],jb[1],to?360:-360),Object.assign({},opt,{delay:90}));
-    setTimeout(function(){ sc.classList.toggle('swapped',!!to); },820);
-    setTimeout(function(){ sc.classList.remove('tossing'); },1380);
+    setTimeout(function(){ sc.classList.toggle('swapped',!!to); window.SW_ST=to; window.SW_N=NSW; if(window.HANDKICK) HANDKICK(0); },500);   /* 一換圖就示範下一步 */
+    setTimeout(function(){ sc.classList.remove('tossing'); },980);
     a1.onfinish=function(){ finish(to); };
   }
   function finish(to){ sc.classList.remove('tossing'); state=to; window.SW_ST=to; if(to) document.body.classList.add('done'); busy=false;
@@ -105,7 +105,7 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
       var LINES=['新娘不服氣？滑回去換她娶 ↻','好啦好啦，還是你娶 ↻','誰娶誰都一樣，反正我們結婚啦 ♡'];
       w.textContent=LINES[Math.min(NSW,LINES.length)-1];
       if(NSW>=MAXSW) document.body.classList.add('final');   // We got married! 最後一下才出現
-      window.SW_N=NSW; if(window.HANDKICK) HANDKICK(NSW>=MAXSW?900:1500);   // 換完重新示範：方向跟著變，最後一下改成按「看喜帖」
+      window.SW_N=NSW;   // 換完重新示範：方向跟著變，最後一下改成按「看喜帖」
       if(!to){ b.textContent='剛剛那樣才是對的！'; b.classList.add('bride'); b.style.animation='none'; b.offsetWidth; b.style.animation=''; }
     }
   }
@@ -123,6 +123,6 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:ce
   addEventListener('pointerdown',function(){ idle&&idle.classList.remove('on'); },true);
 })();
 </script>
-<script>window.HAND={target:'#scene',y:.5,tap:function(){return (window.SW_N||0)>=3?document.querySelector('.ends .go'):null;},path:function(){return window.SW_ST?[.72,.50,.26,.50]:[.26,.50,.72,.50];}};</script><script src="../hand.js?v=8"></script>
+<script>window.HAND={target:'#scene',y:.5,tap:function(){return (window.SW_N||0)>=3?document.querySelector('.ends .go'):null;},path:function(){return window.SW_ST?[.72,.50,.26,.50]:[.26,.50,.72,.50];}};</script><script src="../hand.js?v=9"></script>
 <script src="../i18n.js?v=2"></script>
 </body></html>

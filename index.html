@@ -916,7 +916,7 @@ var PHOTOS = ["photo01b.jpg","photo02.jpg","photo03.jpg","photo04b.jpg","photo05
   function show(k){
     var first=!load();  // 第一次打開：不給略過，一定看完開場 (避免長輩一進來就誤按)
     if(k){ var st=load()||{}; st.i=ORDER.indexOf(k); save(st); } else k=next();
-    seen[k]=1; fr.src='intro/'+k+'/index.html?v=40'+(LANG==='my'?'&l=my':''); box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn');
+    seen[k]=1; fr.src='intro/'+k+'/index.html?v=44'+(LANG==='my'?'&l=my':''); box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn');
     clearTimeout(skipT); skip.classList.remove('on');
     if(!first) skipT=setTimeout(function(){ skip.classList.add('on'); },5000);  // 看過的人 5 秒後才出現略過
   }
@@ -1234,8 +1234,8 @@ document.querySelectorAll(".way .venuemap").forEach(function(im){ im.addEventLis
   function busy(){ var e=document.getElementById("env"); return H.classList.contains("introOn") || H.classList.contains("focus") || (e && !e.hidden); }
   function check(){ if(done) return; if(scrollY > 40){ done=true; c.classList.remove("on"); clearInterval(t); return; }
     if(busy()){ c.classList.remove("on"); return; }
-    if(!c.classList.contains("on") && scrollY < 20){ setTimeout(function(){ if(!done && !busy() && scrollY < 20) c.classList.add("on"); }, 1200); } }
-  t=setInterval(check, 500); addEventListener("scroll", check, {passive:true}); })();
+    if(!c.classList.contains("on") && scrollY < 20){ if(!done && !busy() && scrollY < 20) c.classList.add("on"); } }
+  t=setInterval(check, 150); check(); addEventListener("scroll", check, {passive:true}); })();
 </script>
 </body>
 </html>
