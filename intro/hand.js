@@ -10,7 +10,19 @@
   h.innerHTML='<div class="dot"></div><svg viewBox="0 0 48 48"><path d="M17 26V9.5a3.5 3.5 0 0 1 7 0V22l1-.2V18a3.3 3.3 0 0 1 6.6 0v4.2l1 .1v-2.3a3.2 3.2 0 0 1 6.4 0V31c0 7-4.6 12-11.5 12h-3.2c-3.6 0-6.4-1.5-8.6-4.6L9 31.5c-1.3-1.9-.8-4.2 1-5.3 1.7-1 3.8-.6 5 1z" fill="#fff" stroke="#A9484E" stroke-width="2" stroke-linejoin="round"/></svg>';
   document.body.appendChild(h);
   var t=null, anim=null, touched=false, DONE=false, SEEN=false;
+  function tapPlay(te){   // 最後一步：手指去按按鈕（例如「看喜帖」）
+    var r=te.getBoundingClientRect(); if(!r.width){ sched(1500); return; }
+    h.style.left=(r.left+r.width*.62)+'px'; h.style.top=(r.top+r.height*.5)+'px';
+    anim=h.animate([
+      {opacity:0,transform:'translate(14px,22px) scale(1.1)'},
+      {opacity:1,transform:'translate(0,0) scale(1)',offset:.3},
+      {opacity:1,transform:'translate(0,0) scale(.82)',offset:.5},
+      {opacity:1,transform:'translate(0,0) scale(1)',offset:.65},
+      {opacity:0,transform:'translate(0,0) scale(1)'}],{duration:1400,iterations:2,easing:'ease-in-out'});
+    anim.onfinish=function(){ sched(3500); };
+  }
   function play(){
+    if(C.tap){ var te=C.tap(); if(te){ tapPlay(te); return; } }
     var done=document.body.classList.contains('done')||(C.isDone&&C.isDone());
     if(done && !SEEN){ SEEN=true; sched(2500); return; }
     var r=el.getBoundingClientRect(), d=(C.dir?C.dir():1)||1, len=Math.min(130,r.width*.34);
@@ -33,7 +45,7 @@
   function stop(){ clearTimeout(t); if(anim){ anim.cancel(); anim=null; } h.style.opacity=0; }
   function sched(ms){ clearTimeout(t); t=setTimeout(play,ms); }
   addEventListener('pointerdown',function(){ touched=true; stop(); },true);
-  addEventListener('pointerup',function(){ sched(1200); },true);
-  window.HANDKICK=function(ms){ sched(ms||1500); };
+  addEventListener('pointerup',function(){ sched(2200); },true);   // 等動畫做完再示範，方向才不會錯
+  window.HANDKICK=function(ms){ SEEN=true; stop(); sched(ms||1500); };   // 狀態改變時重來（方向／按鈕才會對）
   sched(C.first||1000);
 })();

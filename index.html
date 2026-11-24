@@ -916,9 +916,9 @@ var PHOTOS = ["photo01b.jpg","photo02.jpg","photo03.jpg","photo04b.jpg","photo05
   function show(k){
     var first=!load();  // 第一次打開：不給略過，一定看完開場 (避免長輩一進來就誤按)
     if(k){ var st=load()||{}; st.i=ORDER.indexOf(k); save(st); } else k=next();
-    seen[k]=1; fr.src='intro/'+k+'/index.html?v=38'+(LANG==='my'?'&l=my':''); box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn');
+    seen[k]=1; fr.src='intro/'+k+'/index.html?v=40'+(LANG==='my'?'&l=my':''); box.classList.remove('out'); box.hidden=false; document.documentElement.classList.add('introOn');
     clearTimeout(skipT); skip.classList.remove('on');
-    if(!first) skipT=setTimeout(function(){ skip.classList.add('on'); },3000);  // 看過的人 3 秒後才出現略過
+    if(!first) skipT=setTimeout(function(){ skip.classList.add('on'); },5000);  // 看過的人 5 秒後才出現略過
   }
   var env=document.getElementById('env'), envT=[];
   function envelope(){
