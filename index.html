@@ -355,7 +355,7 @@ html.my .ln{display:inline}
 <p class="wk"><span class="ln" style="padding-right:.3em">台北文華東方酒店</span><span class="ln">(敦化北路 158 號)</span></p>
 <p class="ws"><span class="ln">從敦化北路車道</span><span class="ln">駛入酒店前的噴水池廣場</span></p>
 <p class="ws"><span class="ln">沿噴水池旁車道下至 <b class="pp">B5「紫色停車區」</b>，</span><span class="ln">該區電梯直達 <b class="tf">8F 文華閣</b><span class="myo">抵達</span></span></p>
-<p class="wn"><span class="ln">B5／B6 共 240 個車位，</span><span class="ln">先到先停，恕不保留車位</span></p>
+<p class="wn"><span class="ln">B5／B6 共 240 個車位，</span><span class="ln">先到先停，建議提早抵達</span></p>
 <p class="ws" style="margin-top:10px"><span class="ln"><b>停車折抵</b>：桌上備有 QR Code，</span><span class="ln">掃描折抵 5 小時</span></p>
 </div>
 <p class="waysep">停車位置</p>
@@ -387,13 +387,13 @@ html.my .ln{display:inline}
 <label>關係<select name="rel" required><option value="">請選擇</option><option>家人親戚</option><option>同學朋友</option><option>師長／同事</option><option>父母友人</option><option>其他</option></select></label>
 <label>出席意願<select name="att" id="attSel" required><option value="">請選擇</option><option>欣然出席</option><option>不克出席</option></select></label>
 <div id="attendFields" hidden style="display:none;gap:14px">
-<label>出席人數 (含本人)<select name="n" id="nSel"><option value="">請選擇</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></label>
+<label>大人 (含本人)<select name="n" id="nSel"><option value="">請選擇</option><option value="1">1 位</option><option value="2">2 位</option><option value="3">3 位</option><option value="4">4 位</option><option value="5">5 位</option><option value="6">6 位</option></select></label>
+<label>小孩<select name="kn" id="kSel"><option value="0">沒有</option><option value="1">1 位</option><option value="2">2 位</option><option value="3">3 位</option><option value="4">4 位</option></select></label>
 <div id="persons" style="display:grid;gap:14px"></div>
-<label>兒童座椅<select name="kid"><option value="0">不需要</option><option value=1>1 張</option><option value=2>2 張</option><option value=3>3 張</option></select></label>
-<label>兒童餐 (12 歲以下)<select name="kidmeal"><option value="0">不需要 (跟大人吃一樣)</option><option value="1">1 份</option><option value="2">2 份</option><option value="3">3 份</option></select><span class="fhint">小朋友也請算在上面的出席人數裡</span></label>
-<label>行動協助<select name="access"><option value="不需要">不需要</option><option value="需要輪椅位置">需要輪椅位置</option><option value="行動較不便，需要協助">行動較不便，需要協助</option></select><span class="fhint">我們會安排離入口近的座位</span></label>
+<div id="kidsBox" style="display:grid;gap:14px"></div>
+<label>行動協助<select name="access"><option value="不需要">不需要</option><option value="需要輪椅位置">需要輪椅位置</option><option value="行動較不便，需要協助">行動較不便，需要協助</option></select><span class="fhint">讓我們事先知道，當天好幫您安排</span></label>
 <label>停車<select name="car" id="carSel"><option value="0">不開車</option><option value="1">開車 1 台</option><option value="2">開車 2 台</option><option value="3">開車 3 台</option></select></label>
-<p class="carnote" id="carNote" hidden><b>🅿️ 停車提醒</b><br>B5／B6 共 240 個車位<br>先到先停，恕不保留車位<br>桌上 QR Code 掃描折抵 5 小時</p>
+<p class="carnote" id="carNote" hidden><b>🅿️ 停車提醒</b><br>B5／B6 共 240 個車位<br>先到先停，建議提早抵達<br>桌上 QR Code 掃描折抵 5 小時</p>
 </div>
 <label>紙本喜帖<select name="paper" id="paperSel" required><option value="">請選擇</option><option value="不需要">不需要</option><option value="郵寄">郵寄給我</option><option value="當面">當面親送給我</option></select></label>
 <div id="addrWrap" hidden style="display:grid;gap:14px">
@@ -509,7 +509,7 @@ var MY = {
 "車子會從敦化北路車道開進酒店前的噴水池廣場": "ကားသည် Dunhua North Road ကားလမ်းမှ ဟိုတယ်ရှေ့ ရေပန်းရင်ပြင်ထဲ ဝင်ပါမည်",
 "建議停 B5「紫色停車區」": "B5 «ခရမ်းရောင် ကားရပ်ဇုန်» တွင် ရပ်ရန် အကြံပြုပါသည်",
 "從敦化北路車道進入噴水池廣場，沿噴水池旁車道下到 B5／B6，紫色停車區的電梯可直達": "Dunhua North Road ကားလမ်းမှ ရေပန်းရင်ပြင်ထဲ ဝင်ပြီး B5/B6 သို့ ဆင်းပါ၊ ခရမ်းရောင်ဇုန်ရှိ ဓာတ်လှေကားဖြင့်",
-"B5／B6 共 240 個車位・先到先停恕不保留車位": "B5/B6 ကားရပ်နေရာ စုစုပေါင်း ၂၄၀ ・ ရောက်သူဦးစွာ ရပ်နိုင်ပြီး ကြိုတင် နေရာ မထားပေးပါ",
+"B5／B6 共 240 個車位・先到先停，建議提早抵達": "B5/B6 ကားရပ်နေရာ စုစုပေါင်း ၂၄၀ ・ ရောက်သူဦးစွာ ရပ်နိုင်ပြီး စောစော ရောက်ရန် အကြံပြုပါသည်",
 "搭": " ",
 "至": " ဖြင့် ",
 "一樓精品區設有指引牌，商場其他電梯無法到達 8F": "ပထမထပ် ဇိမ်ခံဆိုင်များဧရိယာတွင် ညွှန်ပြဆိုင်းဘုတ် ရှိပါသည်၊ ဈေးဝယ်စင်တာရှိ အခြား ဓာတ်လှေကားများ 8F သို့ မရောက်ပါ",
@@ -537,7 +537,7 @@ var MY = {
 "駛入酒店前的噴水池廣場": "ဟိုတယ်ရှေ့ ရေပန်းရင်ပြင်ထဲ ဝင်ပါ",
 "該區電梯直達": "၊ ထိုဇုန်ရှိ ဓာတ်လှေကားဖြင့်",
 "B5／B6 共 240 個車位": "B5/B6 ကားရပ်နေရာ စုစုပေါင်း ၂၄၀ ・ ",
-"先到先停，恕不保留車位": "ရောက်သူဦးစွာ ရပ်နိုင်ပြီး ကြိုတင် နေရာ မထားပေးပါ",
+"先到先停，建議提早抵達": "ရောက်သူဦးစွာ ရပ်နိုင်ပါသည်၊ စောစော ရောက်ရန် အကြံပြုပါသည်",
 "：桌上備有 QR Code，": " – စားပွဲပေါ်ရှိ QR Code ကို ",
 "掃描折抵 5 小時": "စကင်ဖတ်ပါက ၅ နာရီ အခမဲ့",
 "時間與地點": "အချိန်နှင့် နေရာ",
@@ -574,16 +574,27 @@ var MY = {
 "B5「紫色停車區」": "B5 «ခရမ်းရောင် ကားရပ်ဇုန်»",
 "，該區電梯直達": " တွင် ရပ်ပါ၊ ထိုဇုန်ရှိ ဓာတ်လှေကားဖြင့်",
 "🅿️ 停車提醒": "🅿️ ကားရပ်ရန် သတိပေးချက်",
-"兒童餐 (12 歲以下)": "ကလေးစာ (၁၂ နှစ်အောက်)",
-"不需要 (跟大人吃一樣)": "မလိုပါ (လူကြီးနှင့် အတူတူ စားမည်)",
-"1 份": "၁ ပွဲ", "2 份": "၂ ပွဲ", "3 份": "၃ ပွဲ",
-"小朋友也請算在上面的出席人數裡": "ကလေးများကိုလည်း အထက်ပါ တက်ရောက်မည့်သူ အရေအတွက်တွင် ထည့်သွင်းပါ",
 "行動協助": "လှုပ်ရှားသွားလာရေး အကူအညီ",
 "需要輪椅位置": "ဘီးတပ်ကုလားထိုင်အတွက် နေရာ လိုအပ်သည်",
 "行動較不便，需要協助": "လမ်းလျှောက်ရ ခက်ခဲ၍ အကူအညီ လိုအပ်သည်",
-"我們會安排離入口近的座位": "ဝင်ပေါက်နှင့် နီးသော ထိုင်ခုံကို စီစဉ်ပေးပါမည်",
+"讓我們事先知道，當天好幫您安排": "ကြိုတင်အသိပေးထားပါက ပွဲနေ့တွင် ကူညီစီစဉ်ပေးနိုင်ပါမည်",
 "填錯了沒關係，再填一次送出就好": "မှားဖြည့်မိပါက နောက်တစ်ကြိမ် ပြန်ဖြည့်ပို့ရုံသာ",
 "我們會以最後一次為準": "နောက်ဆုံးပို့သည့် အကြောင်းပြန်စာကို အတည်ယူပါမည်",
+"跟大人一起吃的小朋友": "လူကြီးနှင့် အတူစားမည့် ကလေး",
+"沒有": "မရှိပါ",
+"不另外算一份餐、跟大人共用的小朋友填這裡": "သီးသန့် အစားအစာ မလိုဘဲ လူကြီးနှင့် မျှစားမည့် ကလေးကို ဤနေရာတွင် ဖြည့်ပါ",
+"要自己一份餐的小朋友，請算在上面的出席人數裡": "သီးသန့် အစားအစာ လိုသော ကလေးကို အထက်ပါ တက်ရောက်မည့်သူ အရေအတွက်တွင် ထည့်ပါ",
+"1 位": "၁ ဦး", "2 位": "၂ ဦး", "3 位": "၃ ဦး",
+"大人 (含本人)": "လူကြီး (ကိုယ်တိုင် အပါအဝင်)",
+"小孩": "ကလေး",
+"4 位": "၄ ဦး",
+"小孩姓名或小名": "ကလေး၏ အမည် သို့မဟုတ် ချစ်စနိုးအမည်",
+"要自己一份餐嗎？": "သီးသန့် အစားအစာ တစ်ပွဲ လိုပါသလား။",
+"要，自己一份餐": "လိုပါသည်၊ သီးသန့် တစ်ပွဲ",
+"不用，跟大人一起吃": "မလိုပါ၊ လူကြီးနှင့် အတူ စားမည်",
+"需要": "လိုအပ်သည်",
+"例如：小寶": "ဥပမာ - သားလေး",
+"5 位": "၅ ဦး", "6 位": "၆ ဦး",
 "停車折抵": "ကားရပ်ခ လျှော့ပေးချက်",
 "：桌上備有 QR Code，掃描折抵 5 小時": " – စားပွဲပေါ်ရှိ QR Code ကို စကင်ဖတ်ပါက ၅ နာရီ အခမဲ့",
 "超過 5 小時請洽現場穿西裝的酒店人員": "၅ နာရီထက် ကျော်လွန်ပါက ကုတ်အင်္ကျီဝတ် ဟိုတယ်ဝန်ထမ်းများထံ ဆက်သွယ်ပါ",
@@ -605,7 +616,7 @@ var MY = {
 "計程車": "တက္ကစီ",
 "告訴司機「敦化北路 158 號 文華東方」，車子會從敦化北路車道開進酒店前的噴水池廣場": "ယာဉ်မောင်းကို «敦化北路 158 號 文華東方» ဟု ပြောပါ၊ ဟိုတယ်ရှေ့ ရေပန်းရင်ပြင်အထိ ပို့ပေးပါမည်",
 "開車": "ကိုယ်ပိုင်ကား",
-"從敦化北路車道進入噴水池廣場，沿噴水池旁的車道下到地下停車場 B5／B6(240 個車位，先到先停恕不保留車位)": "Dunhua North Road ကားလမ်းမှ ရေပန်းရင်ပြင်ထဲ ဝင်ပြီး ရေပန်းဘေးလမ်းမှ မြေအောက် ကားပါကင် B5/B6 သို့ ဆင်းပါ (ကားရပ်နေရာ စုစုပေါင်း ၂၄၀ ခန့်၊ ရောက်သူဦးစွာ ရပ်နိုင်ပြီး ကြိုတင် နေရာ မထားပေးပါ)",
+"從敦化北路車道進入噴水池廣場，沿噴水池旁的車道下到地下停車場 B5／B6(240 個車位，先到先停，建議提早抵達)": "Dunhua North Road ကားလမ်းမှ ရေပန်းရင်ပြင်ထဲ ဝင်ပြီး ရေပန်းဘေးလမ်းမှ မြေအောက် ကားပါကင် B5/B6 သို့ ဆင်းပါ (ကားရပ်နေရာ စုစုပေါင်း ၂၄၀ ခန့်၊ ရောက်သူဦးစွာ ရပ်နိုင်ပြီး စောစော ရောက်ရန် အကြံပြုပါသည်)",
 "建議停 B5「紫色停車區」": "B5 «ခရမ်းရောင် ကားရပ်ဇုန်» တွင် ရပ်ရန် အကြံပြုပါသည်",
 "，搭該區電梯可直達": "၊ ထိုဇုန်ရှိ ဓာတ်လှေကားဖြင့်",
 "8F 文華閣": "8F Grand Salon (文華閣)",
@@ -666,7 +677,7 @@ var MY = {
 "想對新人說的話…": "မင်္ဂလာမောင်နှံထံ ပြောလိုသောစကား…",
 "送出回覆 ›": "အကြောင်းပြန်မည် ›",
 "姓名": "အမည် (တရုတ် သို့မဟုတ် အင်္ဂလိပ်လို ရေးပါ)",
-"例如：配偶或小孩的名字": "အိမ်ထောင်ဖက် သို့မဟုတ် ကလေး၏ အမည်",
+"例如：配偶或家人的名字": "အိမ်ထောင်ဖက် သို့မဟုတ် ကလေး၏ အမည်",
 "餐點": "အစားအစာ",
 "餐點與過敏同第 1 位": "အစားအစာနှင့် မတည့်မှုသည် ပထမလူနှင့် အတူတူ",
 "葷食": "အသားစား",
@@ -746,7 +757,7 @@ function personCard(i){
   var fs = el("fieldset", {"class": "diet", "data-i": String(i)});
   var lg = el("legend", {}, ""); fs.appendChild(lg);
   if (i > 0) {
-    var l = el("label", {}, "姓名"); var inp = el("input", {name: "p" + i + "_name", placeholder: "例如：配偶或小孩的名字", required: ""}); l.appendChild(inp); fs.appendChild(l);
+    var l = el("label", {}, "姓名"); var inp = el("input", {name: "p" + i + "_name", placeholder: "例如：配偶或家人的名字", required: ""}); l.appendChild(inp); fs.appendChild(l);
   }
   var db = el("div", {"class": "dietBox"});
   if (i > 0) {
@@ -762,11 +773,33 @@ function personCard(i){
   as.addEventListener("change", function(){ var o = as.value === "其他 (請填寫)"; lo.hidden = !o; oi.required = o; });
   return fs;
 }
+function kidCard(j){
+  var fs = el("fieldset", {"class": "diet kid", "data-k": String(j)});
+  fs.appendChild(el("legend", {}, ""));
+  var l = el("label", {}, "小孩姓名或小名"); l.appendChild(el("input", {name: "k" + j + "_name", placeholder: "例如：小寶", required: ""})); fs.appendChild(l);
+  var lw = el("label", {}, "要自己一份餐嗎？");
+  var ow = el("select", {name: "k" + j + "_own"});
+  [["", "請選擇"], ["要", "要，自己一份餐"], ["不用", "不用，跟大人一起吃"]].forEach(function(o){ ow.appendChild(el("option", {value: o[0]}, o[1])); });
+  lw.appendChild(ow); fs.appendChild(lw);
+  var db = el("div", {"class": "dietBox"}); db.hidden = true;
+  var lm = el("label", {}, "餐點"); var ms = sel("k" + j + "_meal", MEAL); var mph = el("option", {value: ""}, "請選擇"); ms.insertBefore(mph, ms.firstChild); ms.value = ""; lm.appendChild(ms); db.appendChild(lm);
+  var la = el("label", {}, "食物過敏或飲食禁忌"); var as = sel("k" + j + "_allergy", ALLERGY); var ph = el("option", {value: ""}, "請選擇"); as.insertBefore(ph, as.firstChild); as.value = ""; la.appendChild(as); db.appendChild(la);
+  var lo = el("label", {hidden: ""}, "請說明"); var oi = el("input", {name: "k" + j + "_other", placeholder: "例如：蝦蟹及花生都過敏"}); lo.appendChild(oi); db.appendChild(lo);
+  fs.appendChild(db);
+  var lc = el("label", {}, "兒童座椅"); var cs = el("select", {name: "k" + j + "_seat"});
+  [["", "不需要"], ["需要", "需要"]].forEach(function(o){ cs.appendChild(el("option", {value: o[0]}, o[1])); });
+  lc.appendChild(cs); fs.appendChild(lc);
+  ow.addEventListener("change", function(){ db.hidden = ow.value !== "要"; sync(); });
+  as.addEventListener("change", function(){ var o = as.value === "其他 (請填寫)"; lo.hidden = !o; oi.required = o; });
+  return fs;
+}
+var kSel = document.getElementById("kSel"), kbox = document.getElementById("kidsBox");
 function labelSelf(){
   var c = box.querySelector('[data-i="0"] legend');
   var my = LANG === "my";
   if (c) c.textContent = (my ? "ပထမ - ကိုယ်တိုင်" : "第 1 位：本人") + (nameIn.value ? (my ? " (" + nameIn.value + ")" : "(" + nameIn.value + ")") : "");
   for (var i = 1; i < 6; i++) { var g = box.querySelector('[data-i="' + i + '"] legend'); if (g) g.textContent = my ? "(" + MYNUM(i + 1) + ") ဦးမြောက်" : "第 " + (i + 1) + " 位"; }
+  for (var j = 0; j < 4; j++) { var h = kbox.querySelector('[data-k="' + j + '"] legend'); if (h) h.textContent = my ? "ကလေး (" + MYNUM(j + 1) + ")" : "小孩 " + (j + 1); }
 }
 function sync(){
   var going = attSel.value === "欣然出席";
@@ -776,9 +809,13 @@ function sync(){
   nSel.required = going;
   while (box.children.length < n) box.appendChild(personCard(box.children.length));
   while (box.children.length > n) box.removeChild(box.lastChild);
+  var k = going ? (parseInt(kSel.value, 10) || 0) : 0;
+  while (kbox.children.length < k) kbox.appendChild(kidCard(kbox.children.length));
+  while (kbox.children.length > k) kbox.removeChild(kbox.lastChild);
+  kbox.querySelectorAll('select[name$="_own"]').forEach(function(s){ s.required = going; });
   // 不克出席時，收起來的欄位不擋送出
-  box.querySelectorAll('select[name$="_allergy"], select[name$="_meal"]').forEach(function(s){ s.required = going && !s.closest(".dietBox").hidden; });
-  box.querySelectorAll("input").forEach(function(inp){
+  af.querySelectorAll('select[name$="_allergy"], select[name$="_meal"]').forEach(function(s){ s.required = going && !s.closest(".dietBox").hidden; });
+  af.querySelectorAll("#persons input, #kidsBox input").forEach(function(inp){
     if (!inp.dataset.req) inp.dataset.req = inp.hasAttribute("required") ? "1" : "0";
     if (inp.type === "checkbox") return;
     var need = inp.name.slice(-5) === "_name" || (inp.name.slice(-6) === "_other" && !inp.parentNode.hidden && !inp.closest(".dietBox").hidden);
@@ -797,6 +834,7 @@ function sync(){
   checkNames();
 }
 nSel.addEventListener("change", sync);
+kSel.addEventListener("change", sync);
 attSel.addEventListener("change", sync);
 document.getElementById("paperSel").addEventListener("change", sync);
 document.getElementById("emailSel").addEventListener("change", sync);
@@ -931,16 +969,24 @@ function newId(){ return Date.now().toString(36) + Math.random().toString(36).sl
 function buildData(){
   var f = new FormData(form);
   var d = { id: RID, name: (f.get("name") || "").trim(), side: f.get("side"), rel: f.get("rel"),
-            att: f.get("att"), msg: (f.get("msg") || "").trim(), kid: "0", kidmeal: "0", access: "不需要", car: "0", paper: "不需要", zip: "", addr: "", email: "", people: [] };
+            att: f.get("att"), msg: (f.get("msg") || "").trim(), kid: "0", access: "不需要", car: "0", paper: "不需要", zip: "", addr: "", email: "", people: [] };
   if (d.att !== "不克出席") {
     var n = parseInt(f.get("n"), 10);
     for (var i = 0; i < n; i++) {
       d.people.push({ name: i === 0 ? d.name : (f.get("p" + i + "_name") || "").trim(),
                       meal: f.get("p" + (i > 0 && f.get("p" + i + "_same") ? 0 : i) + "_meal"),
-                      allergy: allergyOf(f, i > 0 && f.get("p" + i + "_same") ? 0 : i) });
+                      allergy: allergyOf(f, i > 0 && f.get("p" + i + "_same") ? 0 : i), type: "大人" });
     }
-    d.kid = f.get("kid");
-    d.kidmeal = f.get("kidmeal") || "0";
+    var kn = parseInt(f.get("kn"), 10) || 0;
+    for (var j = 0; j < kn; j++) {
+      var own = f.get("k" + j + "_own") === "要";
+      var oth = (f.get("k" + j + "_other") || "").trim(), al = f.get("k" + j + "_allergy") || "";
+      d.people.push({ name: (f.get("k" + j + "_name") || "").trim(), type: "小孩",
+                      meal: own ? f.get("k" + j + "_meal") : "不用 (跟大人一起吃)",
+                      allergy: own ? (al === "其他 (請填寫)" ? oth : (al === "無" ? "" : al)) : "",
+                      seat: f.get("k" + j + "_seat") || "" });
+    }
+    d.kid = String(d.people.filter(function(p){ return p.seat === "需要"; }).length);
     d.access = f.get("access") || "不需要";
     d.car = f.get("car") || "0";
   }
@@ -953,12 +999,11 @@ function buildData(){
 function replyText(d){
   var lines = "";
   if (d.att !== "不克出席") {
-    lines += "出席人數：" + d.people.length + " 位\n";
+    var nk = d.people.filter(function(p){ return p.type === "小孩"; }).length;
+    lines += "人數：大人 " + (d.people.length - nk) + " 位" + (nk ? "、小孩 " + nk + " 位" : "") + "\n";
     d.people.forEach(function(p, i){
-      lines += (i + 1) + ". " + p.name + "｜" + p.meal + (p.allergy ? "｜過敏／禁忌：" + p.allergy : "") + "\n";
+      lines += (i + 1) + ". " + p.name + (p.type === "小孩" ? " (小孩)" : "") + "｜" + p.meal + (p.allergy ? "｜過敏／禁忌：" + p.allergy : "") + (p.seat ? "｜兒童座椅" : "") + "\n";
     });
-    if (d.kid !== "0") lines += "兒童座椅：" + d.kid + " 張\n";
-    if (d.kidmeal !== "0") lines += "兒童餐：" + d.kidmeal + " 份\n";
     if (d.access !== "不需要") lines += "行動協助：" + d.access + "\n";
     if (d.car !== "0") lines += "停車：" + d.car + " 台\n";
   }
