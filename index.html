@@ -253,6 +253,30 @@ html.my .ln{display:inline}
 
 .way .ws + img.venuemap[src^="venue-map"]{margin-top:-12px}
 .way .ws{position:relative;z-index:1}
+
+#drawer a.lineLink span{display:flex;align-items:center;gap:8px}
+#drawer a.lineLink .lg{font-style:normal;font-family:Arial,sans-serif!important;font-size:11px;font-weight:800;letter-spacing:0;color:#fff;background:#06C755;border-radius:6px;padding:3px 5px;line-height:1}
+#drawer a.lineLink small{font-family:inherit;font-size:13px}
+
+#thxBox .lnwrap{position:relative;display:inline-block}
+#thxBox .lnbtn{animation:lnGlow 1.6s ease-in-out infinite}
+@keyframes lnGlow{0%,100%{box-shadow:0 0 0 0 rgba(6,199,85,.55)}50%{box-shadow:0 0 0 10px rgba(6,199,85,0)}}
+#thxBox .tapHand{position:absolute;right:-6px;bottom:-30px;width:54px;height:54px;pointer-events:none;animation:tapIt 1.4s ease-in-out infinite}
+#thxBox .tapHand .dot{position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.85);box-shadow:0 0 0 6px rgba(255,255,255,.35),0 3px 10px rgba(120,40,50,.35)}
+#thxBox .tapHand svg{position:absolute;left:8px;top:6px;width:44px;height:44px;filter:drop-shadow(0 3px 5px rgba(80,30,40,.35))}
+@keyframes tapIt{0%{opacity:0;transform:translate(10px,14px) scale(1.1)}25%{opacity:1;transform:none}45%{transform:scale(.82)}60%{transform:none}85%{opacity:1}100%{opacity:0}}
+#thxBox .lnbtn:active ~ .tapHand,#thxBox .lnwrap.done .tapHand{display:none}
+#thxBox .lnwrap.done .lnbtn{animation:none}
+#thxBox .menuHint{margin-top:18px;font-size:14px;color:var(--soft)}
+@media (prefers-reduced-motion: reduce){#thxBox .tapHand,#thxBox .lnbtn{animation:none}}
+
+/* 2026-11-27 精緻化 */
+.calbtn .zhl{display:inline-flex;align-items:center;gap:.35em}
+.calbtn .brand{letter-spacing:.02em;font-family:'Cormorant Garamond','Noto Serif TC',serif!important;font-weight:700;font-size:1.08em;position:relative;top:.04em}
+#map{letter-spacing:.06em}
+form.rsvp select{-webkit-appearance:none;appearance:none;padding-right:40px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1.5 1.5 7 7l5.5-5.5' fill='none' stroke='%23A9484E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 15px center}
+form.rsvp input:focus,form.rsvp select:focus,form.rsvp textarea:focus{outline:none;border-color:#A9484E;box-shadow:0 0 0 3px rgba(169,72,78,.15)}
+footer{margin-top:-18px}
 </style>
 <link rel="preload" as="image" href="seal.webp">
 </head>
@@ -276,6 +300,7 @@ html.my .ln{display:inline}
 <a href="#details">交通與停車<small>Getting Here</small></a>
 <a href="#album">婚紗照<small>Our Moments</small></a>
 <a href="#rsvp">回覆出席<small>12/31 前</small></a>
+<a href="https://line.me/R/ti/p/@144mwyvr" target="_blank" rel="noopener" class="lineLink"><span><i class="lg">LINE</i>加入婚禮 LINE</span><small>交通・流程・桌位・上傳照片</small></a>
 <a href="#" class="more" id="moreIntro">♡ 看其他開場</a>
 </div>
 <div class="wrap">
@@ -611,6 +636,8 @@ var MY = {
 "捷運・到了酒店": "MRT ・ ဟိုတယ်ရောက်လျှင်",
 "計程車・到了酒店": "တက္ကစီ ・ ဟိုတယ်ရောက်လျှင်",
 "開車・停車位置": "ကိုယ်ပိုင်ကား ・ ကားရပ်နေရာ",
+"加入婚禮 LINE": "မင်္ဂလာပွဲ LINE တွင် ပါဝင်ရန်",
+"交通・流程・桌位・上傳照片": "လမ်းညွှန်・အစီအစဉ်・စားပွဲ・ဓာတ်ပုံတင်ရန်",
 "停車折抵": "ကားရပ်ခ လျှော့ပေးချက်",
 "：桌上備有 QR Code，掃描折抵 5 小時": " – စားပွဲပေါ်ရှိ QR Code ကို စကင်ဖတ်ပါက ၅ နာရီ အခမဲ့",
 "超過 5 小時請洽現場穿西裝的酒店人員": "၅ နာရီထက် ကျော်လွန်ပါက ကုတ်အင်္ကျီဝတ် ဟိုတယ်ဝန်ထမ်းများထံ ဆက်သွယ်ပါ",
@@ -1111,7 +1138,8 @@ var LINE_ADD = "https://line.me/R/ti/p/@144mwyvr", sending = false;
 function thanksHtml(x, r){
   var who = r.name ? r.name.replace(/[<>&"]/g, "") + x.name_suffix : "";
   var h = '<p class="s">Thank you</p><h3>' + x.ok_title + '</h3><p>' + (r.going ? x.ok_going : x.ok_notgoing).replace(/\{名字\}/g, who).replace(/<br>可以關閉此頁面了。|<br>ဤစာမျက်နှာကို ပိတ်နိုင်ပါပြီ။/g, "") + '</p>';
-  if (r.going) h += '<div class="lnbox"><p>' + x.line_text + '</p><a href="' + LINE_ADD + '" target="_blank" rel="noopener">' + x.line_btn + '</a></div>';
+  if (r.going) h += '<div class="lnbox"><p>' + x.line_text + '</p><span class="lnwrap"><a class="lnbtn" href="' + LINE_ADD + '" target="_blank" rel="noopener">' + x.line_btn + '</a><span class="tapHand" aria-hidden="true"><span class="dot"></span><svg viewBox="0 0 48 48"><path d="M17 26V9.5a3.5 3.5 0 0 1 7 0V22l1-.2V18a3.3 3.3 0 0 1 6.6 0v4.2l1 .1v-2.3a3.2 3.2 0 0 1 6.4 0V31c0 7-4.6 12-11.5 12h-3.2c-3.6 0-6.4-1.5-8.6-4.6L9 31.5c-1.3-1.9-.8-4.2 1-5.3 1.7-1 3.8-.6 5 1z" fill="#fff" stroke="#A9484E" stroke-width="2" stroke-linejoin="round"/></svg></span></span></div>';
+  h += '<p class="menuHint">' + (LANG === "my" ? "နောက်ပိုင်း လမ်းညွှန် သို့မဟုတ် အချိန်ကို ပြန်ကြည့်လိုပါက ညာဘက်အပေါ်ရှိ「☰」ကို နှိပ်ပါ" : '<span class="ln">之後想再看交通或時間，</span><span class="ln">點右上角「☰ 選單」就找得到喔</span>') + '</p>';
   return h;
 }
 function showThanks(r){
@@ -1120,7 +1148,7 @@ function showThanks(r){
     if (!x) x = LANG === "my"
       ? {ok_title:"သင့်အကြောင်းပြန်စာ ရရှိပါပြီ ♡", ok_going:"{名字}ကျေးဇူးတင်ပါသည်။", ok_notgoing:"{名字}ကျေးဇူးတင်ပါသည် ♡", name_suffix:" ", line_text:"", line_btn:"LINE တွင် ထည့်ရန်"}
       : {ok_title:"已收到您的回覆 ♡", ok_going:"{名字}謝謝您！<br>俊皓 & 良柔 期待 3 月 13 日與您相見。", ok_notgoing:"{名字}謝謝您的回覆與祝福！", name_suffix:"，", line_text:"加入 俊皓 & 良柔 的婚禮 LINE 小幫手", line_btn:"加入婚禮 LINE"};
-    var b = document.getElementById("thxBox"); b.innerHTML = thanksHtml(x, r); b.hidden = false;
+    var b = document.getElementById("thxBox"); b.innerHTML = thanksHtml(x, r); b.hidden = false; var lb = b.querySelector('.lnbtn'); if (lb) lb.addEventListener('click', function(){ lb.parentNode.classList.add('done'); });
     document.getElementById("sentMsg").hidden = true;
     document.getElementById("result").scrollIntoView({behavior:"smooth", block:"start"});
   });
@@ -1231,7 +1259,7 @@ document.querySelectorAll(".way .venuemap").forEach(function(im){ im.addEventLis
 
 // 進到喜帖、停在最上面時，下方出現「往下滑看更多」；滑動後就消失，不再出現
 (function(){ var c=document.getElementById("scrollCue"), H=document.documentElement, done=false, t=null;
-  function busy(){ var e=document.getElementById("env"); return H.classList.contains("introOn") || H.classList.contains("focus") || (e && !e.hidden); }
+  function busy(){ var e=document.getElementById("env"), dw=document.getElementById("drawer"); if(dw && !dw.hidden) return true; return H.classList.contains("introOn") || H.classList.contains("focus") || (e && !e.hidden); }
   function check(){ if(done) return; if(scrollY > 40){ done=true; c.classList.remove("on"); clearInterval(t); return; }
     if(busy()){ c.classList.remove("on"); return; }
     if(!c.classList.contains("on") && scrollY < 20){ if(!done && !busy() && scrollY < 20) c.classList.add("on"); } }
